@@ -1,0 +1,302 @@
+[
+    {
+      "StudentName": "Meredith Cardenas",
+      "StudentNumber": "12-A00004",
+      "Avatar": "https://randomuser.me/api/portraits/women/32.jpg",
+      "ContactPersonID": 22
+    },
+    {
+      "StudentName": "Annette Albert",
+      "StudentNumber": "20-A00038",
+      "Avatar": "https://randomuser.me/api/portraits/women/9.jpg",
+      "ContactPersonID": 42
+    },
+    {
+      "StudentName": "Lessie Solis",
+      "StudentNumber": "20-A00046",
+      "Avatar": "https://randomuser.me/api/portraits/women/78.jpg",
+      "ContactPersonID": 41
+    },
+    {
+      "StudentName": "Tammy Woods",
+      "StudentNumber": "14-A00014",
+      "Avatar": "https://randomuser.me/api/portraits/women/38.jpg",
+      "ContactPersonID": 22
+    },
+    {
+      "StudentName": "Gwendolyn Burks",
+      "StudentNumber": "14-A00026",
+      "Avatar": "https://randomuser.me/api/portraits/women/78.jpg",
+      "ContactPersonID": 4
+    },
+    {
+      "StudentName": "Aurora Wooten",
+      "StudentNumber": "20-A00026",
+      "Avatar": "https://randomuser.me/api/portraits/women/23.jpg",
+      "ContactPersonID": 15
+    },
+    {
+      "StudentName": "Claudia Ashley",
+      "StudentNumber": "20-A00034",
+      "Avatar": "https://randomuser.me/api/portraits/women/43.jpg",
+      "ContactPersonID": 16
+    },
+    {
+      "StudentName": "Brandy Henson",
+      "StudentNumber": "20-A00013",
+      "Avatar": "https://randomuser.me/api/portraits/women/93.jpg",
+      "ContactPersonID": 8
+    },
+    {
+      "StudentName": "Cherry Hines",
+      "StudentNumber": "13-A00043",
+      "Avatar": "https://randomuser.me/api/portraits/women/66.jpg",
+      "ContactPersonID": 24
+    },
+    {
+      "StudentName": "Clarice Boyd",
+      "StudentNumber": "17-A00025",
+      "Avatar": "https://randomuser.me/api/portraits/women/46.jpg",
+      "ContactPersonID": 34
+    },
+    {
+      "StudentName": "Elisa Nixon",
+      "StudentNumber": "11-A00012",
+      "Avatar": "https://randomuser.me/api/portraits/women/95.jpg",
+      "ContactPersonID": 12
+    },
+    {
+      "StudentName": "Alison Sheppard",
+      "StudentNumber": "12-A00011",
+      "Avatar": "https://randomuser.me/api/portraits/women/80.jpg",
+      "ContactPersonID": 19
+    },
+    {
+      "StudentName": "Jannie Yates",
+      "StudentNumber": "13-A00023",
+      "Avatar": "https://randomuser.me/api/portraits/women/94.jpg",
+      "ContactPersonID": 15
+    },
+    {
+      "StudentName": "Minnie Mercado",
+      "StudentNumber": "12-A00038",
+      "Avatar": "https://randomuser.me/api/portraits/women/81.jpg",
+      "ContactPersonID": 27
+    },
+    {
+      "StudentName": "Jody Cruz",
+      "StudentNumber": "13-A00022",
+      "Avatar": "https://randomuser.me/api/portraits/women/87.jpg",
+      "ContactPersonID": 26
+    },
+    {
+      "StudentName": "Madeleine Rosario",
+      "StudentNumber": "15-A00004",
+      "Avatar": "https://randomuser.me/api/portraits/women/38.jpg",
+      "ContactPersonID": 11
+    },
+    {
+      "StudentName": "Eve Cline",
+      "StudentNumber": "15-A00018",
+      "Avatar": "https://randomuser.me/api/portraits/women/37.jpg",
+      "ContactPersonID": 14
+    },
+    {
+      "StudentName": "Ethel Hodge",
+      "StudentNumber": "17-A00050",
+      "Avatar": "https://randomuser.me/api/portraits/women/5.jpg",
+      "ContactPersonID": 49
+    },
+    {
+      "StudentName": "Lucinda Huffman",
+      "StudentNumber": "20-A00004",
+      "Avatar": "https://randomuser.me/api/portraits/women/75.jpg",
+      "ContactPersonID": 21
+    },
+    {
+      "StudentName": "Inez Grant",
+      "StudentNumber": "13-A00038",
+      "Avatar": "https://randomuser.me/api/portraits/women/90.jpg",
+      "ContactPersonID": 7
+    },
+    {
+      "StudentName": "Paula Herrera",
+      "StudentNumber": "11-A00002",
+      "Avatar": "https://randomuser.me/api/portraits/women/64.jpg",
+      "ContactPersonID": 22
+    },
+    {
+      "StudentName": "Jodi Clarke",
+      "StudentNumber": "10-A00043",
+      "Avatar": "https://randomuser.me/api/portraits/women/22.jpg",
+      "ContactPersonID": 25
+    },
+    {
+      "StudentName": "Jenny Price",
+      "StudentNumber": "13-A00049",
+      "Avatar": "https://randomuser.me/api/portraits/women/84.jpg",
+      "ContactPersonID": 5
+    },
+    {
+      "StudentName": "Michele Mendoza",
+      "StudentNumber": "20-A00040",
+      "Avatar": "https://randomuser.me/api/portraits/women/33.jpg",
+      "ContactPersonID": 2
+    },
+    {
+      "StudentName": "Nora Garcia",
+      "StudentNumber": "14-A00001",
+      "Avatar": "https://randomuser.me/api/portraits/women/26.jpg",
+      "ContactPersonID": 28
+    },
+    {
+        "StudentName": "Mcfarland Peterson",
+        "StudentNumber": "16-A00025",
+        "Avatar": "https://randomuser.me/api/portraits/men/91.jpg",
+        "ContactPersonID": 9
+      },
+      {
+        "StudentName": "Whitley Marks",
+        "StudentNumber": "13-A00039",
+        "Avatar": "https://randomuser.me/api/portraits/men/62.jpg",
+        "ContactPersonID": 13
+      },
+      {
+        "StudentName": "Riddle Burks",
+        "StudentNumber": "13-A00020",
+        "Avatar": "https://randomuser.me/api/portraits/men/65.jpg",
+        "ContactPersonID": 50
+      },
+      {
+        "StudentName": "Lara Miller",
+        "StudentNumber": "14-A00046",
+        "Avatar": "https://randomuser.me/api/portraits/men/54.jpg",
+        "ContactPersonID": 7
+      },
+      {
+        "StudentName": "Estrada Riddle",
+        "StudentNumber": "11-A00003",
+        "Avatar": "https://randomuser.me/api/portraits/men/80.jpg",
+        "ContactPersonID": 41
+      },
+      {
+        "StudentName": "Norton Cline",
+        "StudentNumber": "12-A00034",
+        "Avatar": "https://randomuser.me/api/portraits/men/22.jpg",
+        "ContactPersonID": 49
+      },
+      {
+        "StudentName": "Leblanc Valdez",
+        "StudentNumber": "17-A00022",
+        "Avatar": "https://randomuser.me/api/portraits/men/16.jpg",
+        "ContactPersonID": 49
+      },
+      {
+        "StudentName": "Norman Alexander",
+        "StudentNumber": "16-A00017",
+        "Avatar": "https://randomuser.me/api/portraits/men/59.jpg",
+        "ContactPersonID": 44
+      },
+      {
+        "StudentName": "Holder Tyson",
+        "StudentNumber": "17-A00025",
+        "Avatar": "https://randomuser.me/api/portraits/men/18.jpg",
+        "ContactPersonID": 20
+      },
+      {
+        "StudentName": "Aguirre Copeland",
+        "StudentNumber": "13-A00008",
+        "Avatar": "https://randomuser.me/api/portraits/men/94.jpg",
+        "ContactPersonID": 41
+      },
+      {
+        "StudentName": "Blackburn Sawyer",
+        "StudentNumber": "17-A00047",
+        "Avatar": "https://randomuser.me/api/portraits/men/6.jpg",
+        "ContactPersonID": 44
+      },
+      {
+        "StudentName": "Mckay Barber",
+        "StudentNumber": "18-A00010",
+        "Avatar": "https://randomuser.me/api/portraits/men/5.jpg",
+        "ContactPersonID": 38
+      },
+      {
+        "StudentName": "Prince Berry",
+        "StudentNumber": "18-A00025",
+        "Avatar": "https://randomuser.me/api/portraits/men/18.jpg",
+        "ContactPersonID": 4
+      },
+      {
+        "StudentName": "Long Trevino",
+        "StudentNumber": "17-A00030",
+        "Avatar": "https://randomuser.me/api/portraits/men/29.jpg",
+        "ContactPersonID": 7
+      },
+      {
+        "StudentName": "Rios Gallagher",
+        "StudentNumber": "15-A00047",
+        "Avatar": "https://randomuser.me/api/portraits/men/55.jpg",
+        "ContactPersonID": 33
+      },
+      {
+        "StudentName": "Harvey Ochoa",
+        "StudentNumber": "13-A00028",
+        "Avatar": "https://randomuser.me/api/portraits/men/78.jpg",
+        "ContactPersonID": 8
+      },
+      {
+        "StudentName": "Sellers Merritt",
+        "StudentNumber": "20-A00035",
+        "Avatar": "https://randomuser.me/api/portraits/men/98.jpg",
+        "ContactPersonID": 41
+      },
+      {
+        "StudentName": "Emerson Rowland",
+        "StudentNumber": "14-A00005",
+        "Avatar": "https://randomuser.me/api/portraits/men/39.jpg",
+        "ContactPersonID": 38
+      },
+      {
+        "StudentName": "Conner Lucas",
+        "StudentNumber": "14-A00007",
+        "Avatar": "https://randomuser.me/api/portraits/men/3.jpg",
+        "ContactPersonID": 31
+      },
+      {
+        "StudentName": "Lopez Cash",
+        "StudentNumber": "17-A00030",
+        "Avatar": "https://randomuser.me/api/portraits/men/86.jpg",
+        "ContactPersonID": 13
+      },
+      {
+        "StudentName": "Fisher Goodwin",
+        "StudentNumber": "10-A00028",
+        "Avatar": "https://randomuser.me/api/portraits/men/83.jpg",
+        "ContactPersonID": 27
+      },
+      {
+        "StudentName": "Huff Levy",
+        "StudentNumber": "15-A00007",
+        "Avatar": "https://randomuser.me/api/portraits/men/21.jpg",
+        "ContactPersonID": 8
+      },
+      {
+        "StudentName": "Garcia Hodge",
+        "StudentNumber": "15-A00031",
+        "Avatar": "https://randomuser.me/api/portraits/men/13.jpg",
+        "ContactPersonID": 34
+      },
+      {
+        "StudentName": "Fletcher Bush",
+        "StudentNumber": "17-A00002",
+        "Avatar": "https://randomuser.me/api/portraits/men/29.jpg",
+        "ContactPersonID": 23
+      },
+      {
+        "StudentName": "Shannon Pearson",
+        "StudentNumber": "12-A00010",
+        "Avatar": "https://randomuser.me/api/portraits/men/60.jpg",
+        "ContactPersonID": 26
+      }
+  ]
