@@ -1,0 +1,252 @@
+[
+    {
+      "Name": "Peck Horn",
+      "MobileNumber": "(870) 474-2471",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Kemp Todd",
+      "MobileNumber": "(916) 438-2988",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Battle Fry",
+      "MobileNumber": "(866) 451-2327",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Crosby Moss",
+      "MobileNumber": "(912) 507-3597",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Lewis Lyons",
+      "MobileNumber": "(840) 555-3227",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Mendoza Moses",
+      "MobileNumber": "(834) 598-2751",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "David Estrada",
+      "MobileNumber": "(818) 583-3374",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "West Clemons",
+      "MobileNumber": "(937) 594-2443",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Kidd Chang",
+      "MobileNumber": "(807) 584-2278",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Frank Contreras",
+      "MobileNumber": "(987) 479-3195",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Woodard Roberts",
+      "MobileNumber": "(988) 557-2138",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Stevens Erickson",
+      "MobileNumber": "(937) 473-2659",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Cotton Joyner",
+      "MobileNumber": "(816) 581-2289",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Hughes Stanley",
+      "MobileNumber": "(804) 517-3165",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Jimenez Maxwell",
+      "MobileNumber": "(985) 493-2938",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Vazquez Wilson",
+      "MobileNumber": "(821) 544-2680",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Caldwell Farley",
+      "MobileNumber": "(927) 417-2400",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Waters Quinn",
+      "MobileNumber": "(913) 468-2101",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Clarke Berg",
+      "MobileNumber": "(839) 540-3594",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Quinn Ryan",
+      "MobileNumber": "(999) 472-2571",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Olsen Walsh",
+      "MobileNumber": "(859) 598-3548",
+      "RelationToStudent": "Friend"
+    },
+    {
+      "Name": "Mayo Carrillo",
+      "MobileNumber": "(907) 523-3024",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Kent Lowery",
+      "MobileNumber": "(985) 444-2363",
+      "RelationToStudent": "Parent"
+    },
+    {
+      "Name": "Lamb Hurst",
+      "MobileNumber": "(863) 550-2715",
+      "RelationToStudent": "Guardian"
+    },
+    {
+      "Name": "Willis Barber",
+      "MobileNumber": "(846) 525-2771",
+      "RelationToStudent": "Guardian"
+    },
+    {
+        "Name": "Nellie Alston",
+        "MobileNumber": "(932) 525-3767",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Olga Blevins",
+        "MobileNumber": "(885) 519-2551",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Lesley Hardy",
+        "MobileNumber": "(964) 472-2505",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Judy Brown",
+        "MobileNumber": "(892) 550-2506",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Carol Sutton",
+        "MobileNumber": "(940) 588-3543",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Beatrice Humphrey",
+        "MobileNumber": "(940) 591-2862",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Marva Vasquez",
+        "MobileNumber": "(918) 465-3104",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Sandra Hanson",
+        "MobileNumber": "(832) 458-2998",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Patsy Rice",
+        "MobileNumber": "(953) 502-3987",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Elisa Collier",
+        "MobileNumber": "(914) 506-2624",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Tommie Barr",
+        "MobileNumber": "(866) 424-3608",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Hilda Kelley",
+        "MobileNumber": "(908) 510-3277",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Beatriz Serrano",
+        "MobileNumber": "(899) 483-3934",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Rebekah Walters",
+        "MobileNumber": "(935) 456-2610",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Vicky Baldwin",
+        "MobileNumber": "(843) 481-3444",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Melissa Melendez",
+        "MobileNumber": "(857) 560-3194",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Alyson Preston",
+        "MobileNumber": "(932) 586-3085",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Antoinette Welch",
+        "MobileNumber": "(853) 506-3550",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Terra Wise",
+        "MobileNumber": "(907) 562-3947",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Courtney Foley",
+        "MobileNumber": "(859) 596-2214",
+        "RelationToStudent": "Guardian"
+      },
+      {
+        "Name": "Leona Booth",
+        "MobileNumber": "(878) 542-2897",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Laverne Austin",
+        "MobileNumber": "(818) 437-2922",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Joanne Shields",
+        "MobileNumber": "(927) 451-2323",
+        "RelationToStudent": "Parent"
+      },
+      {
+        "Name": "Sharon Mays",
+        "MobileNumber": "(894) 546-2068",
+        "RelationToStudent": "Friend"
+      },
+      {
+        "Name": "Sherry Stone",
+        "MobileNumber": "(860) 512-2085",
+        "RelationToStudent": "Guardian"
+      }
+  ]

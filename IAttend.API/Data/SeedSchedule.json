@@ -1,0 +1,702 @@
+[
+  {
+    "SubjectID": 6,
+    "InstructorID": 5,
+    "Room": "LAB 1",
+    "Time": "10:49 AM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "12:23 AM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 5,
+    "Room": "LAB 1",
+    "Time": "5:34 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 5,
+    "Room": "LAB 1",
+    "Time": "7:58 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 4,
+    "Room": "LAB 1",
+    "Time": "11:48 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 4,
+    "Room": "LAB 3",
+    "Time": "8:14 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 3,
+    "Room": "LAB 3",
+    "Time": "3:51 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 9,
+    "Room": "LAB 3",
+    "Time": "2:15 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 8,
+    "Room": "LAB 2",
+    "Time": "8:59 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 2,
+    "Room": "LAB 3",
+    "Time": "11:31 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 5,
+    "Room": "LAB 2",
+    "Time": "4:33 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 6,
+    "Room": "LAB 1",
+    "Time": "11:12 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 4,
+    "Room": "LAB 3",
+    "Time": "12:58 AM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 1,
+    "Room": "LAB 2",
+    "Time": "2:59 AM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 10,
+    "Room": "LAB 1",
+    "Time": "12:15 AM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 6,
+    "Room": "LAB 3",
+    "Time": "3:43 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 3,
+    "Room": "LAB 3",
+    "Time": "8:49 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "9:08 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 1,
+    "Room": "LAB 2",
+    "Time": "6:07 AM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 9,
+    "Room": "LAB 2",
+    "Time": "5:28 AM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "1:02 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 7,
+    "Room": "LAB 2",
+    "Time": "1:02 AM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 4,
+    "Room": "LAB 1",
+    "Time": "11:47 AM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 2,
+    "Room": "LAB 3",
+    "Time": "5:00 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 7,
+    "Room": "LAB 1",
+    "Time": "2:14 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 1,
+    "Room": "LAB 2",
+    "Time": "8:28 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 1,
+    "Room": "LAB 3",
+    "Time": "2:45 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 4,
+    "Room": "LAB 2",
+    "Time": "10:54 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "1:59 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 2,
+    "Room": "LAB 3",
+    "Time": "10:06 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 4,
+    "Room": "LAB 3",
+    "Time": "12:49 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "3:15 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 6,
+    "Room": "LAB 1",
+    "Time": "9:11 AM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 9,
+    "Room": "LAB 2",
+    "Time": "4:39 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 4,
+    "Room": "LAB 1",
+    "Time": "8:18 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "2:21 AM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "1:38 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 10,
+    "Room": "LAB 1",
+    "Time": "7:36 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "2:09 AM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 8,
+    "Room": "LAB 1",
+    "Time": "3:32 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 5,
+    "Room": "LAB 2",
+    "Time": "2:43 AM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "9:10 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 5,
+    "Room": "LAB 2",
+    "Time": "2:43 AM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 9,
+    "Room": "LAB 3",
+    "Time": "8:02 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "3:40 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 1,
+    "Room": "LAB 1",
+    "Time": "6:35 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 5,
+    "Room": "LAB 2",
+    "Time": "8:48 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 8,
+    "Room": "LAB 3",
+    "Time": "3:47 AM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 4,
+    "Room": "LAB 3",
+    "Time": "8:57 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 2,
+    "Room": "LAB 2",
+    "Time": "11:36 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "10:40 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 10,
+    "Room": "LAB 2",
+    "Time": "3:06 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 8,
+    "Room": "LAB 3",
+    "Time": "5:39 PM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "8:31 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 4,
+    "Room": "LAB 1",
+    "Time": "2:43 PM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 3,
+    "Room": "LAB 3",
+    "Time": "2:26 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 9,
+    "Room": "LAB 2",
+    "Time": "8:59 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 1,
+    "Room": "LAB 1",
+    "Time": "11:29 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 10,
+    "Room": "LAB 2",
+    "Time": "3:10 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "6:09 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 2,
+    "Room": "LAB 1",
+    "Time": "1:30 PM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 2,
+    "Room": "LAB 1",
+    "Time": "3:21 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 3,
+    "Room": "LAB 1",
+    "Time": "8:48 AM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "5:58 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 10,
+    "Room": "LAB 1",
+    "Time": "10:28 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 8,
+    "Room": "LAB 3",
+    "Time": "10:36 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 7,
+    "Room": "LAB 1",
+    "Time": "1:55 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 1,
+    "Room": "LAB 2",
+    "Time": "1:41 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 7,
+    "Room": "LAB 3",
+    "Time": "7:00 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 10,
+    "Room": "LAB 2",
+    "Time": "7:14 AM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 5,
+    "Room": "LAB 2",
+    "Time": "3:10 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 8,
+    "Room": "LAB 1",
+    "Time": "4:42 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 1,
+    "Room": "LAB 1",
+    "Time": "12:40 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 5,
+    "Room": "LAB 3",
+    "Time": "9:52 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 9,
+    "Room": "LAB 3",
+    "Time": "2:56 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "4:48 AM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 3,
+    "Room": "LAB 3",
+    "Time": "7:14 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 5,
+    "Room": "LAB 3",
+    "Time": "8:38 AM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 8,
+    "Room": "LAB 1",
+    "Time": "10:58 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 9,
+    "Room": "LAB 3",
+    "Time": "6:10 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 10,
+    "Room": "LAB 3",
+    "Time": "7:13 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "12:15 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 7,
+    "Room": "LAB 3",
+    "Time": "9:02 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 8,
+    "Room": "LAB 3",
+    "Time": "11:54 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 6,
+    "InstructorID": 9,
+    "Room": "LAB 3",
+    "Time": "2:39 PM",
+    "DayOfWeek": 6
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 8,
+    "Room": "LAB 2",
+    "Time": "9:39 AM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 6,
+    "Room": "LAB 2",
+    "Time": "9:22 AM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 4,
+    "Room": "LAB 3",
+    "Time": "3:41 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 3,
+    "Room": "LAB 3",
+    "Time": "7:10 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 1,
+    "Room": "LAB 3",
+    "Time": "6:57 PM",
+    "DayOfWeek": 7
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 1,
+    "Room": "LAB 1",
+    "Time": "2:19 AM",
+    "DayOfWeek": 2
+  },
+  {
+    "SubjectID": 4,
+    "InstructorID": 4,
+    "Room": "LAB 2",
+    "Time": "4:14 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 5,
+    "InstructorID": 7,
+    "Room": "LAB 1",
+    "Time": "6:20 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 2,
+    "InstructorID": 9,
+    "Room": "LAB 1",
+    "Time": "9:35 PM",
+    "DayOfWeek": 4
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 7,
+    "Room": "LAB 2",
+    "Time": "9:34 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 7,
+    "InstructorID": 4,
+    "Room": "LAB 1",
+    "Time": "9:08 AM",
+    "DayOfWeek": 3
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 1,
+    "Room": "LAB 2",
+    "Time": "12:27 PM",
+    "DayOfWeek": 1
+  },
+  {
+    "SubjectID": 3,
+    "InstructorID": 10,
+    "Room": "LAB 1",
+    "Time": "6:51 PM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 7,
+    "Room": "LAB 2",
+    "Time": "12:10 PM",
+    "DayOfWeek": 5
+  },
+  {
+    "SubjectID": 1,
+    "InstructorID": 1,
+    "Room": "LAB 3",
+    "Time": "6:03 PM",
+    "DayOfWeek": 7
+  }
+]
