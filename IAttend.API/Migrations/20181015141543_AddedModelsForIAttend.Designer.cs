@@ -3,14 +3,16 @@ using System;
 using IAttend.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IAttend.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20181015141543_AddedModelsForIAttend")]
+    partial class AddedModelsForIAttend
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace IAttend.API.Migrations
 
                     b.Property<bool>("IsOpen");
 
-                    b.Property<int>("ScheduleID");
+                    b.Property<int?>("ScheduleID");
 
                     b.Property<DateTime>("TimeStarted");
 
@@ -117,11 +119,9 @@ namespace IAttend.API.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AttendanceID");
+                    b.Property<int?>("AttendanceID");
 
                     b.Property<bool>("IsScanned");
-
-                    b.Property<int?>("ScheduleID");
 
                     b.Property<int?>("StudentID");
 
@@ -130,8 +130,6 @@ namespace IAttend.API.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("AttendanceID");
-
-                    b.HasIndex("ScheduleID");
 
                     b.HasIndex("StudentID");
 
@@ -143,9 +141,9 @@ namespace IAttend.API.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ScheduleID");
+                    b.Property<int?>("ScheduleID");
 
-                    b.Property<int>("StudentID");
+                    b.Property<int?>("StudentID");
 
                     b.HasKey("ID");
 
@@ -174,8 +172,7 @@ namespace IAttend.API.Migrations
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ScheduleID");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.Schedule", b =>
@@ -199,13 +196,8 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.StudentAttendance", b =>
                 {
                     b.HasOne("IAttend.API.Models.Attendance", "Attendance")
-                        .WithMany("StudentAttendances")
-                        .HasForeignKey("AttendanceID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("IAttend.API.Models.Schedule")
-                        .WithMany("StudentAttendances")
-                        .HasForeignKey("ScheduleID");
+                        .WithMany()
+                        .HasForeignKey("AttendanceID");
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
                         .WithMany()
@@ -215,14 +207,12 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.StudentSubject", b =>
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
-                        .WithMany("StudentSubjects")
-                        .HasForeignKey("ScheduleID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("ScheduleID");
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
-                        .WithMany("Subjects")
-                        .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("StudentID");
                 });
 #pragma warning restore 612, 618
         }
