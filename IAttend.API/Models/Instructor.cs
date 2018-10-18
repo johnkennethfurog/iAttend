@@ -9,5 +9,7 @@ namespace IAttend.API.Models
         public string Avatar { get; set; }
     
         public string EmailAddress { get; set; }
+
+        public string InstructorNumber { get; set; }
     }
 }

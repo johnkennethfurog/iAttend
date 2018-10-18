@@ -27,9 +27,13 @@ namespace IAttend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
+            services.AddScoped<IStudentRepository,StudentRepositorySqlLite>();
+            services.AddScoped<IInstructorRepository,InstructorRepositorySqlLite>();
+            services.AddScoped<ISubjectRepository,SubjectRepositorySqLite>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +47,11 @@ namespace IAttend.API
             {
                 app.UseHsts();
             }
+
+            // seeder.SeedStudent();
+            // seeder.SeedContactPerson();
+            // seeder.SeedInstructor();
+            // seeder.SeedSchedule();
 
             app.UseHttpsRedirection();
             app.UseCors(s => s.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
