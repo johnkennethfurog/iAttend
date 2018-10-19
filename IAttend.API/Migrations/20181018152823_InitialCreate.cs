@@ -3,13 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IAttend.API.Migrations
 {
-    public partial class AddedModelsForIAttend : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Values");
-
             migrationBuilder.CreateTable(
                 name: "ContactPersons",
                 columns: table => new
@@ -33,7 +30,8 @@ namespace IAttend.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
                     Avatar = table.Column<string>(nullable: true),
-                    EmailAddress = table.Column<string>(nullable: true)
+                    EmailAddress = table.Column<string>(nullable: true),
+                    InstructorNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,7 +109,7 @@ namespace IAttend.API.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ScheduleID = table.Column<int>(nullable: true),
+                    ScheduleID = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     TimeStarted = table.Column<DateTime>(nullable: false),
                     IsOpen = table.Column<bool>(nullable: false)
@@ -124,7 +122,7 @@ namespace IAttend.API.Migrations
                         column: x => x.ScheduleID,
                         principalTable: "Schedules",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,10 +157,11 @@ namespace IAttend.API.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    StudentID = table.Column<int>(nullable: true),
+                    StudentNumber = table.Column<string>(nullable: true),
                     AttendanceID = table.Column<int>(nullable: true),
                     Time = table.Column<DateTime>(nullable: false),
-                    IsScanned = table.Column<bool>(nullable: false)
+                    IsScanned = table.Column<bool>(nullable: false),
+                    ScheduleID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,9 +173,9 @@ namespace IAttend.API.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_StudentAttendances_Students_StudentID",
-                        column: x => x.StudentID,
-                        principalTable: "Students",
+                        name: "FK_StudentAttendances_Schedules_ScheduleID",
+                        column: x => x.ScheduleID,
+                        principalTable: "Schedules",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -202,9 +201,9 @@ namespace IAttend.API.Migrations
                 column: "AttendanceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentAttendances_StudentID",
+                name: "IX_StudentAttendances_ScheduleID",
                 table: "StudentAttendances",
-                column: "StudentID");
+                column: "ScheduleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_ContactPersonID",
@@ -247,19 +246,6 @@ namespace IAttend.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Subjects");
-
-            migrationBuilder.CreateTable(
-                name: "Values",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Values", x => x.Id);
-                });
         }
     }
 }

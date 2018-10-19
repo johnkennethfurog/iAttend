@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace IAttend.API.Models
 {
@@ -14,6 +15,11 @@ namespace IAttend.API.Models
     
         public ContactPerson ContactPerson { get; set; }
 
-        public ICollection<StudentSubject> Subjects { get; set; }
+        public ICollection<StudentSubject> StudentSubjects { get; set; }
+
+        public Student()
+        {
+            StudentSubjects = new Collection<StudentSubject>();
+        }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace IAttend.API
 {
@@ -27,17 +28,18 @@ namespace IAttend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddTransient<Seed>();
+            services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddScoped<IStudentRepository,StudentRepositorySqlLite>();
             services.AddScoped<IInstructorRepository,InstructorRepositorySqlLite>();
             services.AddScoped<ISubjectRepository,SubjectRepositorySqLite>();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -49,7 +51,7 @@ namespace IAttend.API
             }
 
             // seeder.SeedStudent();
-            // seeder.SeedContactPerson();
+            // seeder.SeedactPerson();
             // seeder.SeedInstructor();
             // seeder.SeedSchedule();
 

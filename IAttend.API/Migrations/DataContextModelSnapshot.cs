@@ -61,6 +61,8 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("EmailAddress");
 
+                    b.Property<string>("InstructorNumber");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
@@ -117,13 +119,13 @@ namespace IAttend.API.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AttendanceID");
+                    b.Property<int?>("AttendanceID");
 
                     b.Property<bool>("IsScanned");
 
                     b.Property<int?>("ScheduleID");
 
-                    b.Property<int?>("StudentID");
+                    b.Property<string>("StudentNumber");
 
                     b.Property<DateTime>("Time");
 
@@ -133,8 +135,6 @@ namespace IAttend.API.Migrations
 
                     b.HasIndex("ScheduleID");
 
-                    b.HasIndex("StudentID");
-
                     b.ToTable("StudentAttendances");
                 });
 
@@ -143,9 +143,9 @@ namespace IAttend.API.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ScheduleID");
+                    b.Property<int?>("ScheduleID");
 
-                    b.Property<int>("StudentID");
+                    b.Property<int?>("StudentID");
 
                     b.HasKey("ID");
 
@@ -200,29 +200,22 @@ namespace IAttend.API.Migrations
                 {
                     b.HasOne("IAttend.API.Models.Attendance", "Attendance")
                         .WithMany("StudentAttendances")
-                        .HasForeignKey("AttendanceID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AttendanceID");
 
                     b.HasOne("IAttend.API.Models.Schedule")
                         .WithMany("StudentAttendances")
                         .HasForeignKey("ScheduleID");
-
-                    b.HasOne("IAttend.API.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentID");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.StudentSubject", b =>
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
                         .WithMany("StudentSubjects")
-                        .HasForeignKey("ScheduleID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ScheduleID");
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
                         .WithMany("Subjects")
-                        .HasForeignKey("StudentID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StudentID");
                 });
 #pragma warning restore 612, 618
         }

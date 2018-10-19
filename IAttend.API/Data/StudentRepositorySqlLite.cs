@@ -30,15 +30,32 @@ namespace IAttend.API.Data
         }
 
         public async Task<List<StudentSubject>> GetStudentSubjects(int StudentID)
-        {
-            return await _dataContext.StudentSubjects.Where(stud => stud.StudentID == StudentID).ToListAsync();
-        }
+        {   
+            var student =  _dataContext.Students.Where(stud => stud.ID == StudentID).AsQueryable();
+
+            student = student
+            .Include(stud => stud.StudentSubjects)
+            .ThenInclude(subj => subj.Schedule)
+            .ThenInclude(sched => sched.Instructor)
+            .AsQueryable();
+
+            student = student.Include(stud => stud.StudentSubjects)
+            .ThenInclude(subj => subj.Schedule)
+            .ThenInclude(sched => sched.Subject);
+
+
+            var stdnt = await student.FirstOrDefaultAsync();
+
+
+            var subjects = stdnt.StudentSubjects.ToList();
+
+            return subjects;
+        } 
 
         public async Task<List<StudentSubject>> GetStudentSubjects(string StudentNumber)
         {
-            var studId = await GetStudentId(StudentNumber);
-            return await _dataContext.StudentSubjects.Where(subj => subj.ScheduleID == studId)
-            .Include(subj => subj.Schedule).ToListAsync();
+            var student = await _dataContext.Students.FirstOrDefaultAsync(stud => stud.StudentNumber == StudentNumber); 
+            return student.StudentSubjects.ToList();
         }
 
         private async Task<int> GetStudentId(string StudentNumber)

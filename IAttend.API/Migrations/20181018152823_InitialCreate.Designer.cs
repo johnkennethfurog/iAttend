@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IAttend.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181015141543_AddedModelsForIAttend")]
-    partial class AddedModelsForIAttend
+    [Migration("20181018152823_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace IAttend.API.Migrations
 
                     b.Property<bool>("IsOpen");
 
-                    b.Property<int?>("ScheduleID");
+                    b.Property<int>("ScheduleID");
 
                     b.Property<DateTime>("TimeStarted");
 
@@ -62,6 +62,8 @@ namespace IAttend.API.Migrations
                     b.Property<string>("Avatar");
 
                     b.Property<string>("EmailAddress");
+
+                    b.Property<string>("InstructorNumber");
 
                     b.Property<string>("Name");
 
@@ -123,7 +125,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<bool>("IsScanned");
 
-                    b.Property<int?>("StudentID");
+                    b.Property<int?>("ScheduleID");
+
+                    b.Property<string>("StudentNumber");
 
                     b.Property<DateTime>("Time");
 
@@ -131,7 +135,7 @@ namespace IAttend.API.Migrations
 
                     b.HasIndex("AttendanceID");
 
-                    b.HasIndex("StudentID");
+                    b.HasIndex("ScheduleID");
 
                     b.ToTable("StudentAttendances");
                 });
@@ -172,7 +176,8 @@ namespace IAttend.API.Migrations
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleID");
+                        .HasForeignKey("ScheduleID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("IAttend.API.Models.Schedule", b =>
@@ -196,22 +201,22 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.StudentAttendance", b =>
                 {
                     b.HasOne("IAttend.API.Models.Attendance", "Attendance")
-                        .WithMany()
+                        .WithMany("StudentAttendances")
                         .HasForeignKey("AttendanceID");
 
-                    b.HasOne("IAttend.API.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentID");
+                    b.HasOne("IAttend.API.Models.Schedule")
+                        .WithMany("StudentAttendances")
+                        .HasForeignKey("ScheduleID");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.StudentSubject", b =>
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
-                        .WithMany()
+                        .WithMany("StudentSubjects")
                         .HasForeignKey("ScheduleID");
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("Subjects")
                         .HasForeignKey("StudentID");
                 });
 #pragma warning restore 612, 618
