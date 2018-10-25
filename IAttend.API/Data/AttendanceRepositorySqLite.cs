@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IAttend.API.Models;
@@ -48,6 +49,20 @@ namespace IAttend.API.Data
             var attendance = await _dataContext.Attendances.FirstOrDefaultAsync(x => x.ID == attendanceId);
 
             return attendance;
+        }
+
+        public async Task<List<Attendance>> GetStudentAttendances(int scheduleId, string studentNumber)
+        {
+            var attendances = await _dataContext.Attendances.Where(x => x.ScheduleID == scheduleId)
+                            .Include(attendance => attendance.StudentAttendances)
+                            .ToListAsync();
+
+            attendances.ForEach(attendance =>
+            {
+                attendance.StudentAttendances = attendance.StudentAttendances.Where(x => x.StudentNumber == studentNumber).ToList();
+            });
+
+            return attendances;
         }
     }
 }

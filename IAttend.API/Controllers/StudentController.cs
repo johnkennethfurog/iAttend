@@ -68,5 +68,14 @@ namespace IAttend.API.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("{studentNumber}/attendances/{scheduleId}")]
+        public async Task<IActionResult> GetAttendanceForSubject(string studentNumber,int scheduleId)
+        {
+            var attendances = await _attendanceRepository.GetStudentAttendances(scheduleId,studentNumber);
+
+            var studentAttendanceDto = _mapper.Map<List<StudentAttendanceDto>>(attendances);
+            return Ok(studentAttendanceDto);
+        }
     }
 }

@@ -20,6 +20,15 @@ namespace IAttend.API.Helpers
             .ForMember(dest => dest.DayOfWeek,opt => {
                 opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
             });
+
+            CreateMap<Attendance,StudentAttendanceDto>()
+            .ForMember(dest => dest.Date, opt => {
+                opt.MapFrom(src => src.Date);
+            })
+            .ForMember(dest => dest.IsPresent, opt =>
+            {
+                opt.MapFrom(d => d.StudentAttendances.Count > 0);
+            });
         }
     }
 }
