@@ -32,12 +32,29 @@ namespace IAttend.API.Data
         public async Task<List<StudentSubject>> GetStudentSubjects(int StudentID)
         {   
             var student =  _dataContext.Students.Where(stud => stud.ID == StudentID).AsQueryable();
+            
+            return await GetStudentSubjects(student);
+        } 
 
+        public async Task<List<StudentSubject>> GetStudentSubjects(string StudentNumber)
+        {
+            var student = _dataContext.Students.Where(stud => stud.StudentNumber == StudentNumber).AsQueryable(); 
+            return await GetStudentSubjects(student);
+        }
+
+        private async Task<int> GetStudentId(string StudentNumber)
+        {
+            var studend = await _dataContext.Students.FirstOrDefaultAsync(stud => stud.StudentNumber == StudentNumber);
+            return studend.ID;
+        }
+
+        private async Task<List<StudentSubject>> GetStudentSubjects(IQueryable<Student> student)
+        {
             student = student
-            .Include(stud => stud.StudentSubjects)
-            .ThenInclude(subj => subj.Schedule)
-            .ThenInclude(sched => sched.Instructor)
-            .AsQueryable();
+                .Include(stud => stud.StudentSubjects)
+                .ThenInclude(subj => subj.Schedule)
+                .ThenInclude(sched => sched.Instructor)
+                .AsQueryable();
 
             student = student.Include(stud => stud.StudentSubjects)
             .ThenInclude(subj => subj.Schedule)
@@ -50,18 +67,7 @@ namespace IAttend.API.Data
             var subjects = stdnt.StudentSubjects.ToList();
 
             return subjects;
-        } 
-
-        public async Task<List<StudentSubject>> GetStudentSubjects(string StudentNumber)
-        {
-            var student = await _dataContext.Students.FirstOrDefaultAsync(stud => stud.StudentNumber == StudentNumber); 
-            return student.StudentSubjects.ToList();
         }
 
-        private async Task<int> GetStudentId(string StudentNumber)
-        {
-            var studend = await _dataContext.Students.FirstOrDefaultAsync(stud => stud.StudentNumber == StudentNumber);
-            return studend.ID;
-        }
     }
 }

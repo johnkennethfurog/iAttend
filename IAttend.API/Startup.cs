@@ -35,6 +35,7 @@ namespace IAttend.API
             services.AddScoped<IStudentRepository,StudentRepositorySqlLite>();
             services.AddScoped<IInstructorRepository,InstructorRepositorySqlLite>();
             services.AddScoped<ISubjectRepository,SubjectRepositorySqLite>();
+            services.AddScoped<IAttendanceRepository,AttendanceRepositorySqLite>();
             services.AddAutoMapper();
         }
 

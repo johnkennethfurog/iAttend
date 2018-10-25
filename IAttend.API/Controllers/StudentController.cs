@@ -14,24 +14,27 @@ namespace IAttend.API.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IInstructorRepository _instructorRepository;
         private readonly ISubjectRepository _subjectRepository;
+        private readonly IAttendanceRepository _attendanceRepository;
         private readonly IMapper _mapper;
 
         public StudentController(
             IStudentRepository studentRepository,
             IInstructorRepository instructorRepository,
             ISubjectRepository subjectRepository,
+            IAttendanceRepository attendanceRepository,
             IMapper mapper)
         {
             _studentRepository = studentRepository;
             _instructorRepository = instructorRepository;
             _subjectRepository = subjectRepository;
+            _attendanceRepository = attendanceRepository;
             _mapper = mapper;
         }
 
-        [HttpGet("getSubject/{StudentId}")]
-        public async Task<IActionResult> GetSubject(int StudentId)
+        [HttpGet("subjects/{StudentNumber}")]
+        public async Task<IActionResult> GetSubject(string StudentNumber)
         {
-            var studentSubjects = await _studentRepository.GetStudentSubjects(StudentId);
+            var studentSubjects = await _studentRepository.GetStudentSubjects(StudentNumber);
             var studentSubjectDto = new List<StudentSubjectDto>();
             studentSubjects.ForEach(subj =>
             {
@@ -45,6 +48,25 @@ namespace IAttend.API.Controllers
             });
 
             return Ok(studentSubjectDto);
+        }
+
+        [HttpPost("attendance")]
+        public async Task<IActionResult> CreateAttendance([FromBody]StudentToAttendanceDto studentAttendanceDto)
+        {
+            var isOpen = await _attendanceRepository.DoesAttendanceExistAndIsActive(studentAttendanceDto.AttendanceSessionId);
+
+            if(isOpen)
+            {
+                var attendanceCreated = await _attendanceRepository.CreateStudentAttendance(
+                    studentAttendanceDto.AttendanceSessionId,
+                    studentAttendanceDto.StudentNumber,
+                    studentAttendanceDto.IsScanned);
+
+                if(attendanceCreated)
+                return Ok();
+            }
+
+            return NotFound();
         }
     }
 }

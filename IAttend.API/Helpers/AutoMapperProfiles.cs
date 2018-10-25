@@ -19,8 +19,7 @@ namespace IAttend.API.Helpers
             })
             .ForMember(dest => dest.DayOfWeek,opt => {
                 opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
-            })
-            ;
+            });
         }
     }
 }
