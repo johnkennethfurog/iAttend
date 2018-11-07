@@ -15,10 +15,12 @@ namespace IAttend.API.Data
         {
             _dataContext = dataContext;
         }
-        public async Task<bool> CreateStudentAttendance(int attendanceId,string studentNumber, bool isScanned)
+
+        //mark students attendance
+        public async Task<bool> MarkAtendance(int attendanceId,string studentNumber, bool isScanned)
         {
             var attendance = await GetAttendance(attendanceId);
-            var serverDate = DateTime.Now;
+
 
 
             var studentAttendance = new StudentAttendance()
@@ -26,6 +28,7 @@ namespace IAttend.API.Data
                 StudentNumber = studentNumber,
                 IsScanned = isScanned,
                 Attendance = attendance,
+                Time = DateTime.Now
             };
 
             await _dataContext.StudentAttendances.AddAsync(studentAttendance);
@@ -34,6 +37,22 @@ namespace IAttend.API.Data
             return result > 0;
         }
 
+        //unmark students attendacnce 
+        public async Task<bool> UnMarkAtendance(string studentNumber, int scheduleId, DateTime date)
+        {
+            var attendance = await GetAttendance(scheduleId,date);
+            if(attendance == null)
+                return false;
+
+            var studentAtendances = await _dataContext.StudentAttendances
+                                .Where(x => x.Attendance.ID == attendance.ID && x.StudentNumber == studentNumber ).ToListAsync();
+
+            _dataContext.StudentAttendances.RemoveRange(studentAtendances);
+
+            return await _dataContext.SaveChangesAsync() > 0;
+        }
+
+        // check if attendance session already exist or if it is active
         public async Task<bool> DoesAttendanceExistAndIsActive(int attendanceId)
         {
             var attendance = await GetAttendance(attendanceId);
@@ -44,6 +63,7 @@ namespace IAttend.API.Data
                 return false;
         }
 
+        //get attendance based on attendanceId
         public async Task<Attendance> GetAttendance(int attendanceId)
         {
             var attendance = await _dataContext.Attendances.FirstOrDefaultAsync(x => x.ID == attendanceId);
@@ -51,6 +71,18 @@ namespace IAttend.API.Data
             return attendance;
         }
 
+        //get attendance for specific schedule(subject) and date
+        public async Task<Attendance> GetAttendance(int scheduleId, DateTime date)
+        {
+            var attendances = await _dataContext.Attendances.Where(x =>
+                                    x.ScheduleID == scheduleId).ToListAsync();
+
+            var attendance = attendances.FirstOrDefault(x => x.Date.Date == date.Date);
+
+            return attendance;
+        }
+
+        //get students attendance for specific schedule(subject)
         public async Task<List<Attendance>> GetStudentAttendances(int scheduleId, string studentNumber)
         {
             var attendances = await _dataContext.Attendances.Where(x => x.ScheduleID == scheduleId)
@@ -63,6 +95,70 @@ namespace IAttend.API.Data
             });
 
             return attendances;
+        }
+
+        public async Task<Attendance> StartAttendanceSession(int scheduleId)
+        {
+            var date = DateTime.Now.Date;
+            var attendance = await GetAttendance(scheduleId,date);
+
+            if(attendance != null && !attendance.IsOpen)
+                attendance.IsOpen = true;
+            else if(attendance == null)
+            {
+                attendance = new Attendance()
+                {
+                    ScheduleID = scheduleId,
+                    Date = date,
+                    TimeStarted = DateTime.Now,
+                    IsOpen = true
+                };
+                _dataContext.Attendances.Add(attendance);
+            }
+            else
+            {
+                return null;
+            }
+
+            await _dataContext.SaveChangesAsync();
+
+            return  attendance;
+        }
+
+        public async Task<bool> StopAttendanceSession(int attendacnceId)
+        {
+            var date = DateTime.Now.Date;
+            var attendance = await GetAttendance(attendacnceId);
+
+            if(attendance == null)
+                return false;
+
+            attendance.IsOpen = false;
+
+            return await _dataContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<List<StudentAttendance>> GetStudentAttendances(int scheduleId, DateTime date)
+        {
+
+            var attendance = GetAttendance(scheduleId,date);
+
+            var attendanceQuery = _dataContext.Attendances.Where(x => x.ID == attendance.Id)
+            .Include(x => x.StudentAttendances);
+
+            var studentsAttendance = await attendanceQuery.FirstOrDefaultAsync();
+            //  var allSchedulesAttendances = _dataContext.Attendances.Where(x =>
+            //                         x.ScheduleID == scheduleId);
+
+            // var specificAttendance = allSchedulesAttendances.Where(x => x.Date.Date == date.Date);
+
+            // var g = specificAttendance.Include(x => x.StudentAttendances);
+
+            // var studentAttendances = await g.FirstOrDefaultAsync();
+
+            // return studentAttendances.StudentAttendances.ToList();
+        
+            return studentsAttendance.StudentAttendances.ToList();
         }
     }
 }

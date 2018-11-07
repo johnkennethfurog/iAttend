@@ -42,22 +42,22 @@ namespace IAttend.API.Controllers
                 var instructor = sched.Instructor;
 
                 var subjectDto = _mapper.Map<SubjectDto>(sched);
-                var instructorDto = _mapper.Map<InstructorDto>(instructor);
+                var teacherDto = _mapper.Map<TeacherDto>(instructor);
 
-                studentSubjectDto.Add(new StudentSubjectDto{ Subject = subjectDto,Instructor = instructorDto });
+                studentSubjectDto.Add(new StudentSubjectDto{ Subject = subjectDto,Instructor = teacherDto });
             });
 
             return Ok(studentSubjectDto);
         }
 
         [HttpPost("attendance")]
-        public async Task<IActionResult> CreateAttendance([FromBody]StudentToAttendanceDto studentAttendanceDto)
+        public async Task<IActionResult> MarkAttendance([FromBody]StudentToAttendanceDto studentAttendanceDto)
         {
             var isOpen = await _attendanceRepository.DoesAttendanceExistAndIsActive(studentAttendanceDto.AttendanceSessionId);
 
             if(isOpen)
             {
-                var attendanceCreated = await _attendanceRepository.CreateStudentAttendance(
+                var attendanceCreated = await _attendanceRepository.MarkAtendance(
                     studentAttendanceDto.AttendanceSessionId,
                     studentAttendanceDto.StudentNumber,
                     studentAttendanceDto.IsScanned);

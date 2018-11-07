@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.ScannerPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:qr="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Content>
+        <Grid>
+            <qr:ZXingScannerView
+                x:Name="scanner"
+                HeightRequest="200"
+                ScanResultCommand="{Binding ScanResultCommand}"
+                WidthRequest="200" />
+
+            <qr:ZXingDefaultOverlay />
+
+        </Grid>
+
+
+    </ContentPage.Content>
+</ContentPage>

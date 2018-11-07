@@ -24,13 +24,20 @@ namespace iAttend.Student
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/LandingPage");
+            //await NavigationService.NavigateAsync("ScannerPage");
+
+            //var mainPage = new TabbedPage();
+            //mainPage.Children.Add(new ScannerPage());
+
+            //MainPage = new NavigationPage( new ScannerPage());
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<ScannerPage, ScannerPageViewModel>();
+            containerRegistry.RegisterForNavigation<LandingPage, LandingPageViewModel>();
         }
     }
 }

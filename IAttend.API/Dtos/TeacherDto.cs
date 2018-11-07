@@ -1,6 +1,6 @@
-namespace IAttend.API.Dtos
+﻿namespace IAttend.API.Dtos
 {
-    public class InstructorDto
+    public class TeacherDto
     {
          public int ID { get; set; }
     
