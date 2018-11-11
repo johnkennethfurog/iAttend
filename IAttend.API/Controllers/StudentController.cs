@@ -60,7 +60,7 @@ namespace IAttend.API.Controllers
                 var attendanceCreated = await _attendanceRepository.MarkAtendance(
                     studentAttendanceDto.AttendanceSessionId,
                     studentAttendanceDto.StudentNumber,
-                    studentAttendanceDto.IsScanned);
+                    true);
 
                 if(attendanceCreated)
                 return Ok();

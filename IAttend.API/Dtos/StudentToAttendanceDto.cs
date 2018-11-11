@@ -7,9 +7,5 @@ namespace IAttend.API.Dtos
         public int AttendanceSessionId { get; set; }
     
         public string StudentNumber { get; set; }
-    
-        public DateTime Time { get; set; }
-
-        public bool IsScanned { get; set; }
-        }
+    }
 }

@@ -4,7 +4,10 @@ using iAttend.Student.ViewModels;
 using iAttend.Student.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Prism.DryIoc;
+using Prism.Unity;
+using DLToolkit.Forms.Controls;
+using iAttend.Student.Interfaces;
+using iAttend.Student.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace iAttend.Student
@@ -22,8 +25,11 @@ namespace iAttend.Student
 
         protected override async void OnInitialized()
         {
+#if DEBUG
+            LiveReload.Init();
+#endif
             InitializeComponent();
-
+            FlowListView.Init();
             await NavigationService.NavigateAsync("NavigationPage/LandingPage");
             //await NavigationService.NavigateAsync("ScannerPage");
 
@@ -35,9 +41,21 @@ namespace iAttend.Student
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            var apiAccess = new ApiAccess()
+            {
+                BaseUri = "https://10.40.1.197:5001/api"
+            };
+
+
+            containerRegistry.RegisterInstance<IApiAccess>(apiAccess);
+            containerRegistry.Register<IRequestHandler, RequestHandler>();
+            containerRegistry.Register<IStudentService, StudentService>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<ScannerPage, ScannerPageViewModel>();
-            containerRegistry.RegisterForNavigation<LandingPage, LandingPageViewModel>();
+            containerRegistry.RegisterForNavigation<LandingPage>();
+            containerRegistry.RegisterForNavigation<SubjectAttendance>();
+
+
         }
     }
 }

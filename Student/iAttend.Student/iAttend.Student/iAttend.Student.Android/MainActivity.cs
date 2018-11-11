@@ -16,9 +16,21 @@ namespace iAttend.Student.Droid
 
             base.OnCreate(bundle);
 
-            ZXing.Net.Mobile.Forms.Android.Platform.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
+
+            var config = new FFImageLoading.Config.Configuration()
+            {
+                DiskCacheDuration = System.TimeSpan.FromDays(60),
+                VerboseLogging = false,
+                VerbosePerformanceLogging = false,
+                VerboseMemoryCacheLogging = false,
+                VerboseLoadingCancelledLogging = false
+            };
+
+            global::FFImageLoading.ImageService.Instance.Initialize(config);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
@@ -32,6 +44,9 @@ namespace iAttend.Student.Droid
         public void RegisterTypes(IContainerRegistry container)
         {
             // Register any platform specific implementations
+
+            container.Register<Student.DependencyServices.IQrScanningService, DependencyServices.QrScanningService>();
+            container.Register<Student.DependencyServices.IMessageService, DependencyServices.MessageService>();
         }
     }
 }

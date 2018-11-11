@@ -3,10 +3,106 @@
     x:Class="iAttend.Student.Views.LandingPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:iAttend.Student.Helpers"
+    xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffTrans="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:listView="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    prism:ViewModelLocator.AutowireViewModel="True">
-
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasNavigationBar="False">
     <StackLayout>
-        <Button Command="{Binding OpenQrScannerCommand}" Text="Scan Now" />
+        <Frame Padding="15">
+            <Grid ColumnSpacing="15" RowSpacing="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ffImage:CachedImage Grid.RowSpan="2" Source="http://static.boxrec.com/thumb/f/fa/MannyPacquiao1.jpg/200px-MannyPacquiao1.jpg">
+                    <ffImage:CachedImage.Transformations>
+                        <ffTrans:CircleTransformation />
+                    </ffImage:CachedImage.Transformations>
+                </ffImage:CachedImage>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,5,0,0"
+                    Style="{x:StaticResource RegularText}"
+                    Text="Juan dela Cruz" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{x:StaticResource subTextMed}"
+                    Text="12-A00020" />
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HorizontalTextAlignment="Center"
+                    Style="{x:StaticResource fa-solid}"
+                    Text="{x:Static fa:FontAwesomeHelper.Qrcode}"
+                    TextColor="Red"
+                    VerticalTextAlignment="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenQrScannerCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="SCAN"
+                    TextColor="Red">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenQrScannerCommand}" />
+                    </Label.GestureRecognizers>
+
+                </Label>
+            </Grid>
+        </Frame>
+        <listView:FlowListView
+            x:Name="subjects"
+            FlowColumnCount="2"
+            FlowIsLoadingInfinite="True"
+            FlowIsLoadingInfiniteEnabled="True"
+            FlowItemTappedCommand="{Binding ViewAttendanceCommand}"
+            FlowItemsSource="{Binding StudentSubjects}"
+            HasUnevenRows="True"
+            SeparatorVisibility="None">
+            <listView:FlowListView.FlowColumnTemplate>
+                <DataTemplate>
+                    <Frame Margin="5" Padding="10">
+                        <StackLayout Spacing="2">
+                            <ffImage:CachedImage
+                                Margin="-10"
+                                Aspect="AspectFill"
+                                HeightRequest="140"
+                                Source="{Binding Instructor.Avatar}" />
+
+                            <Label
+                                Margin="0,10,0,0"
+                                Style="{x:StaticResource HeaderTextSlim}"
+                                Text="{Binding Instructor.Name}" />
+                            <Label Style="{x:StaticResource subTextMed}" Text="{Binding Subject.Name}" />
+                            <Label Style="{x:StaticResource subTextSmall}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Subject.Room}" />
+                                        <Span Text=" | " />
+                                        <Span Text="{Binding Subject.Time}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </listView:FlowListView.FlowColumnTemplate>
+
+        </listView:FlowListView>
     </StackLayout>
 </ContentPage>
