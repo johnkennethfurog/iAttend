@@ -61,7 +61,7 @@ namespace iAttend.Student.ViewModels
             var subject = parameters["subject"] as StudentSubject;
 
             Subject = subject;
-
+            SetSubject();
             await FetchAttendances();
 
         }

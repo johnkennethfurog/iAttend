@@ -4,14 +4,16 @@ using IAttend.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IAttend.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20181113125247_initialSqlServer")]
+    partial class initialSqlServer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,16 +61,19 @@ namespace IAttend.API.Migrations
 
             modelBuilder.Entity("IAttend.API.Models.Instructor", b =>
                 {
-                    b.Property<string>("InstructorNumber")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Avatar");
 
                     b.Property<string>("EmailAddress");
 
+                    b.Property<string>("InstructorNumber");
+
                     b.Property<string>("Name");
 
-                    b.HasKey("InstructorNumber");
+                    b.HasKey("ID");
 
                     b.ToTable("Instructors");
                 });
@@ -81,27 +86,28 @@ namespace IAttend.API.Migrations
 
                     b.Property<int>("DayOfWeek");
 
-                    b.Property<string>("InstructorNumber");
+                    b.Property<int?>("InstructorID");
 
                     b.Property<string>("Room");
 
-                    b.Property<string>("SubjectCode");
+                    b.Property<int?>("SubjectID");
 
                     b.Property<DateTime>("Time");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InstructorNumber");
+                    b.HasIndex("InstructorID");
 
-                    b.HasIndex("SubjectCode");
+                    b.HasIndex("SubjectID");
 
                     b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.Student", b =>
                 {
-                    b.Property<string>("StudentNumber")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Avatar");
 
@@ -109,7 +115,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("StudentName");
 
-                    b.HasKey("StudentNumber");
+                    b.Property<string>("StudentNumber");
+
+                    b.HasKey("ID");
 
                     b.HasIndex("ContactPersonID");
 
@@ -149,25 +157,28 @@ namespace IAttend.API.Migrations
 
                     b.Property<int?>("ScheduleID");
 
-                    b.Property<string>("StudentNumber");
+                    b.Property<int?>("StudentID");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ScheduleID");
 
-                    b.HasIndex("StudentNumber");
+                    b.HasIndex("StudentID");
 
                     b.ToTable("StudentSubjects");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.Subject", b =>
                 {
-                    b.Property<string>("Code")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Code");
+                    b.HasKey("ID");
 
                     b.ToTable("Subjects");
                 });
@@ -184,11 +195,11 @@ namespace IAttend.API.Migrations
                 {
                     b.HasOne("IAttend.API.Models.Instructor", "Instructor")
                         .WithMany()
-                        .HasForeignKey("InstructorNumber");
+                        .HasForeignKey("InstructorID");
 
                     b.HasOne("IAttend.API.Models.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectCode");
+                        .HasForeignKey("SubjectID");
                 });
 
             modelBuilder.Entity("IAttend.API.Models.Student", b =>
@@ -217,7 +228,7 @@ namespace IAttend.API.Migrations
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
                         .WithMany("StudentSubjects")
-                        .HasForeignKey("StudentNumber");
+                        .HasForeignKey("StudentID");
                 });
 #pragma warning restore 612, 618
         }

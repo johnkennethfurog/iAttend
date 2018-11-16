@@ -3,25 +3,29 @@ using System;
 using IAttend.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IAttend.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181018152823_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20181115104638_changeInstrucorPrimaryKey")]
+    partial class changeInstrucorPrimaryKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IAttend.API.Models.Attendance", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date");
 
@@ -41,7 +45,8 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.ContactPerson", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MobileNumber");
 
@@ -56,18 +61,16 @@ namespace IAttend.API.Migrations
 
             modelBuilder.Entity("IAttend.API.Models.Instructor", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<string>("InstructorNumber")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Avatar");
 
                     b.Property<string>("EmailAddress");
 
-                    b.Property<string>("InstructorNumber");
-
                     b.Property<string>("Name");
 
-                    b.HasKey("ID");
+                    b.HasKey("InstructorNumber");
 
                     b.ToTable("Instructors");
                 });
@@ -75,11 +78,12 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.Schedule", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("DayOfWeek");
 
-                    b.Property<int?>("InstructorID");
+                    b.Property<string>("InstructorNumber");
 
                     b.Property<string>("Room");
 
@@ -89,7 +93,7 @@ namespace IAttend.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InstructorID");
+                    b.HasIndex("InstructorNumber");
 
                     b.HasIndex("SubjectID");
 
@@ -98,7 +102,7 @@ namespace IAttend.API.Migrations
 
             modelBuilder.Entity("IAttend.API.Models.Student", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<string>("StudentNumber")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Avatar");
@@ -107,9 +111,7 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("StudentName");
 
-                    b.Property<string>("StudentNumber");
-
-                    b.HasKey("ID");
+                    b.HasKey("StudentNumber");
 
                     b.HasIndex("ContactPersonID");
 
@@ -119,7 +121,8 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.StudentAttendance", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AttendanceID");
 
@@ -143,17 +146,18 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.StudentSubject", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ScheduleID");
 
-                    b.Property<int?>("StudentID");
+                    b.Property<string>("StudentNumber");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ScheduleID");
 
-                    b.HasIndex("StudentID");
+                    b.HasIndex("StudentNumber");
 
                     b.ToTable("StudentSubjects");
                 });
@@ -161,7 +165,8 @@ namespace IAttend.API.Migrations
             modelBuilder.Entity("IAttend.API.Models.Subject", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code");
 
@@ -184,7 +189,7 @@ namespace IAttend.API.Migrations
                 {
                     b.HasOne("IAttend.API.Models.Instructor", "Instructor")
                         .WithMany()
-                        .HasForeignKey("InstructorID");
+                        .HasForeignKey("InstructorNumber");
 
                     b.HasOne("IAttend.API.Models.Subject", "Subject")
                         .WithMany()
@@ -216,8 +221,8 @@ namespace IAttend.API.Migrations
                         .HasForeignKey("ScheduleID");
 
                     b.HasOne("IAttend.API.Models.Student", "Student")
-                        .WithMany("Subjects")
-                        .HasForeignKey("StudentID");
+                        .WithMany("StudentSubjects")
+                        .HasForeignKey("StudentNumber");
                 });
 #pragma warning restore 612, 618
         }

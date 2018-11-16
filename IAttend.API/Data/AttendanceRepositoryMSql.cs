@@ -1,27 +1,28 @@
+﻿using IAttend.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IAttend.API.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace IAttend.API.Data
 {
-    public class AttendanceRepositorySqLite : IAttendanceRepository
+    public class AttendanceRepositoryMSql : IAttendanceRepository
     {
         private readonly DataContext _dataContext;
 
-        public AttendanceRepositorySqLite(DataContext dataContext)
+        public AttendanceRepositoryMSql(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
 
         //mark students attendance
-        public async Task<bool> MarkAtendance(int attendanceId,string studentNumber, bool isScanned)
+        public async Task<bool> MarkAtendance(int attendanceId, string studentNumber, bool isScanned)
         {
             var attendance = await GetAttendance(attendanceId);
 
-
+            if (attendance == null)
+                return false;
 
             var studentAttendance = new StudentAttendance()
             {
@@ -40,12 +41,12 @@ namespace IAttend.API.Data
         //unmark students attendacnce 
         public async Task<bool> UnMarkAtendance(string studentNumber, int scheduleId, DateTime date)
         {
-            var attendance = await GetAttendance(scheduleId,date);
-            if(attendance == null)
+            var attendance = await GetAttendance(scheduleId, date);
+            if (attendance == null)
                 return false;
 
             var studentAtendances = await _dataContext.StudentAttendances
-                                .Where(x => x.Attendance.ID == attendance.ID && x.StudentNumber == studentNumber ).ToListAsync();
+                                .Where(x => x.Attendance.ID == attendance.ID && x.StudentNumber == studentNumber).ToListAsync();
 
             _dataContext.StudentAttendances.RemoveRange(studentAtendances);
 
@@ -57,7 +58,7 @@ namespace IAttend.API.Data
         {
             var attendance = await GetAttendance(attendanceId);
 
-            if(attendance != null)
+            if (attendance != null)
                 return attendance.IsOpen;
             else
                 return false;
@@ -69,6 +70,14 @@ namespace IAttend.API.Data
             var attendance = await _dataContext.Attendances.FirstOrDefaultAsync(x => x.ID == attendanceId);
 
             return attendance;
+        }
+
+        public async Task<bool> DoesStudentHasAttendance(string studentNumber,int attendanceId)
+        {
+            var attendance = await _dataContext.Attendances.Where(x => x.ID == attendanceId)
+                .AsQueryable().Include(x => x.StudentAttendances).FirstAsync();
+
+            return attendance.StudentAttendances.FirstOrDefault(x => x.StudentNumber == studentNumber) != null ? true : false;
         }
 
         //get attendance for specific schedule(subject) and date
@@ -100,11 +109,11 @@ namespace IAttend.API.Data
         public async Task<Attendance> StartAttendanceSession(int scheduleId)
         {
             var date = DateTime.Now.Date;
-            var attendance = await GetAttendance(scheduleId,date);
+            var attendance = await GetAttendance(scheduleId, date);
 
-            if(attendance != null && !attendance.IsOpen)
+            if (attendance != null && !attendance.IsOpen)
                 attendance.IsOpen = true;
-            else if(attendance == null)
+            else if (attendance == null)
             {
                 attendance = new Attendance()
                 {
@@ -122,7 +131,7 @@ namespace IAttend.API.Data
 
             await _dataContext.SaveChangesAsync();
 
-            return  attendance;
+            return attendance;
         }
 
         public async Task<bool> StopAttendanceSession(int attendacnceId)
@@ -130,7 +139,7 @@ namespace IAttend.API.Data
             var date = DateTime.Now.Date;
             var attendance = await GetAttendance(attendacnceId);
 
-            if(attendance == null)
+            if (attendance == null)
                 return false;
 
             attendance.IsOpen = false;
@@ -138,27 +147,10 @@ namespace IAttend.API.Data
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<StudentAttendance>> GetStudentAttendances(int scheduleId, DateTime date)
+        public async Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date)
         {
-
-            var attendance = GetAttendance(scheduleId,date);
-
-            var attendanceQuery = _dataContext.Attendances.Where(x => x.ID == attendance.Id)
-            .Include(x => x.StudentAttendances);
-
-            var studentsAttendance = await attendanceQuery.FirstOrDefaultAsync();
-            //  var allSchedulesAttendances = _dataContext.Attendances.Where(x =>
-            //                         x.ScheduleID == scheduleId);
-
-            // var specificAttendance = allSchedulesAttendances.Where(x => x.Date.Date == date.Date);
-
-            // var g = specificAttendance.Include(x => x.StudentAttendances);
-
-            // var studentAttendances = await g.FirstOrDefaultAsync();
-
-            // return studentAttendances.StudentAttendances.ToList();
-        
-            return studentsAttendance.StudentAttendances.ToList();
+            var dateToFind = date ?? DateTime.Now;            
+            return await _dataContext.StudentsSubjectAttendances.FromSql($"SELECT * FROM dbo.tvfStudentAttendances({scheduleId},'{dateToFind.ToString("MM/dd/yyyy")}')").ToListAsync();
         }
     }
 }

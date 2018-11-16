@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IAttend.API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialSqlServer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     MobileNumber = table.Column<string>(nullable: true),
                     RelationToStudent = table.Column<string>(nullable: true)
@@ -27,7 +28,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Avatar = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: true),
@@ -43,7 +44,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -57,7 +58,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentNumber = table.Column<string>(nullable: true),
                     StudentName = table.Column<string>(nullable: true),
                     Avatar = table.Column<string>(nullable: true),
@@ -79,7 +80,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SubjectID = table.Column<int>(nullable: true),
                     InstructorID = table.Column<int>(nullable: true),
                     Room = table.Column<string>(nullable: true),
@@ -108,7 +109,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ScheduleID = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     TimeStarted = table.Column<DateTime>(nullable: false),
@@ -130,7 +131,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentID = table.Column<int>(nullable: true),
                     ScheduleID = table.Column<int>(nullable: true)
                 },
@@ -156,7 +157,7 @@ namespace IAttend.API.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentNumber = table.Column<string>(nullable: true),
                     AttendanceID = table.Column<int>(nullable: true),
                     Time = table.Column<DateTime>(nullable: false),

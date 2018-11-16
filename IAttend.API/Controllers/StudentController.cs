@@ -35,17 +35,7 @@ namespace IAttend.API.Controllers
         public async Task<IActionResult> GetSubject(string StudentNumber)
         {
             var studentSubjects = await _studentRepository.GetStudentSubjects(StudentNumber);
-            var studentSubjectDto = new List<StudentSubjectDto>();
-            studentSubjects.ForEach(subj =>
-            {
-                var sched = subj.Schedule;
-                var instructor = sched.Instructor;
-
-                var subjectDto = _mapper.Map<SubjectDto>(sched);
-                var teacherDto = _mapper.Map<TeacherDto>(instructor);
-
-                studentSubjectDto.Add(new StudentSubjectDto{ Subject = subjectDto,Instructor = teacherDto });
-            });
+            var studentSubjectDto = _mapper.Map<List<StudentSubjectDto>>(studentSubjects);
 
             return Ok(studentSubjectDto);
         }
@@ -53,20 +43,22 @@ namespace IAttend.API.Controllers
         [HttpPost("attendance")]
         public async Task<IActionResult> MarkAttendance([FromBody]StudentToAttendanceDto studentAttendanceDto)
         {
-            var isOpen = await _attendanceRepository.DoesAttendanceExistAndIsActive(studentAttendanceDto.AttendanceSessionId);
+            if (!await _attendanceRepository.DoesAttendanceExistAndIsActive(studentAttendanceDto.AttendanceSessionId))
+                return BadRequest(new ErrorDto("No Attendance Session found"));
 
-            if(isOpen)
-            {
-                var attendanceCreated = await _attendanceRepository.MarkAtendance(
-                    studentAttendanceDto.AttendanceSessionId,
-                    studentAttendanceDto.StudentNumber,
-                    true);
+            if (await _attendanceRepository.DoesStudentHasAttendance(studentAttendanceDto.StudentNumber, studentAttendanceDto.AttendanceSessionId))
+                return BadRequest(new ErrorDto("Study already have attendance"));
 
-                if(attendanceCreated)
+
+            var attendanceCreated = await _attendanceRepository.MarkAtendance(
+                studentAttendanceDto.AttendanceSessionId,
+                studentAttendanceDto.StudentNumber,
+                true);
+
+            if (attendanceCreated)
                 return Ok();
-            }
-
-            return NotFound();
+            else
+                return BadRequest(new ErrorDto("Unable to mark students attendance"));
         }
 
         [HttpGet("{studentNumber}/attendances/{scheduleId}")]

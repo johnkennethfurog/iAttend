@@ -48,5 +48,10 @@ namespace IAttend.API.Data
             _context.Schedules.AddRange(schedules);
             _context.SaveChanges();
         }
+
+        public void SeedSubject()
+        {
+            var subjects  = new List<Subject>();
+        }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace iAttend.Student.ViewModels
 {
-    public class LandingPageViewModel : ViewModelBase
+    public class StudentLandingPageViewModel : ViewModelBase
 	{
         private readonly IStudentService _studentService;
         private readonly IQrScanningService _qrScanningService;
@@ -19,7 +19,7 @@ namespace iAttend.Student.ViewModels
 
         public ObservableCollection<StudentSubject> StudentSubjects { get; set; }
 
-        public LandingPageViewModel(
+        public StudentLandingPageViewModel(
             INavigationService navigationService,
             IStudentService studentService,
             IQrScanningService qrScanningService,
@@ -113,6 +113,7 @@ namespace iAttend.Student.ViewModels
             catch (Exception ex)
             {
                 _messageService.ShowMessage("Unable to fetch student subjects");
-            }        }
+            }
+        }
     }
 }

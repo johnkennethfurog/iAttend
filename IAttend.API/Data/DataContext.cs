@@ -1,6 +1,8 @@
 using IAttend.API.Models;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace IAttend.API.Data
 {
 
@@ -18,5 +20,68 @@ namespace IAttend.API.Data
         public DbSet<StudentAttendance> StudentAttendances { get; set; }
         public DbSet<StudentSubject> StudentSubjects { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+
+        #region Table Value Functions
+
+        public DbSet<Pocos.StudentsSubjectAttendance> StudentsSubjectAttendances { get; set; }
+        public DbSet<Pocos.TeacherSubject> TeacherSubjects { get; set; }
+
+        #endregion
+
+        #region  Views
+        public DbSet<Pocos.Student> StudentsView{ get; set; }
+        public DbSet<Pocos.StudentSubject> StudentsSubjectsView{ get; set; }
+        #endregion
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new StudentViewConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentsSubjectsViewConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentsSubjectAttendanceConfiguration());
+            modelBuilder.ApplyConfiguration(new TeacherSubjectConfiguration());
         }
+
+    }
+
+    #region  ViewConfiguration
+
+    public class StudentViewConfiguration : IEntityTypeConfiguration<Pocos.Student>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.Student> builder)
+        {
+            builder.HasKey(x => x.StudentNumber);
+            builder.ToTable("Student_view");
+        }
+    }
+
+    public class StudentsSubjectsViewConfiguration : IEntityTypeConfiguration<Pocos.StudentSubject>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.StudentSubject> builder)
+        {
+            builder.HasKey(x => x.SubjectCode);
+            builder.ToTable("Students_subjects_view");
+        }
+    }
+
+    #endregion
+
+    #region TVFConfiguration
+
+    public class StudentsSubjectAttendanceConfiguration : IEntityTypeConfiguration<Pocos.StudentsSubjectAttendance>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.StudentsSubjectAttendance> builder)
+        {
+            builder.HasKey(x => x.StudentNumber);
+        }
+    }
+
+    public class TeacherSubjectConfiguration : IEntityTypeConfiguration<Pocos.TeacherSubject>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.TeacherSubject> builder)
+        {
+            builder.HasKey(x => x.SubjectCode);
+        }
+    }
+
+    #endregion
 }

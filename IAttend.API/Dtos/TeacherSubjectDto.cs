@@ -12,6 +12,8 @@ namespace IAttend.API.Dtos
 
         public string DayOfWeek { get; set; }
 
+        public string Code {get;set;}
+
         public string Name { get; set; }
 
         public int StudentCount { get; set; }

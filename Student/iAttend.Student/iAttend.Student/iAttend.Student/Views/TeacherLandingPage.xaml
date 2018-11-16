@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.TeacherLandingPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.HasNavigationBar="False">
+    <ListView
+        x:Name="list"
+        HasUnevenRows="True"
+        ItemsSource="{Binding Subjects}"
+        SeparatorVisibility="None">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame Margin="5,10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.ViewStudentAttendanceCommand, Source={x:Reference list}}" CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding StudentCount}" />
+                                        <Span Text=" Student(s)" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                Grid.Row="1"
+                                Style="{x:StaticResource Bigtext}"
+                                Text="{Binding Code}" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                Text="{Binding Name}" />
+
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalOptions="End">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding DayOfWeek}" />
+                                        <Span Text=" | " />
+                                        <Span Text="{Binding Time}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalOptions="End"
+                                Text="{Binding Room}" />
+                        </Grid>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

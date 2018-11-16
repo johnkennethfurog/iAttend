@@ -9,6 +9,8 @@ namespace IAttend.API.Data
     {
          Task<bool> DoesAttendanceExistAndIsActive(int attendanceId);
 
+        Task<bool> DoesStudentHasAttendance(string studentNumber, int attendanceId)
+
          Task<bool> MarkAtendance(int attendanceId,string studentNumber,bool isScanned);
 
         Task<bool> UnMarkAtendance(string studentNumber,int scheduleId, DateTime date);
@@ -19,7 +21,7 @@ namespace IAttend.API.Data
 
          Task<List<Attendance>> GetStudentAttendances(int scheduleId, string studentNumber);
 
-         Task<List<StudentAttendance>> GetStudentAttendances(int scheduleId, DateTime date);
+         Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date);
 
          Task<Attendance> StartAttendanceSession(int scheduleId);
 

@@ -34,17 +34,17 @@ namespace IAttend.API.Controllers
             var attendance = await _attendanceRepository.GetAttendance(studentAttendance.ScheduleId,studentAttendance.Date);
             
             if(attendance == null)
-                return NotFound("No attendance session for that schedule");
+                return NotFound("No active attendance session found");
 
             var success =  await _attendanceRepository.MarkAtendance(attendance.ID,studentAttendance.StudentNumber,false);
 
             if(success)
-                return Ok();
+                return Ok(success);
             else
                 return NotFound("Unable to mark attendance");
         }
 
-        [HttpDelete("attendance")]
+        [HttpPut("attendance")]
         public async Task<IActionResult> UnMarkAttendance([FromBody] TeacherToRemoveStudentAttendance studentAttendance)
         {
             var removed = await _attendanceRepository.UnMarkAtendance(
@@ -53,7 +53,7 @@ namespace IAttend.API.Controllers
                 studentAttendance.Date);
 
                 if(removed)
-                    return Ok();
+                    return Ok(removed);
                 else
                     return NotFound("Unable to unmarked student attendance");
         }
@@ -68,14 +68,16 @@ namespace IAttend.API.Controllers
             return Ok(teachersLoad);
         }
 
+        [Obsolete]
         [HttpGet("{scheduleId}/students")]
         public async Task<IActionResult> GetStudents(int scheduleId)
         {
-            var students = await _instructorRepository.GetStudents(scheduleId);
+            //var students = await _instructorRepository.GetStudents(scheduleId);
 
-            var studentsDto = _mapper.Map<List<StudentDto>>(students);
+            //var studentsDto = _mapper.Map<List<StudentDto>>(students);
 
-            return Ok(studentsDto);
+            //return Ok(studentsDto);
+            return NotFound();
         }
 
         [HttpPost("{scheduleId}/start")]
@@ -100,15 +102,17 @@ namespace IAttend.API.Controllers
             if(started)
                 return Ok();
             else
-                return NotFound("Unable to stop new attendance session");
+                return NotFound(new ErrorDto("Unable to stop new attendance session"));
         }
 
-        [HttpGet("{scheduleId}/{date}/attendance")]
-        public async Task<IActionResult> GetAttendance(int scheduleId,DateTime date)
+        [HttpGet("{scheduleId}/attendance/{date}")]
+        public async Task<IActionResult> GetAttendance(int scheduleId,DateTime? date)
         {
             var studentsAttendance = await _attendanceRepository.GetStudentAttendances(scheduleId,date);
 
-            return Ok(studentsAttendance);
+            var studentDto = _mapper.Map<List<StudentDto>>(studentsAttendance);
+
+            return Ok(studentDto);
         }
     }
 }

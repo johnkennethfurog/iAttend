@@ -30,32 +30,32 @@ namespace iAttend.Student
 #endif
             InitializeComponent();
             FlowListView.Init();
-            await NavigationService.NavigateAsync("NavigationPage/LandingPage");
-            //await NavigationService.NavigateAsync("ScannerPage");
-
-            //var mainPage = new TabbedPage();
-            //mainPage.Children.Add(new ScannerPage());
-
-            //MainPage = new NavigationPage( new ScannerPage());
+            await NavigationService.NavigateAsync("NavigationPage/TeacherLandingPage");
+            //await NavigationService.NavigateAsync("NavigationPage/StudentLandingPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+
             var apiAccess = new ApiAccess()
             {
-                BaseUri = "https://10.40.1.197:5001/api"
+                BaseUri = "https://192.168.137.1:5001"
             };
 
 
             containerRegistry.RegisterInstance<IApiAccess>(apiAccess);
             containerRegistry.Register<IRequestHandler, RequestHandler>();
             containerRegistry.Register<IStudentService, StudentService>();
+            containerRegistry.Register<ITeacherService, TeacherService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<LandingPage>();
+            containerRegistry.RegisterForNavigation<StudentLandingPage>();
             containerRegistry.RegisterForNavigation<SubjectAttendance>();
 
 
+            containerRegistry.RegisterForNavigation<TeacherLandingPage>();
+            containerRegistry.RegisterForNavigation<SubjectStudentsPage>();
         }
     }
 }

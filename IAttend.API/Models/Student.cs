@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace IAttend.API.Models
 {
     public class Student
     {
-        public int ID { get; set; }
-
+        [Key]
         public string StudentNumber { get; set; }
     
         public string StudentName { get; set; }

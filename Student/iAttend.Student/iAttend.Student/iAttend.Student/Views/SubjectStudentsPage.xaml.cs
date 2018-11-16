@@ -2,9 +2,9 @@
 
 namespace iAttend.Student.Views
 {
-    public partial class LandingPage : ContentPage
+    public partial class SubjectStudentsPage : ContentPage
     {
-        public LandingPage()
+        public SubjectStudentsPage()
         {
             InitializeComponent();
         }

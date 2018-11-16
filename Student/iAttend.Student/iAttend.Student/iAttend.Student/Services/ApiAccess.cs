@@ -147,8 +147,6 @@ namespace iAttend.Student.Services
         {
             return await ExecuteRequest<T>(async () => await _client.DeleteAsync(uriRequest, cancellationToken));
         }
-
-
         #endregion
     }
 }

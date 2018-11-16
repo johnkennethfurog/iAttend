@@ -29,13 +29,14 @@ namespace IAttend.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Seed>();
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
-            services.AddScoped<IStudentRepository,StudentRepositorySqlLite>();
-            services.AddScoped<IInstructorRepository,InstructorRepositorySqlLite>();
+            services.AddScoped<IStudentRepository,StudentRepositoryMSQl>();
+            services.AddScoped<IInstructorRepository,InstructorRepositoryMSql>();
             services.AddScoped<ISubjectRepository,SubjectRepositorySqLite>();
-            services.AddScoped<IAttendanceRepository,AttendanceRepositorySqLite>();
+            services.AddScoped<IAttendanceRepository,AttendanceRepositoryMSql>();
             services.AddAutoMapper();
         }
 
@@ -52,7 +53,7 @@ namespace IAttend.API
             }
 
             // seeder.SeedStudent();
-            // seeder.SeedactPerson();
+            // seeder.SeedContactPerson();
             // seeder.SeedInstructor();
             // seeder.SeedSchedule();
 

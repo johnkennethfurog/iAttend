@@ -15,7 +15,7 @@ namespace IAttend.API.Data
         }
         public async Task<Subject> GetSubject(int SubjectID)
         {
-            return await _dataContext.Subjects.FirstOrDefaultAsync(subj => subj.ID == SubjectID);
+            return await _dataContext.Subjects.FirstOrDefaultAsync();
         }
 
         public async Task<Subject> GetSubject(string SubjectCode)

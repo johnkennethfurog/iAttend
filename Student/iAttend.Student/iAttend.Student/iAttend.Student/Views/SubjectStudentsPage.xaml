@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.SubjectStudentsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:iAttend.Student.Converters"
+    xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:list="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="{Binding TeacherSubject.Code}"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:IsPresentToColorConverter x:Key="isPresent" />
+            <converter:IsPresentToImageTransformationConverter x:Key="transformationConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <list:FlowListView
+        x:Name="subjects"
+        FlowColumnCount="3"
+        FlowIsLoadingInfinite="True"
+        FlowIsLoadingInfiniteEnabled="True"
+        FlowItemTappedCommand="{Binding ViewAttendanceCommand}"
+        FlowItemsSource="{Binding StudentAttendances}"
+        HasUnevenRows="True"
+        Header="{Binding TeacherSubject}"
+        SeparatorVisibility="None">
+        <list:FlowListView.HeaderTemplate>
+            <DataTemplate>
+                <Frame Margin="5,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding StudentCount}" />
+                                    <Span Text=" Student(s)" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            Grid.Row="1"
+                            Style="{x:StaticResource Bigtext}"
+                            Text="{Binding Code}" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Text="{Binding Name}" />
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalOptions="End">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding DayOfWeek}" />
+                                    <Span Text=" | " />
+                                    <Span Text="{Binding Time}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalOptions="End"
+                            Text="{Binding Room}" />
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </list:FlowListView.HeaderTemplate>
+        <list:FlowListView.FlowColumnTemplate>
+            <DataTemplate>
+                <Frame Margin="5" Padding="10">
+                    <Grid RowSpacing="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ffImage:CachedImage
+                            Margin="-10"
+                            Aspect="AspectFill"
+                            HeightRequest="140"
+                            Source="{Binding Avatar}"
+                            Transformations="{Binding IsPresent, Converter={x:StaticResource transformationConverter}}" />
+
+                        <Frame
+                            Margin="-5"
+                            Padding="0"
+                            BackgroundColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
+                            CornerRadius="40"
+                            HeightRequest="20"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            WidthRequest="20" />
+
+                        <Label
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            HorizontalTextAlignment="Center"
+                            Style="{x:StaticResource HeaderTextSlim}"
+                            Text="{Binding StudentName}" />
+                        <Label
+                            Grid.Row="2"
+                            HorizontalTextAlignment="Center"
+                            Style="{x:StaticResource subTextMed}"
+                            Text="{Binding StudentNumber}" />
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </list:FlowListView.FlowColumnTemplate>
+    </list:FlowListView>
+</ContentPage>
