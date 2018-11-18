@@ -1,4 +1,5 @@
-﻿using iAttend.Student.Interfaces;
+﻿using iAttend.Student.DependencyServices;
+using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -13,6 +14,8 @@ namespace iAttend.Student.ViewModels
 {
 	public class SubjectAttendanceViewModel : ViewModelBase
 	{
+        internal string _studentNumber = "10-A00028";
+
         private string _placeAndTime;
         public string PlaceAndTime
         {
@@ -35,6 +38,7 @@ namespace iAttend.Student.ViewModels
         }
 
         private readonly IStudentService _studentService;
+        private readonly IMessageService _messageService;
 
         public ObservableCollection<StudentAttendance> Attendances { get; private set; }
 
@@ -47,9 +51,11 @@ namespace iAttend.Student.ViewModels
 
         public SubjectAttendanceViewModel(
             INavigationService navigationService,
-            IStudentService studentService) : base(navigationService)
+            IStudentService studentService,
+            IMessageService messageService) : base(navigationService)
         {
             _studentService = studentService;
+            _messageService = messageService;
 
             Attendances = new ObservableCollection<StudentAttendance>();
         }
@@ -68,20 +74,33 @@ namespace iAttend.Student.ViewModels
 
         private void SetSubject()
         {
-            PlaceAndTime = $"{Subject.Subject.Room} | { Subject.Subject.Time}";
+            PlaceAndTime = $"{Subject.Room} | { Subject.Time}";
         }
 
         async Task FetchAttendances()
         {
-            var attendances = await _studentService.GetAttendances("12-A00004", (int)Subject.Subject.Id);
-            PresentCount = attendances.Count(x => x.IsPresent);
-            AbsentCount = attendances.Count(x => !x.IsPresent);
 
-            attendances.ForEach(x =>
+
+            try
             {
-                Attendances.Add(x);
-            });
-            
+                var attendances = await _studentService.GetAttendances(_studentNumber, Subject.ScheduleID);
+                PresentCount = attendances.Count(x => x.IsPresent);
+                AbsentCount = attendances.Count(x => !x.IsPresent);
+
+                attendances.ForEach(x =>
+                {
+                    Attendances.Add(x);
+                });
+
+            }
+            catch(StudentServiceException studEx)
+            {
+                _messageService.ShowMessage(studEx.ExceptionMessage);
+            }
+            catch (Exception ex)
+            {
+                _messageService.ShowMessage("Unable to fetch attendance");
+            }            
         }
     }
 }

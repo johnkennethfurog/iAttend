@@ -9,7 +9,7 @@ namespace IAttend.API.Data
     {
          Task<bool> DoesAttendanceExistAndIsActive(int attendanceId);
 
-        Task<bool> DoesStudentHasAttendance(string studentNumber, int attendanceId)
+        Task<bool> DoesStudentHasAttendance(string studentNumber, int attendanceId);
 
          Task<bool> MarkAtendance(int attendanceId,string studentNumber,bool isScanned);
 

@@ -17,6 +17,8 @@ namespace iAttend.Student.ViewModels
         private readonly IQrScanningService _qrScanningService;
         private readonly IMessageService _messageService;
 
+        internal string _studentNumber = "10-A00028";
+
         public ObservableCollection<StudentSubject> StudentSubjects { get; set; }
 
         public StudentLandingPageViewModel(
@@ -68,12 +70,14 @@ namespace iAttend.Student.ViewModels
                 var success = await _studentService.ScanDocument(payload);
                 _messageService.ShowMessage("Subject attendance marked!");
             }
-            catch (Exception)
+            catch(StudentServiceException studEx)
+            {
+                _messageService.ShowMessage(studEx.ExceptionMessage);
+            }
+            catch (Exception ex)
             {
                 _messageService.ShowMessage("Unable to Scan QR code, please try again");
             }
-
-            //await NavigationService.NavigateAsync(nameof(Views.ScannerPage));
         }
 
         internal PayloadStudentAttendance ExtractPayload(string result)
@@ -81,13 +85,13 @@ namespace iAttend.Student.ViewModels
 
             var values = result.Split('|');
 
-            if (values.Count() != 2)
+            if (values.Count() != 2 || values[1] != "trimex")
                 return null;
 
             var payload = new PayloadStudentAttendance
             {
                 AttendanceSessionId = int.Parse(values[0]),
-                StudentNumber = values[1]
+                StudentNumber = _studentNumber
             };
 
             return payload;
@@ -103,7 +107,7 @@ namespace iAttend.Student.ViewModels
         {
             try
             {
-                var subjects = await _studentService.GetSubjects("12-A00004");
+                var subjects = await _studentService.GetSubjects(_studentNumber);
                 subjects.ForEach(subj =>
                 {
                     StudentSubjects.Add(subj);

@@ -19,7 +19,7 @@ namespace IAttend.API.Data
         //mark students attendance
         public async Task<bool> MarkAtendance(int attendanceId, string studentNumber, bool isScanned)
         {
-            var attendance = await GetAttendance(attendanceId);
+            var attendance =  await _dataContext.Attendances.Where(x => x.ID == attendanceId).Include(x => x.Schedule).FirstOrDefaultAsync();
 
             if (attendance == null)
                 return false;
@@ -29,7 +29,9 @@ namespace IAttend.API.Data
                 StudentNumber = studentNumber,
                 IsScanned = isScanned,
                 Attendance = attendance,
-                Time = DateTime.Now
+                Time = DateTime.Now,
+                Schedule = attendance.Schedule
+                
             };
 
             await _dataContext.StudentAttendances.AddAsync(studentAttendance);
@@ -149,8 +151,8 @@ namespace IAttend.API.Data
 
         public async Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date)
         {
-            var dateToFind = date ?? DateTime.Now;            
-            return await _dataContext.StudentsSubjectAttendances.FromSql($"SELECT * FROM dbo.tvfStudentAttendances({scheduleId},'{dateToFind.ToString("MM/dd/yyyy")}')").ToListAsync();
+            var dateToFind = date ?? DateTime.Now;
+            return await _dataContext.StudentsSubjectAttendances.FromSql("SELECT * FROM dbo.tvfStudentAttendances({0},{1})", scheduleId,dateToFind).ToListAsync();
         }
     }
 }

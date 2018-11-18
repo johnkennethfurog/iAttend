@@ -205,13 +205,13 @@ namespace iAttend.Student.Services
         private void CheckResponseStatus(string RequestMethod, string uriRequest, BaseResponse response)
         {
             if (!response.IsSuccess)
-                ThrowException(RequestMethod, response.Message, uriRequest, response.StatusCode);
+                ThrowException(RequestMethod, response.ErrorResult.Message, uriRequest, response.StatusCode);
         }
 
         private void CheckResponseStatus<Payload>(string RequestMethod, string uriRequest, Payload payload, BaseResponse response)
         {
             if (!response.IsSuccess)
-                ThrowException(RequestMethod, response.Message, uriRequest, response.StatusCode, payload);
+                ThrowException(RequestMethod, response.ErrorResult.Message, uriRequest, response.StatusCode, payload);
         }
 
         void ThrowException<Payload>(string RequestMethod, string ErrorMessage, string UriRequest, int responseCode, Payload payload)
@@ -228,8 +228,10 @@ namespace iAttend.Student.Services
             {
                 //case nameof(IAuthenticate):
                 //    throw new AuthenticationServiceException(RequestMethod, ErrorMessage, UriRequest, payload, responseCode);
-                //case nameof(IStudentService):
-                //    throw new StudentServiceException(RequestMethod, ErrorMessage, UriRequest, payload, responseCode);
+                case nameof(IStudentService):
+                    throw new StudentServiceException(RequestMethod, ErrorMessage, UriRequest, payload, responseCode);
+                case nameof(ITeacherService):
+                    throw new TeacherServiceException(RequestMethod, ErrorMessage, UriRequest, payload, responseCode);
                 //case nameof(IExperience):
                 //    throw new ExperienceServiceException(RequestMethod, ErrorMessage, UriRequest, payload, responseCode);
                 //case nameof(ICategory):

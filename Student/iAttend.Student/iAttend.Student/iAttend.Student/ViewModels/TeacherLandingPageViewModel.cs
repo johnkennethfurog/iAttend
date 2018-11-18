@@ -1,4 +1,5 @@
-﻿using iAttend.Student.Interfaces;
+﻿using iAttend.Student.DependencyServices;
+using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,12 +15,15 @@ namespace iAttend.Student.ViewModels
 	public class TeacherLandingPageViewModel : ViewModelBase
 	{
         private readonly ITeacherService _teacherService;
+        private readonly IMessageService _messageService;
 
         public TeacherLandingPageViewModel(
             INavigationService navigationService,
-            ITeacherService teacherService) : base(navigationService)
+            ITeacherService teacherService,
+            IMessageService messageService) : base(navigationService)
         {
             _teacherService = teacherService;
+            _messageService = messageService;
             Subjects = new ObservableCollection<TeacherSubject>();
         }
 
@@ -33,11 +37,23 @@ namespace iAttend.Student.ViewModels
 
         async Task FetchSubjects()
         {
-            var subjects = await _teacherService.GetSubjects();
-            subjects.ForEach(x =>
+
+            try
             {
-                Subjects.Add(x);
-            });
+                var subjects = await _teacherService.GetSubjects();
+                subjects.ForEach(x =>
+                {
+                    Subjects.Add(x);
+                });
+            }
+            catch(TeacherServiceException teacherEx)
+            {
+                _messageService.ShowMessage(teacherEx.ExceptionMessage);
+            }
+            catch (Exception ex)
+            {
+                _messageService.ShowMessage("Unable to fetch instructors subject");
+            }
         }
 
         private DelegateCommand<TeacherSubject> _viewStudentAttendanceCommand;

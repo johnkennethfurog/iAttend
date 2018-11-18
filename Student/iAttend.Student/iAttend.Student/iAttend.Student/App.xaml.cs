@@ -8,6 +8,10 @@ using Prism.Unity;
 using DLToolkit.Forms.Controls;
 using iAttend.Student.Interfaces;
 using iAttend.Student.Services;
+using Prism.Plugin.Popups;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace iAttend.Student
@@ -30,7 +34,7 @@ namespace iAttend.Student
 #endif
             InitializeComponent();
             FlowListView.Init();
-            await NavigationService.NavigateAsync("NavigationPage/TeacherLandingPage");
+            await NavigationService.NavigateAsync("NavigationPage/SwitchPage");
             //await NavigationService.NavigateAsync("NavigationPage/StudentLandingPage");
         }
 
@@ -40,9 +44,11 @@ namespace iAttend.Student
 
             var apiAccess = new ApiAccess()
             {
-                BaseUri = "https://192.168.137.1:5001"
+                //BaseUri = "https://192.168.137.1:5001"
+                BaseUri = "https://192.168.1.108:5001"
             };
 
+            containerRegistry.RegisterPopupNavigationService();
 
             containerRegistry.RegisterInstance<IApiAccess>(apiAccess);
             containerRegistry.Register<IRequestHandler, RequestHandler>();
@@ -56,6 +62,16 @@ namespace iAttend.Student
 
             containerRegistry.RegisterForNavigation<TeacherLandingPage>();
             containerRegistry.RegisterForNavigation<SubjectStudentsPage>();
+            containerRegistry.RegisterForNavigation<SwitchPage>();
+
+            containerRegistry.RegisterForNavigation<TeachersStudentFilterPage>();
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            AppCenter.Start("android=f5a31609-d5dc-4641-88ac-720453f1143d;",
+                  typeof(Analytics), typeof(Crashes));
         }
     }
 }

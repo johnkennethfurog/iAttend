@@ -56,7 +56,7 @@ namespace IAttend.API.Controllers
                 true);
 
             if (attendanceCreated)
-                return Ok();
+                return Ok(true);
             else
                 return BadRequest(new ErrorDto("Unable to mark students attendance"));
         }

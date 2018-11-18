@@ -17,7 +17,7 @@ namespace iAttend.Student.Droid
             base.OnCreate(bundle);
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
-
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
 
@@ -36,6 +36,15 @@ namespace iAttend.Student.Droid
         {
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        public override void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                // Do something if there are some pages in the `PopupStack`
+            }
+        }
+
 
     }
 

@@ -63,6 +63,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Prism.Plugin.Popups.Unity">
+      <Version>2.1.0.228</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Unity.Forms">
       <Version>7.1.0.431</Version>
     </PackageReference>
@@ -86,6 +89,7 @@
     <Compile Include="DependencyServices\MessageService.cs" />
     <Compile Include="DependencyServices\QrScanningService.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\PickerWithBorder.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

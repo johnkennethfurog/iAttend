@@ -13,5 +13,7 @@ namespace IAttend.API.Models
         public DateTime Time { get; set; }
     
         public bool IsScanned { get; set; }
+
+        public Schedule Schedule { get; set; }
     }
 }

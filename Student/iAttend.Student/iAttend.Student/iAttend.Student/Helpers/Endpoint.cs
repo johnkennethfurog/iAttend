@@ -11,8 +11,10 @@ namespace iAttend.Student.Helpers
         public const string STUDENT_MARK_ATTENDANCE = "api/student/attendance";
 
         public const string TEACHER_SUBJECT = "api/teacher/{0}/subjects";
-        public const string TEACHER_STUDENT = "{0}/attendance/{1}";
+        public const string TEACHER_STUDENT = "api/teacher/{0}/attendance/{1}";
         public const string TEACHER_MARK_STUDENT_ATTENDANCE = "api/teacher/attendance";
         public const string TEACHER_UNMARK_STUDENT_ATTENDANCE = "api/teacher/attendance";
+        public const string TEACHER_ATTENDANCE_START = "api/teacher/{0}/start";
+        public const string TEACHER_ATTENDANCES_STOP = "api/teacher/{0}/stop";
     }
 }

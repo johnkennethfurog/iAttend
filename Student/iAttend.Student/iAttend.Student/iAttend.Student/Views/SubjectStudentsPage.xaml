@@ -4,41 +4,172 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:iAttend.Student.Converters"
+    xmlns:fa="clr-namespace:iAttend.Student.Helpers"
     xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:list="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    Title="{Binding TeacherSubject.Code}"
+    xmlns:renderer="clr-namespace:iAttend.Student.Renderers"
+    Title="{Binding TeacherSubject.Name}"
     prism:ViewModelLocator.AutowireViewModel="True">
+    <!--<NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label
+                FontSize="Large"
+                HorizontalOptions="FillAndExpand"
+                Text="{Binding TeacherSubject.Code}"
+                TextColor="White"
+                VerticalTextAlignment="Center" />
+            <Label
+                Margin="20,10"
+                FontSize="Medium"
+                Style="{x:StaticResource fa-solid}"
+                Text="{x:Static fa:FontAwesomeHelper.Slidersh}"
+                TextColor="White"
+                VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding FilterCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+        </StackLayout>
+    </NavigationPage.TitleView>-->
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:IsPresentToColorConverter x:Key="isPresent" />
             <converter:IsPresentToImageTransformationConverter x:Key="transformationConverter" />
+            <converter:IsActiveSessionToColorConverter x:Key="isActive" />
+            <converter:IsActiveSessionToTextConverter x:Key="isActiveText" />
+
+            <converter:DateToBoolConverter x:Key="isCurrentDate" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <list:FlowListView
-        x:Name="subjects"
-        FlowColumnCount="3"
-        FlowIsLoadingInfinite="True"
-        FlowIsLoadingInfiniteEnabled="True"
-        FlowItemTappedCommand="{Binding ViewAttendanceCommand}"
-        FlowItemsSource="{Binding StudentAttendances}"
-        HasUnevenRows="True"
-        Header="{Binding TeacherSubject}"
-        SeparatorVisibility="None">
-        <list:FlowListView.HeaderTemplate>
-            <DataTemplate>
-                <Frame Margin="5,10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label>
+    <Grid>
+        <ActivityIndicator HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+        <list:FlowListView
+            x:Name="subjects"
+            FlowColumnCount="3"
+            FlowIsLoadingInfinite="True"
+            FlowIsLoadingInfiniteEnabled="True"
+            FlowItemTappedCommand="{Binding MarkUnMarkStudentAttendanceCommand}"
+            FlowItemsSource="{Binding StudentAttendances}"
+            HasUnevenRows="True"
+            Header="{Binding TeacherSubject}"
+            SeparatorVisibility="None">
+
+            <list:FlowListView.HeaderTemplate>
+                <DataTemplate>
+                    <StackLayout>
+
+                        <Frame Margin="5" Padding="15">
+                            <Grid ColumnSpacing="15" RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="3"
+                                    Style="{x:StaticResource Bigtext}"
+                                    Text="{Binding Code}"
+                                    VerticalOptions="End" />
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="3"
+                                    Style="{x:StaticResource subText}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding DayOfWeek}" />
+                                            <Span Text=" | " />
+                                            <Span Text="{Binding Time}" />
+                                            <Span Text=" | " />
+                                            <Span Text="{Binding Room}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <!--  PRESENT  -->
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    FontSize="30"
+                                    HorizontalTextAlignment="End"
+                                    Style="{x:StaticResource Bigtext}"
+                                    Text="{Binding BindingContext.PresentCount, Source={x:Reference subjects}}"
+                                    TextColor="{x:StaticResource success}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Style="{x:StaticResource RegularText}"
+                                    Text="Present"
+                                    TextColor="{x:StaticResource success}" />
+
+                                <!--  ABSENT  -->
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    FontSize="30"
+                                    HorizontalTextAlignment="End"
+                                    Style="{x:StaticResource Bigtext}"
+                                    Text="{Binding BindingContext.AbsentCount, Source={x:Reference subjects}}"
+                                    TextColor="{x:StaticResource danger}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Style="{x:StaticResource RegularText}"
+                                    Text="Absent"
+                                    TextColor="{x:StaticResource danger}" />
+
+                                <!--  BOTTOM  -->
+                                <BoxView
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="4"
+                                    Margin="-15,30,-15,10"
+                                    BackgroundColor="{x:StaticResource greyD}"
+                                    HeightRequest="1" />
+                                <Label
+                                    Grid.Row="3"
+                                    FontSize="Large"
+                                    Style="{x:StaticResource fa-solid}"
+                                    Text="{x:Static fa:FontAwesomeHelper.Calendaralt}"
+                                    TextColor="{x:StaticResource mainColor}"
+                                    VerticalTextAlignment="Center">
+                                    <!--<Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding FilterCommand}" />
+                                </Label.GestureRecognizers>-->
+                                </Label>
+                                <renderer:DatePickerWithBorder
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Date="{Binding BindingContext.SelectedDate, Source={x:Reference subjects}}"
+                                    FontSize="Large"
+                                    TextColor="{x:StaticResource mainColor}" />
+
+                                <Button
+                                    Grid.Row="3"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,10"
+                                    BackgroundColor="{Binding BindingContext.AttendanceSessionStarted, Source={x:Reference subjects}, Converter={x:StaticResource isActive}}"
+                                    Command="{Binding BindingContext.AttendanceSessionCommand, Source={x:Reference subjects}}"
+                                    HeightRequest="40"
+                                    IsVisible="{Binding BindingContext.SelectedDate, Source={x:Reference subjects}, Converter={x:StaticResource isCurrentDate}}"
+                                    Style="{x:StaticResource fa-solid}"
+                                    Text="{Binding BindingContext.AttendanceSessionStarted, Source={x:Reference subjects}, Converter={x:StaticResource isActiveText}}"
+                                    TextColor="White"
+                                    VerticalOptions="End" />
+
+                            </Grid>
+                        </Frame>
+                        <Label Margin="10,0">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="{Binding StudentCount}" />
@@ -46,76 +177,52 @@
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <Label
-                            Grid.Row="1"
-                            Style="{x:StaticResource Bigtext}"
-                            Text="{Binding Code}" />
-                        <Label
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2"
-                            Text="{Binding Name}" />
 
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            HorizontalOptions="End">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{Binding DayOfWeek}" />
-                                    <Span Text=" | " />
-                                    <Span Text="{Binding Time}" />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalOptions="End"
-                            Text="{Binding Room}" />
-                    </Grid>
-                </Frame>
-            </DataTemplate>
-        </list:FlowListView.HeaderTemplate>
-        <list:FlowListView.FlowColumnTemplate>
-            <DataTemplate>
-                <Frame Margin="5" Padding="10">
-                    <Grid RowSpacing="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <ffImage:CachedImage
-                            Margin="-10"
-                            Aspect="AspectFill"
-                            HeightRequest="140"
-                            Source="{Binding Avatar}"
-                            Transformations="{Binding IsPresent, Converter={x:StaticResource transformationConverter}}" />
+                    </StackLayout>
+                </DataTemplate>
+            </list:FlowListView.HeaderTemplate>
+            <list:FlowListView.FlowColumnTemplate>
+                <DataTemplate>
+                    <Frame Margin="5" Padding="10">
+                        <Grid RowSpacing="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ffImage:CachedImage
+                                Margin="-10"
+                                Aspect="AspectFill"
+                                HeightRequest="140"
+                                Source="{Binding Avatar}"
+                                Transformations="{Binding IsPresent, Converter={x:StaticResource transformationConverter}}" />
 
-                        <Frame
-                            Margin="-5"
-                            Padding="0"
-                            BackgroundColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
-                            CornerRadius="40"
-                            HeightRequest="20"
-                            HorizontalOptions="End"
-                            VerticalOptions="Start"
-                            WidthRequest="20" />
+                            <Frame
+                                Margin="-5"
+                                Padding="0"
+                                BackgroundColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
+                                CornerRadius="40"
+                                HeightRequest="20"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                WidthRequest="20" />
 
-                        <Label
-                            Grid.Row="1"
-                            Margin="0,10,0,0"
-                            HorizontalTextAlignment="Center"
-                            Style="{x:StaticResource HeaderTextSlim}"
-                            Text="{Binding StudentName}" />
-                        <Label
-                            Grid.Row="2"
-                            HorizontalTextAlignment="Center"
-                            Style="{x:StaticResource subTextMed}"
-                            Text="{Binding StudentNumber}" />
-                    </Grid>
-                </Frame>
-            </DataTemplate>
-        </list:FlowListView.FlowColumnTemplate>
-    </list:FlowListView>
+                            <Label
+                                Grid.Row="1"
+                                Margin="0,10,0,0"
+                                HorizontalTextAlignment="Center"
+                                Style="{x:StaticResource HeaderTextSlim}"
+                                Text="{Binding StudentName}" />
+                            <Label
+                                Grid.Row="2"
+                                HorizontalTextAlignment="Center"
+                                Style="{x:StaticResource subTextMed}"
+                                Text="{Binding StudentNumber}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </list:FlowListView.FlowColumnTemplate>
+        </list:FlowListView>
+    </Grid>
+
 </ContentPage>

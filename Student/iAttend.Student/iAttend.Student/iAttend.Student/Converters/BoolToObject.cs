@@ -1,4 +1,5 @@
 ﻿using FFImageLoading.Work;
+using iAttend.Student.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,6 +8,41 @@ using Xamarin.Forms;
 
 namespace iAttend.Student.Converters
 {
+    class IsActiveSessionToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var isActive = (bool)value;
+
+            if (isActive)
+                return Color.Red;
+            else
+                return Color.Green;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class IsActiveSessionToTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var isActive = (bool)value;
+            if (isActive)
+                return FontAwesomeHelper.Stop + "  STOP";
+            else
+                return FontAwesomeHelper.Play +  "  START";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class IsPresentToImageTransformationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

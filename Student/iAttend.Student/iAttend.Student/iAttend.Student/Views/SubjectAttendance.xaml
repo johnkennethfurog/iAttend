@@ -45,19 +45,19 @@
                             Margin="-10,-10,0,-10"
                             Aspect="AspectFill"
                             HeightRequest="120"
-                            Source="{Binding Subject.Instructor.Avatar}" />
+                            Source="{Binding Subject.Avatar}" />
 
                         <Label
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
                             Style="{x:StaticResource TitleText}"
-                            Text="{Binding Subject.Instructor.Name}" />
+                            Text="{Binding Subject.Instructor}" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="1"
                             Grid.ColumnSpan="3"
                             Style="{x:StaticResource subText}"
-                            Text="{Binding Subject.Subject.Name}" />
+                            Text="{Binding Subject.Subject}" />
                         <Label
                             Grid.Row="2"
                             Grid.Column="1"

@@ -14,5 +14,8 @@ namespace iAttend.Student.Interfaces
         Task<List<TeacherStudentAttendance>> GetStudents(int scheduleId,DateTime date);
         Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId);
         Task<bool> UnmarkStudentAttendance(string studentNumber, int scheduleId);
+
+        Task<ActiveAttendance> StartAttendanceSession(int ScheduleId);
+        Task<bool> StopAttendanceSession(int AttendanceSession);
     }
 }

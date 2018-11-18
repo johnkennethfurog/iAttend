@@ -20,7 +20,7 @@ namespace iAttend.Student.Services
 
         public async Task<List<TeacherStudentAttendance>> GetStudents(int scheduleId, DateTime date)
         {
-            var uri = string.Format(Endpoint.TEACHER_STUDENT, scheduleId,date);
+            var uri = string.Format(Endpoint.TEACHER_STUDENT, scheduleId,date.ToString("MM-dd-yyyy"));
             return await _requestHandler.GetAsync<List<TeacherStudentAttendance>>(uri);
         }
 
@@ -44,6 +44,19 @@ namespace iAttend.Student.Services
                 ScheduleId = scheduleId,
                 Date = DateTime.Now.Date
             });
+        }
+
+        public async Task<ActiveAttendance> StartAttendanceSession(int ScheduleId)
+        {
+            var uri = string.Format(Endpoint.TEACHER_ATTENDANCE_START, ScheduleId);
+            return await _requestHandler.PostAsync<ActiveAttendance>(uri);
+        }
+
+        public async Task<bool> StopAttendanceSession(int AttendanceSession)
+        {
+            var uri = string.Format(Endpoint.TEACHER_ATTENDANCE_START, AttendanceSession);
+            return await _requestHandler.PostAsync<bool>(uri);
+
         }
 
         public async Task<bool> UnmarkStudentAttendance(string studentNumber, int scheduleId)
