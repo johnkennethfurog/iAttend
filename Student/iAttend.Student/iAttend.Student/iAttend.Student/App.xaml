@@ -67,6 +67,13 @@
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="TextColor" Value="{StaticResource default}" />
         </Style>
+
+        <Style x:Key="HeaderSmallText" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource default}" />
+        </Style>
+
         <Style x:Key="HeaderTextCard" TargetType="Label">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontAttributes" Value="Bold" />

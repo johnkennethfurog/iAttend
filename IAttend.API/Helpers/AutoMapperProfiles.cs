@@ -16,6 +16,12 @@ namespace IAttend.API.Helpers
                 opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
             });
 
+            CreateMap<Pocos.Schedule, ScheduleDto>()
+           .ForMember(dest => dest.Time, opt =>
+           {
+               opt.ResolveUsing(d => d.Time.ToShortTimeString());
+           });
+
             // CreateMap<Instructor,TeacherDto>();
             // CreateMap<Schedule,SubjectDto>()
             // .ForMember(dest => dest.Name, opt => {

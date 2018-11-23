@@ -36,26 +36,26 @@ namespace iAttend.Student.Services
             return await _requestHandler.GetAsync<List<TeacherSubject>>(uri);
         }
 
-        public async Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId)
+        public async Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId,DateTime date)
         {
             return await _requestHandler.PostAsync<bool, PayloadMarkStudentAttendance>(Endpoint.TEACHER_MARK_STUDENT_ATTENDANCE, new PayloadMarkStudentAttendance
             {
                 StudentNumber = studentNumber,
                 ScheduleId = scheduleId,
-                Date = DateTime.Now.Date
+                Date = date
             });
         }
 
-        public async Task<ActiveAttendance> StartAttendanceSession(int ScheduleId)
+        public async Task<ActiveAttendance> StartAttendanceSession(int ScheduleId,string room)
         {
-            var uri = string.Format(Endpoint.TEACHER_ATTENDANCE_START, ScheduleId);
+            var uri = string.Format(Endpoint.TEACHER_ATTENDANCE_START, room,ScheduleId);
             return await _requestHandler.PostAsync<ActiveAttendance>(uri);
         }
 
-        public async Task<bool> StopAttendanceSession(int AttendanceSession)
+        public async Task<bool> StopAttendanceSession(int AttendanceSession,string room)
         {
-            var uri = string.Format(Endpoint.TEACHER_ATTENDANCE_START, AttendanceSession);
-            return await _requestHandler.PostAsync<bool>(uri);
+            var uri = string.Format(Endpoint.TEACHER_ATTENDANCES_STOP,room, AttendanceSession);
+            return await _requestHandler.PutAsync<bool>(uri);
 
         }
 

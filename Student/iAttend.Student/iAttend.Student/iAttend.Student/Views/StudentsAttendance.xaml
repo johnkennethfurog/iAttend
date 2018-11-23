@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage
+    x:Class="iAttend.Student.Views.StudentsAttendance"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:iAttend.Student.Converters"
+    xmlns:fa="clr-namespace:iAttend.Student.Helpers"
+    xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffTrans="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <popup:PopupPage.Resources>
+        <ResourceDictionary>
+            <converter:IsPresentToColorConverter x:Key="isPresent" />
+            <converter:IsPresentToTextConverter x:Key="isPresentText" />
+        </ResourceDictionary>
+    </popup:PopupPage.Resources>
+
+    <ListView
+        Margin="50"
+        BackgroundColor="{x:StaticResource cloudy}"
+        HasUnevenRows="True"
+        Header="{Binding .}"
+        ItemsSource="{Binding Attendances}">
+        <ListView.HeaderTemplate>
+            <DataTemplate>
+                <Grid
+                    Padding="0,10"
+                    BackgroundColor="White"
+                    ColumnSpacing="0"
+                    RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                    <ffImage:CachedImage
+                        Grid.RowSpan="2"
+                        DownsampleHeight="100"
+                        HeightRequest="30"
+                        Source="{Binding StudentAvatar}">
+                        <ffImage:CachedImage.Transformations>
+                            <ffTrans:CircleTransformation />
+                        </ffImage:CachedImage.Transformations>
+                    </ffImage:CachedImage>
+
+                    <Label
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        Style="{x:StaticResource HeaderSmallText}"
+                        Text="{Binding StudentName}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        Style="{x:StaticResource subTextMed}"
+                        Text="{Binding StudentNumber}" />
+
+                    <!--  PRESENT  -->
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        FontSize="30"
+                        HorizontalTextAlignment="Center"
+                        Style="{x:StaticResource TitleText}"
+                        Text="{Binding PresentCount}"
+                        TextColor="{x:StaticResource success}" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        HorizontalTextAlignment="Center"
+                        Style="{x:StaticResource subTextMed}"
+                        Text="Present"
+                        TextColor="{x:StaticResource success}" />
+
+                    <!--  ABSENT  -->
+
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        FontSize="30"
+                        HorizontalTextAlignment="Center"
+                        Style="{x:StaticResource TitleText}"
+                        Text="{Binding AbsentCount}"
+                        TextColor="{x:StaticResource danger}" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        HorizontalTextAlignment="Center"
+                        Style="{x:StaticResource subTextMed}"
+                        Text="Absent"
+                        TextColor="{x:StaticResource danger}" />
+                </Grid>
+            </DataTemplate>
+
+        </ListView.HeaderTemplate>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid
+                        Padding="10"
+                        ColumnSpacing="0"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Style="{x:StaticResource RegularTextSmall}" Text="{Binding Date, StringFormat='{0:MMMM d, yyyy}'}}}" />
+                        <Label
+                            Grid.Row="1"
+                            Style="{x:StaticResource subTextSmall}"
+                            Text="{Binding Date, StringFormat='{0:dddd}'}}}" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Style="{x:StaticResource subTextSmall}"
+                            Text="{Binding IsPresent, Converter={x:StaticResource isPresentText}}" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HeightRequest="20"
+                            HorizontalOptions="End"
+                            Style="{x:StaticResource fa-solid}"
+                            Text="{x:Static fa:FontAwesomeHelper.Circle}"
+                            TextColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
+                            VerticalOptions="Start"
+                            WidthRequest="20" />
+
+
+                        <!--<Frame
+                            Margin="0"
+                            Padding="0"
+                            BackgroundColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
+                            CornerRadius="40"
+                            HasShadow="False"
+                            HeightRequest="20"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            WidthRequest="20" />-->
+
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</popup:PopupPage>

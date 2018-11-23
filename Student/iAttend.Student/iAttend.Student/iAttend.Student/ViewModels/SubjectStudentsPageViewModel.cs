@@ -1,4 +1,5 @@
 ﻿using iAttend.Student.DependencyServices;
+using iAttend.Student.Helpers;
 using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using Prism.Commands;
@@ -17,6 +18,8 @@ namespace iAttend.Student.ViewModels
 	{
         internal ActiveAttendance _activeSessionId;
         internal bool _isInitializing = true;
+        internal AttendanceState _attendanceState = AttendanceState.All;
+        internal List<TeacherStudentAttendance> _studentAttendances;
 
         private int _presentCount;
         public int PresentCount
@@ -74,6 +77,12 @@ namespace iAttend.Student.ViewModels
             _messageService = messageService;
             _pageDialogService = pageDialogService;
             StudentAttendances = new ObservableCollection<TeacherStudentAttendance>();
+
+            _allActionButton = ActionSheetButton.CreateButton("All", ExecuteAllAction);
+            _presentActionButton = ActionSheetButton.CreateButton("Present Only", ExecutePresentAction);
+            _absentActionButton = ActionSheetButton.CreateButton("Absent Only", ExecuteAbsentAction);
+
+            _studentAttendances = new List<TeacherStudentAttendance>();
         }
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
@@ -89,8 +98,34 @@ namespace iAttend.Student.ViewModels
 
         void SetAttendanceStat()
         {
-            PresentCount = StudentAttendances.Count(x => x.IsPresent);
-            AbsentCount = StudentAttendances.Count - PresentCount;
+            PresentCount = _studentAttendances.Count(x => x.IsPresent);
+            AbsentCount = _studentAttendances.Count - PresentCount;
+        }
+
+        private DelegateCommand<TeacherStudentAttendance> _viewStudentsAttendanceCommand;
+        public DelegateCommand<TeacherStudentAttendance> ViewStudentsAttendanceCommand =>
+            _viewStudentsAttendanceCommand ?? (_viewStudentsAttendanceCommand = new DelegateCommand<TeacherStudentAttendance>(ExecuteViewStudentsAttendanceCommand));
+
+        async void ExecuteViewStudentsAttendanceCommand(TeacherStudentAttendance studentAttendance)
+        {
+            var param = new NavigationParameters
+            {
+                { "studentNumber" , studentAttendance.StudentNumber},
+                { "studentName" , studentAttendance.StudentName},
+                { "studentAvatar" , studentAttendance.Avatar},
+                { "schedId", TeacherSubject.SchedID }
+            };
+
+            await NavigationService.NavigateAsync(nameof(Views.StudentsAttendance), param);
+        }
+
+        private DelegateCommand _resetCommand;
+        public DelegateCommand ResetCommand =>
+            _resetCommand ?? (_resetCommand = new DelegateCommand(ExecuteResetCommand));
+
+        void ExecuteResetCommand()
+        {
+            SelectedDate = DateTime.Now;
         }
 
 
@@ -103,6 +138,31 @@ namespace iAttend.Student.ViewModels
             await FetchStudents();
         }
 
+        void LoadStudentToList()
+        {
+
+            List<TeacherStudentAttendance> students = new List<TeacherStudentAttendance>();
+
+            switch(_attendanceState)
+            {
+                case AttendanceState.All:
+                    students.AddRange(_studentAttendances);
+                    break;
+                case AttendanceState.Present:
+                    students.AddRange(_studentAttendances.Where(x => x.IsPresent));
+                    break;
+                case AttendanceState.Absent:
+                    students.AddRange(_studentAttendances.Where(x => !x.IsPresent));
+                    break;
+            }
+
+            students.ForEach(x =>
+            {
+                StudentAttendances.Add(x);
+
+            });
+        }
+
         async Task FetchStudents()
         {
             if (IsBusy)
@@ -110,16 +170,14 @@ namespace iAttend.Student.ViewModels
 
             try
             {
+                _studentAttendances.Clear();
                 StudentAttendances.Clear();
+
                 IsBusy = true;
                 
                 var students = await _teacherService.GetStudents(TeacherSubject.SchedID, SelectedDate.Date);
-
-                students.ForEach(x =>
-                {
-                    StudentAttendances.Add(x);
-                });
-
+                _studentAttendances.AddRange(students);
+                LoadStudentToList();
                 SetAttendanceStat();
             }
             catch (TeacherServiceException teacherEx)
@@ -139,13 +197,55 @@ namespace iAttend.Student.ViewModels
             }
         }
 
+        private  IActionSheetButton _allActionButton;
+        private  IActionSheetButton _presentActionButton;
+        private  IActionSheetButton _absentActionButton;
+
+        private  void ExecutePresentAction()
+        {
+            _attendanceState = AttendanceState.Present;
+            StudentAttendances.Clear();
+            LoadStudentToList();
+        }
+
+
+        private  void ExecuteAbsentAction()
+        {
+            _attendanceState = AttendanceState.Absent;
+            StudentAttendances.Clear();
+            LoadStudentToList();
+        }
+
+        private  void ExecuteAllAction()
+        {
+            _attendanceState = AttendanceState.All;
+            StudentAttendances.Clear();
+            LoadStudentToList();
+        }
+
         private DelegateCommand _filterCommand;
         public DelegateCommand FilterCommand =>
             _filterCommand ?? (_filterCommand = new DelegateCommand(ExecuteFilterCommand));
 
         async void ExecuteFilterCommand()
         {
-            await NavigationService.NavigateAsync(nameof(Views.TeachersStudentFilterPage));
+            switch(_attendanceState)
+            {
+                case AttendanceState.All:
+                    await ShowFilter(_presentActionButton, _absentActionButton);
+                    return;
+                case AttendanceState.Absent:
+                    await ShowFilter(_allActionButton, _presentActionButton);
+                    return;
+                case AttendanceState.Present:
+                    await ShowFilter(_allActionButton, _absentActionButton);
+                    return;
+            }
+        }
+
+        async Task ShowFilter(params IActionSheetButton[] actionSheetButton)
+        {
+            await _pageDialogService.DisplayActionSheetAsync("Filter Atendance", actionSheetButton);
         }
 
         private DelegateCommand<TeacherStudentAttendance> _markUnmarkStudentAttendanceCommand;
@@ -168,11 +268,14 @@ namespace iAttend.Student.ViewModels
                 }
                 else
                 {
-                    await _teacherService.MarkStudentAttendance(student.StudentNumber, TeacherSubject.SchedID);
+                    await _teacherService.MarkStudentAttendance(student.StudentNumber, TeacherSubject.SchedID, _selectedDate.Date);
                     student.IsPresent = true;
                     AbsentCount--;
                     PresentCount++;
                 }
+
+                if (_attendanceState != AttendanceState.All)
+                    StudentAttendances.Remove(student);
 
             }
             catch (TeacherServiceException teacherEx)
@@ -187,10 +290,10 @@ namespace iAttend.Student.ViewModels
 
         async  Task<bool> AllowToExecuteMarkingOfAttendance()
         {
-            if (SelectedDate.Date <= DateTime.Now.Date)
+            if (SelectedDate.Date == DateTime.Now.Date)
                 return true;
 
-            return await _pageDialogService.DisplayAlertAsync(null, "The date you've selected is ahead of current date, Do you still want to mark student's attendance?", "Yes", "No");
+            return await _pageDialogService.DisplayAlertAsync(null, "The date you've selected not equal to current date, Do you still want to mark student's attendance?", "Yes", "No");
         }
 
         private DelegateCommand _attendanceSessionCommand;
@@ -209,13 +312,13 @@ namespace iAttend.Student.ViewModels
             {
                 if (!AttendanceSessionStarted)
                 {
-                    var activeSession = await _teacherService.StartAttendanceSession(TeacherSubject.SchedID);
+                    var activeSession = await _teacherService.StartAttendanceSession(TeacherSubject.SchedID, _teacherSubject.Room);
                     _activeSessionId = activeSession;
                     AttendanceSessionStarted = true;
                 }
                 else
                 {
-                    var deactivateSession = await _teacherService.StopAttendanceSession(_activeSessionId.AttendanceSessionId);
+                    var deactivateSession = await _teacherService.StopAttendanceSession(_activeSessionId.AttendanceSessionId,_teacherSubject.Room);
                     AttendanceSessionStarted = false;
                 }
             }
@@ -228,5 +331,6 @@ namespace iAttend.Student.ViewModels
                 _messageService.ShowMessage("Something went wrong");
             }
         }
+        
     }
 }

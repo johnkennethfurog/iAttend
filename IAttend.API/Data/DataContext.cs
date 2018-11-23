@@ -29,6 +29,7 @@ namespace IAttend.API.Data
         #endregion
 
         #region  Views
+        public DbSet<Pocos.Schedule> RoomSchedulesView { get; set; }
         public DbSet<Pocos.Student> StudentsView{ get; set; }
         public DbSet<Pocos.StudentSubject> StudentsSubjectsView{ get; set; }
         #endregion
@@ -37,8 +38,11 @@ namespace IAttend.API.Data
         {
             modelBuilder.ApplyConfiguration(new StudentViewConfiguration());
             modelBuilder.ApplyConfiguration(new StudentsSubjectsViewConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomScheduleViewConfiguration());
+
             modelBuilder.ApplyConfiguration(new StudentsSubjectAttendanceConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherSubjectConfiguration());
+
         }
 
     }
@@ -51,6 +55,15 @@ namespace IAttend.API.Data
         {
             builder.HasKey(x => x.StudentNumber);
             builder.ToTable("Student_view");
+        }
+    }
+
+    public class RoomScheduleViewConfiguration : IEntityTypeConfiguration<Pocos.Schedule>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.Schedule> builder)
+        {
+            builder.HasKey(x => x.ScheduleID);
+            builder.ToTable("Room_schedule_view");
         }
     }
 

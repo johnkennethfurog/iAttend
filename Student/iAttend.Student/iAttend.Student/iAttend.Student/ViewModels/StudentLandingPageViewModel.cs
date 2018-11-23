@@ -5,6 +5,7 @@ using iAttend.Student.Views;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,10 +61,7 @@ namespace iAttend.Student.ViewModels
 
             var payload = ExtractPayload(result);
             if(payload == null)
-            {
-                _messageService.ShowMessage("Invalid QR code format");
                 return;
-            }
 
             try
             {
@@ -85,16 +83,35 @@ namespace iAttend.Student.ViewModels
 
             var values = result.Split('|');
 
-            if (values.Count() != 2 || values[1] != "trimex")
+            if (values.Count() != 2)
+            {
+                _messageService.ShowMessage("Invalid QR code format");
                 return null;
+            }
+
+
+            if (!StudentIsInculdedInMasterList(values[0]))
+            {
+                _messageService.ShowMessage("You are not included in master list");
+                return null;
+            }
+
+
+            var x = values[0];
 
             var payload = new PayloadStudentAttendance
             {
-                AttendanceSessionId = int.Parse(values[0]),
+                AttendanceSessionId = int.Parse(values[1]),
                 StudentNumber = _studentNumber
             };
 
             return payload;
+        }
+
+       bool StudentIsInculdedInMasterList(string source)
+        {
+            var masterlist = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(source);
+            return masterlist.Contains(_studentNumber);
         }
 
         public async override void OnNavigatingTo(INavigationParameters parameters)

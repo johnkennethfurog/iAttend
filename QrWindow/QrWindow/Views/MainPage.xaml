@@ -1,0 +1,107 @@
+﻿<Page
+    x:Class="QrWindow.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:QrWindow"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:QrWindow.Models"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Page.DataContext>
+        <Binding Path="Main" Source="{StaticResource Locator}" />
+    </Page.DataContext>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:EventTriggerBehavior.Actions>
+                <core:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+            </core:EventTriggerBehavior.Actions>
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Padding="50"
+            Background="White"
+            Visibility="{Binding IsVisible}">
+            <Ellipse Width="120" Height="120">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding SelectedSchedule.Avatar}" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock
+                FontSize="25"
+                Foreground="Black"
+                HorizontalTextAlignment="Center"
+                Text="{Binding SelectedSchedule.Subject}" />
+            <TextBlock
+                FontSize="20"
+                Foreground="Black"
+                HorizontalTextAlignment="Center"
+                Text="{Binding SelectedSchedule.Instructor}" />
+            <TextBlock
+                FontSize="15"
+                Foreground="Black"
+                HorizontalTextAlignment="Center"
+                Text="{Binding SelectedSchedule.Time}" />
+            <Image
+                VerticalAlignment="Center"
+                Source="{Binding Source}"
+                Stretch="Uniform" />
+            <TextBlock
+                Margin="-50"
+                FontSize="20"
+                Foreground="Blue"
+                HorizontalTextAlignment="Center"
+                Text="SCAN TO MARK ATTENDANCE"
+                Visibility="{Binding IsVisible}" />
+
+        </StackPanel>
+
+        <GridView
+            x:Name="g"
+            Grid.RowSpan="4"
+            Grid.Column="1"
+            Padding="10"
+            ItemsSource="{Binding Schedules}"
+            SelectedValue="{Binding SelectedSchedule}">
+            <GridView.ItemTemplate>
+                <DataTemplate x:Name="ImageTextDataTemplate" x:DataType="model:Schedule">
+                    <StackPanel
+                        Margin="5"
+                        Padding="20"
+                        Background="{Binding BackColor}">
+                        <Ellipse Width="120" Height="120">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding Avatar}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!--<Image
+                            Width="180"
+                            Height="180"
+                            Source="{Binding Avatar}"
+                            Stretch="UniformToFill" />-->
+                        <StackPanel Margin="0,12">
+                            <TextBlock Foreground="Black" Text="{Binding Instructor}" />
+                            <TextBlock Foreground="Black" Text="{Binding Subject}" />
+                            <TextBlock
+                                Foreground="Black"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{x:Bind Time}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaximumRowsOrColumns="10" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+    </Grid>
+</Page>

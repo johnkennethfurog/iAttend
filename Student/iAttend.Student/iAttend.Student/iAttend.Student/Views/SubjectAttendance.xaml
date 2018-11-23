@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:iAttend.Student.Converters"
+    xmlns:fa="clr-namespace:iAttend.Student.Helpers"
     xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     Title="Attendances"
@@ -127,9 +128,22 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
+                            HorizontalOptions="Center"
                             Style="{x:StaticResource subTextSmall}"
-                            Text="{Binding IsPresent, Converter={x:StaticResource isPresentText}}" />
-                        <Frame
+                            Text="{Binding IsPresent, Converter={x:StaticResource isPresentText}}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HeightRequest="20"
+                            HorizontalOptions="End"
+                            Style="{x:StaticResource fa-solid}"
+                            Text="{x:Static fa:FontAwesomeHelper.Circle}"
+                            TextColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
+                            VerticalOptions="Start"
+                            WidthRequest="20" />
+                        <!--<Frame
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="0"
@@ -140,7 +154,7 @@
                             HeightRequest="20"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"
-                            WidthRequest="20" />
+                            WidthRequest="20" />-->
                     </Grid>
                 </ViewCell>
             </DataTemplate>

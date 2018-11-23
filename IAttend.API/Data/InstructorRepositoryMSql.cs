@@ -24,7 +24,11 @@ namespace IAttend.API.Data
         {
 
             var uri = $"select * from tvfTeachersLoad('{InstructorNumber}')";
-            return await _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0})",InstructorNumber).ToListAsync();
+            var subjects =  _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0})",InstructorNumber);
+            if (subjects.Count() == 0)
+                return null;
+
+            return await subjects.ToListAsync();
         }
 
     }

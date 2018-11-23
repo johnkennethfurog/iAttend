@@ -1,5 +1,6 @@
 ﻿using IAttend.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,10 +109,10 @@ namespace IAttend.API.Data
             return attendances;
         }
 
-        public async Task<Attendance> StartAttendanceSession(int scheduleId)
+        public async Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate)
         {
-            var date = DateTime.Now.Date;
-            var attendance = await GetAttendance(scheduleId, date);
+            var date = sessionDate ?? DateTime.Now;
+            var attendance = await GetAttendance(scheduleId, date.Date);
 
             if (attendance != null && !attendance.IsOpen)
                 attendance.IsOpen = true;
@@ -120,7 +121,7 @@ namespace IAttend.API.Data
                 attendance = new Attendance()
                 {
                     ScheduleID = scheduleId,
-                    Date = date,
+                    Date = date.Date,
                     TimeStarted = DateTime.Now,
                     IsOpen = true
                 };
@@ -153,6 +154,17 @@ namespace IAttend.API.Data
         {
             var dateToFind = date ?? DateTime.Now;
             return await _dataContext.StudentsSubjectAttendances.FromSql("SELECT * FROM dbo.tvfStudentAttendances({0},{1})", scheduleId,dateToFind).ToListAsync();
+        }
+
+        public async Task<string> GetSchedulesMasterList(int scheduleId)
+        {
+            var students = await _dataContext.StudentSubjects
+                .Include(x => x.Student)
+                .Include(x => x.Schedule)
+                .Where(x => x.Schedule.ID == scheduleId)
+                .Select(x => x.Student.StudentNumber).ToListAsync();
+
+            return JsonConvert.SerializeObject(students);
         }
     }
 }

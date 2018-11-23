@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using IAttend.API.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace IAttend.API
 {
@@ -31,11 +33,13 @@ namespace IAttend.API
             services.AddTransient<Seed>();
             // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
+            services.AddSignalR(option => option.EnableDetailedErrors = true);
+            //services.AddSingleton<IUserIdProvider, UserIdProvider>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.AddScoped<IStudentRepository,StudentRepositoryMSQl>();
             services.AddScoped<IInstructorRepository,InstructorRepositoryMSql>();
-            services.AddScoped<ISubjectRepository,SubjectRepositorySqLite>();
+            services.AddScoped<IScheduleRepository,ScheduleRepositoryMSql>();
             services.AddScoped<IAttendanceRepository,AttendanceRepositoryMSql>();
             services.AddAutoMapper();
         }
@@ -59,6 +63,11 @@ namespace IAttend.API
 
             app.UseHttpsRedirection();
             app.UseCors(s => s.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotifyHub>("/notifier");
+            });
+
             app.UseMvc();
         }
     }

@@ -23,4 +23,22 @@ namespace iAttend.Student.Converters
             throw new NotImplementedException();
         }
     }
+
+    class DateToBoolReverseConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return value;
+
+            var date = (DateTime)value;
+
+            return date.Date != DateTime.Now.Date;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -13,14 +13,14 @@ namespace IAttend.API.Controllers
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IInstructorRepository _instructorRepository;
-        private readonly ISubjectRepository _subjectRepository;
+        private readonly IScheduleRepository _subjectRepository;
         private readonly IAttendanceRepository _attendanceRepository;
         private readonly IMapper _mapper;
 
         public StudentController(
             IStudentRepository studentRepository,
             IInstructorRepository instructorRepository,
-            ISubjectRepository subjectRepository,
+            IScheduleRepository subjectRepository,
             IAttendanceRepository attendanceRepository,
             IMapper mapper)
         {

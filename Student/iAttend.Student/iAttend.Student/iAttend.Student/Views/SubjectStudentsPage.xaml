@@ -11,15 +11,24 @@
     xmlns:renderer="clr-namespace:iAttend.Student.Renderers"
     Title="{Binding TeacherSubject.Name}"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <!--<NavigationPage.TitleView>
+    <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label
                 FontSize="Large"
                 HorizontalOptions="FillAndExpand"
-                Text="{Binding TeacherSubject.Code}"
+                LineBreakMode="TailTruncation"
+                Text="{Binding TeacherSubject.Name}"
                 TextColor="White"
                 VerticalTextAlignment="Center" />
-            <Label
+            <Button
+                BackgroundColor="Transparent"
+                Command="{Binding FilterCommand}"
+                HorizontalOptions="End"
+                Style="{x:StaticResource fa-solid}"
+                Text="{x:Static fa:FontAwesomeHelper.Slidersh}"
+                TextColor="White"
+                WidthRequest="50" />
+            <!--<Label
                 Margin="20,10"
                 FontSize="Medium"
                 Style="{x:StaticResource fa-solid}"
@@ -29,10 +38,10 @@
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding FilterCommand}" />
                 </Label.GestureRecognizers>
-            </Label>
+            </Label>-->
 
         </StackLayout>
-    </NavigationPage.TitleView>-->
+    </NavigationPage.TitleView>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:IsPresentToColorConverter x:Key="isPresent" />
@@ -41,6 +50,7 @@
             <converter:IsActiveSessionToTextConverter x:Key="isActiveText" />
 
             <converter:DateToBoolConverter x:Key="isCurrentDate" />
+            <converter:DateToBoolReverseConverter x:Key="isNotCurrentDate" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid>
@@ -167,6 +177,17 @@
                                     TextColor="White"
                                     VerticalOptions="End" />
 
+                                <Button
+                                    Grid.Row="3"
+                                    Grid.Column="3"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding BindingContext.ResetCommand, Source={x:Reference subjects}}"
+                                    HorizontalOptions="End"
+                                    IsVisible="{Binding BindingContext.SelectedDate, Source={x:Reference subjects}, Converter={x:StaticResource isNotCurrentDate}}"
+                                    Style="{x:StaticResource fa-solid}"
+                                    Text="{x:Static fa:FontAwesomeHelper.Timescircle}"
+                                    WidthRequest="40" />
+
                             </Grid>
                         </Frame>
                         <Label Margin="10,0">
@@ -193,19 +214,21 @@
                             <ffImage:CachedImage
                                 Margin="-10"
                                 Aspect="AspectFill"
+                                DownsampleHeight="140"
                                 HeightRequest="140"
                                 Source="{Binding Avatar}"
                                 Transformations="{Binding IsPresent, Converter={x:StaticResource transformationConverter}}" />
 
-                            <Frame
+                            <!--<Label
+                                Grid.Column="1"
                                 Margin="-5"
-                                Padding="0"
-                                BackgroundColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
-                                CornerRadius="40"
                                 HeightRequest="20"
                                 HorizontalOptions="End"
+                                Style="{x:StaticResource fa-solid}"
+                                Text="{x:Static fa:FontAwesomeHelper.Circle}"
+                                TextColor="{Binding IsPresent, Converter={x:StaticResource isPresent}}"
                                 VerticalOptions="Start"
-                                WidthRequest="20" />
+                                WidthRequest="20" />-->
 
                             <Label
                                 Grid.Row="1"
@@ -218,6 +241,27 @@
                                 HorizontalTextAlignment="Center"
                                 Style="{x:StaticResource subTextMed}"
                                 Text="{Binding StudentNumber}" />
+                            <!--<BoxView
+                                Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Margin="-15,5,-15,10"
+                                CornerRadius="20"
+                                BackgroundColor="{x:StaticResource greyD}"
+                                HeightRequest="1" />-->
+                            <Button
+                                Grid.Row="0"
+                                Margin="-10"
+                                BackgroundColor="#80000000"
+                                Command="{Binding BindingContext.ViewStudentsAttendanceCommand, Source={x:Reference subjects}}"
+                                CommandParameter="{Binding .}"
+                                HeightRequest="50"
+                                HorizontalOptions="EndAndExpand"
+                                Style="{x:StaticResource fa-solid}"
+                                Text="{x:Static fa:FontAwesomeHelper.Eye}"
+                                TextColor="{x:StaticResource cloudy}"
+                                VerticalOptions="EndAndExpand"
+                                WidthRequest="50" />
+
                         </Grid>
                     </Frame>
                 </DataTemplate>

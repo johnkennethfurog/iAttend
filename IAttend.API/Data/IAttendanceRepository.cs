@@ -7,6 +7,8 @@ namespace IAttend.API.Data
 {
     public interface IAttendanceRepository
     {
+        Task<string> GetSchedulesMasterList(int scheduleId);
+
          Task<bool> DoesAttendanceExistAndIsActive(int attendanceId);
 
         Task<bool> DoesStudentHasAttendance(string studentNumber, int attendanceId);
@@ -23,8 +25,8 @@ namespace IAttend.API.Data
 
          Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date);
 
-         Task<Attendance> StartAttendanceSession(int scheduleId);
-
+         Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate);
+        
          Task<bool> StopAttendanceSession(int attendacnceId);
     }
 }
