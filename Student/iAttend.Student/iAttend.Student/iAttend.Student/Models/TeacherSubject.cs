@@ -27,5 +27,11 @@ namespace iAttend.Student.Models
 
         [JsonProperty("code")]
         public string Code { get; set; }
+
+        [JsonProperty("isOpen")]
+        public bool IsOpen { get; set; }
+
+        [JsonIgnore]
+        public string Tag => $"{Code} ({Time})";
     }
 }

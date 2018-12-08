@@ -3,13 +3,17 @@
     x:Class="iAttend.Student.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:iAttend.Student.Converters"
     xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
     <Application.Resources>
+
+        <!--  Converter  -->
+        <converter:ReverseBoolConverted x:Key="revBool" />
 
         <!--  Application resource dictionary  -->
 
         <!--  THEME COLORS  -->
-        <Color x:Key="mainColor">#DA6E27</Color>
+        <Color x:Key="mainColor">#B00020</Color>
         <Color x:Key="unreadNotif">#FFDFC9</Color>
         <Color x:Key="fbColor">#4267B2</Color>
         <Color x:Key="default">#444444</Color>
@@ -104,6 +108,22 @@
             <Setter Property="TextColor" Value="{StaticResource default}" />
         </Style>
 
+        <!--  LABEL  -->
+        <Style x:Key="LabelPickerText" TargetType="Label">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="None" />
+            <Setter Property="TextColor" Value="{StaticResource default}" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+            <Setter Property="Margin" Value="0,10,5,10" />
+        </Style>
+
+        <!--  DATE PICKER  -->
+        <Style x:Key="DatePickerText" TargetType="DatePicker">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="None" />
+            <Setter Property="TextColor" Value="{StaticResource default}" />
+        </Style>
+
         <!--  Font Icons Font Awesome  -->
         <OnPlatform x:Key="FontAwesomeRegular" x:TypeArguments="x:String">
             <On Platform="Android">fa-regular-400.ttf#fontawesomeRegular</On>
@@ -170,6 +190,23 @@
             <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}" />
             <Setter Property="Margin" Value="0,10" />
             <Setter Property="HeightRequest" Value="18" />
+        </Style>
+
+        <!--  Button  -->
+        <Style x:Key="btn" TargetType="Button">
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="TextColor" Value="#FFFFFF" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style
+            x:Key="btnInvertedDefault"
+            BasedOn="{StaticResource btn}"
+            TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="BorderColor" Value="{StaticResource mainColor}" />
+            <Setter Property="BorderWidth" Value="2" />
+            <Setter Property="TextColor" Value="{StaticResource mainColor}" />
         </Style>
 
     </Application.Resources>

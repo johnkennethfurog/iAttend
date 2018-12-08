@@ -12,6 +12,7 @@ using Prism.Plugin.Popups;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
+using System.Threading.Tasks;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace iAttend.Student
@@ -33,9 +34,26 @@ namespace iAttend.Student
             LiveReload.Init();
 #endif
             InitializeComponent();
+
             FlowListView.Init();
-            await NavigationService.NavigateAsync("NavigationPage/SwitchPage");
-            //await NavigationService.NavigateAsync("NavigationPage/StudentLandingPage");
+
+
+            //await GotoStudentApp();
+
+            await NavigationService.NavigateAsync("LoginPage");
+        }
+
+        async Task GotoStudentApp()
+        {
+            var preferences = Container.Resolve<IPreferences>();
+
+            Helpers.Student.CurrentStudent = preferences.Get<Models.StudentInfo>(Helpers.Student.STUDENT_KEY);
+
+            if (Helpers.Student.CurrentStudent == null)
+                await NavigationService.NavigateAsync(nameof(StudentConfirmationPage));
+            else
+                await NavigationService.NavigateAsync(nameof(StudentLandingPage));
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -44,8 +62,8 @@ namespace iAttend.Student
 
             var apiAccess = new ApiAccess()
             {
-                //BaseUri = "http://192.168.100.4:10778"
-                BaseUri = "http://192.168.0.24:10778"
+                //BaseUri = "http://192.168.137.1:10778"
+                BaseUri = "http://192.168.100.4:10778"
             };
 
             containerRegistry.RegisterPopupNavigationService();
@@ -54,6 +72,7 @@ namespace iAttend.Student
             containerRegistry.Register<IRequestHandler, RequestHandler>();
             containerRegistry.Register<IStudentService, StudentService>();
             containerRegistry.Register<ITeacherService, TeacherService>();
+            containerRegistry.Register<IPreferences, Preference>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StudentLandingPage>();
@@ -65,6 +84,9 @@ namespace iAttend.Student
             containerRegistry.RegisterForNavigation<SwitchPage>();
 
             containerRegistry.RegisterForNavigation<StudentsAttendance>();
+            containerRegistry.RegisterForNavigation<StudentConfirmationPage, StudentConfirmationPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<ReportFilterPage, ReportFilterPageViewModel>();
         }
 
         protected override void OnStart()

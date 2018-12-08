@@ -71,7 +71,7 @@ namespace IAttend.API.Data
     {
         public void Configure(EntityTypeBuilder<Pocos.StudentSubject> builder)
         {
-            builder.HasKey(x => x.SubjectCode);
+            builder.HasKey(x => x.ScheduleID);
             builder.ToTable("Students_subjects_view");
         }
     }

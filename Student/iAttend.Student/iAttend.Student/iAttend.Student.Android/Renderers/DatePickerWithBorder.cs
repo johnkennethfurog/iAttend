@@ -28,7 +28,15 @@ namespace iAttend.Student.Droid.Renderers
 
             if (Control == null || e.NewElement == null) return;
 
-            this.Control.Background = null;
+
+            var formsPicker = (iAttend.Student.Renderers.DatePickerWithBorder)e.NewElement;
+
+            if(!formsPicker.WithBorder)
+                this.Control.Background = null;
+
+            if (formsPicker.AlignRight)
+                Control.Gravity = GravityFlags.End;
+
 
         }
     }

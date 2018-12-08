@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.ReportFilterPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrl="clr-namespace:iAttend.Student.CustomControls"
+    xmlns:fa="clr-namespace:iAttend.Student.Helpers"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:renderer="clr-namespace:iAttend.Student.Renderers"
+    Title="Generate Report"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="icon"
+                BasedOn="{StaticResource fa-solidHeader}"
+                TargetType="Label">
+                <Setter Property="Margin" Value="0,3,0,0" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+
+            <Style x:Key="subjectCard" TargetType="Frame">
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="OutlineColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="{x:StaticResource mainColor}" />
+            </Style>
+
+            <Style x:Key="subjectContainer" TargetType="FlexLayout">
+                <Setter Property="AlignItems" Value="Start" />
+                <Setter Property="JustifyContent" Value="Start" />
+                <Setter Property="Wrap" Value="Wrap" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid
+        x:Name="parent"
+        Padding="15"
+        RowSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Column="0"
+            Style="{StaticResource RegularTextSmall}"
+            Text="Subjects">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectSubjectCommand}" />
+            </Label.GestureRecognizers>
+
+        </Label>
+        <StackLayout
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            IsEnabled="{Binding IsBusy, Converter={x:StaticResource revBool}}">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectSubjectCommand}" />
+            </StackLayout.GestureRecognizers>
+            <ctrl:BindableFlexLayout ItemsSource="{Binding SelectedSubjects}" Style="{x:StaticResource subjectContainer}">
+                <ctrl:BindableFlexLayout.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame BackgroundColor="Gray" Style="{StaticResource subjectCard}">
+                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                    <Label
+                                        Margin="0"
+                                        Style="{StaticResource icon}"
+                                        Text="{x:Static fa:FontAwesomeHelper.Timescircle}"
+                                        TextColor="White"
+                                        WidthRequest="20">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.DeleteCommand, Source={x:Reference parent}}" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding Tag}" TextColor="White" />
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ctrl:BindableFlexLayout.ItemTemplate>
+            </ctrl:BindableFlexLayout>
+
+        </StackLayout>
+
+        <BoxView
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            Margin="-15,10"
+            BackgroundColor="{x:StaticResource greyD}"
+            HeightRequest="1" />
+        <Label
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource RegularTextSmall}"
+            Text="Generate attendance for whole semester" />
+        <Switch
+            Grid.Row="3"
+            Grid.Column="2"
+            IsEnabled="{Binding IsBusy, Converter={x:StaticResource revBool}}"
+            IsToggled="{Binding GenerateAll}" />
+        <BoxView
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
+            Margin="-15,10,-16,0"
+            BackgroundColor="{x:StaticResource greyD}"
+            HeightRequest="1" />
+
+        <Label
+            Grid.Row="5"
+            Style="{StaticResource RegularTextSmall}"
+            Text="From" />
+        <renderer:DatePickerWithBorder
+            Grid.Row="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            AlignRight="True"
+            IsEnabled="{Binding GenerateAll, Converter={x:StaticResource revBool}}"
+            Style="{StaticResource DatePickerText}" />
+        <Label
+            Grid.Row="6"
+            Style="{StaticResource RegularTextSmall}"
+            Text="To" />
+        <renderer:DatePickerWithBorder
+            Grid.Row="6"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            AlignRight="True"
+            IsEnabled="{Binding GenerateAll, Converter={x:StaticResource revBool}}"
+            Style="{StaticResource DatePickerText}" />
+        <Button
+            Grid.Row="7"
+            Grid.ColumnSpan="3"
+            BackgroundColor="{x:StaticResource danger}"
+            Command="{Binding GenerateReportCommand}"
+            IsVisible="{Binding IsBusy, Converter={x:StaticResource revBool}}"
+            Text="Generate"
+            TextColor="White" />
+        <ActivityIndicator
+            Grid.Row="7"
+            Grid.ColumnSpan="3"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsBusy}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    xmlns:trans="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="CenterAndExpand">
+
+        <ff:CachedImage
+            Margin="0,0,0,50"
+            Aspect="AspectFit"
+            HeightRequest="100"
+            Source="ic_trimex.png" />
+
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            HorizontalOptions="CenterAndExpand"
+            Style="{x:StaticResource Bigtext}"
+            Text="SIGN IN" />
+        <Entry
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsBusy, Converter={x:StaticResource revBool}}"
+            Placeholder="Instructor Number"
+            Text="{Binding InstructorNumber}" />
+        <Entry
+            HorizontalTextAlignment="Center"
+            IsPassword="True"
+            IsVisible="{Binding IsBusy, Converter={x:StaticResource revBool}}"
+            Placeholder="Password"
+            Text="{Binding Password}" />
+        <Button
+            BackgroundColor="{x:StaticResource danger}"
+            Command="{Binding LoginCommand}"
+            IsVisible="{Binding IsBusy, Converter={x:StaticResource revBool}}"
+            Text="sign in"
+            TextColor="White" />
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsBusy}" />
+    </StackLayout>
+</ContentPage>

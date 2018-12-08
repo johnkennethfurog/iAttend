@@ -13,7 +13,9 @@ namespace iAttend.Student.Services
     {
         private readonly IRequestHandler _requestHandler;
 
-        public StudentService(IRequestHandler requestHandler)
+        public StudentService(
+            IRequestHandler requestHandler,
+            IPreferences preferences)
         {
             _requestHandler = requestHandler;
             _requestHandler.Init(this);
@@ -24,6 +26,12 @@ namespace iAttend.Student.Services
 
             var uriRequest = string.Format(Endpoint.STUDENT_ATTENDANCE, studentNumber, scheduleId);
             return await _requestHandler.GetAsync<List<StudentAttendance>>(uriRequest);
+        }
+
+        public async Task<StudentInfo> GetStudent(string studentNumber)
+        {
+            var uri = string.Format(Endpoint.STUDENT_CONFIRM,studentNumber);
+            return await _requestHandler.GetAsync<StudentInfo>(uri);
         }
 
         public async Task<List<StudentSubject>> GetSubjects(string studentNumber)

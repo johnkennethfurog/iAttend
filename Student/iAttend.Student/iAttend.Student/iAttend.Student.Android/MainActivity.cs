@@ -15,7 +15,7 @@ namespace iAttend.Student.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
-
+            Xamarin.Essentials.Platform.Init(this, bundle);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
@@ -35,6 +35,8 @@ namespace iAttend.Student.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
         }
 
         public override void OnBackPressed()

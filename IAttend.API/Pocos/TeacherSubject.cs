@@ -20,5 +20,7 @@ namespace IAttend.API.Pocos
         public string Subject { get; set; }
 
         public int StudCount { get; set; }
+
+        public int IsOpen { get; set; }
     }
 }

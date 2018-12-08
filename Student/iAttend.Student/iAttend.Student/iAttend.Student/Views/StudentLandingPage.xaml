@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ffImage:CachedImage Grid.RowSpan="2" Source="http://static.boxrec.com/thumb/f/fa/MannyPacquiao1.jpg/200px-MannyPacquiao1.jpg">
+                <ffImage:CachedImage Grid.RowSpan="2" Source="{Binding Student.Avatar}">
                     <ffImage:CachedImage.Transformations>
                         <ffTrans:CircleTransformation />
                     </ffImage:CachedImage.Transformations>
@@ -32,12 +32,12 @@
                     Grid.Column="1"
                     Margin="0,5,0,0"
                     Style="{x:StaticResource RegularText}"
-                    Text="Juan dela Cruz" />
+                    Text="{Binding Student.StudentName}" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="1"
                     Style="{x:StaticResource subTextMed}"
-                    Text="12-A00020" />
+                    Text="{Binding Student.StudentNumber}" />
 
                 <Label
                     Grid.Row="0"
@@ -79,7 +79,9 @@
                             <ffImage:CachedImage
                                 Margin="-10"
                                 Aspect="AspectFill"
+                                ErrorPlaceholder="ic_trimex.png"
                                 HeightRequest="140"
+                                LoadingPlaceholder="ic_trimex.png"
                                 Source="{Binding Avatar}" />
 
                             <Label

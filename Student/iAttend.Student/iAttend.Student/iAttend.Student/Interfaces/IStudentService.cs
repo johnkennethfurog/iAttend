@@ -11,5 +11,6 @@ namespace iAttend.Student.Interfaces
         Task<List<StudentSubject>> GetSubjects(string studentNumber);
         Task<List<StudentAttendance>> GetAttendances(string studentNumber, int scheduleId);
         Task<bool> ScanDocument(PayloadStudentAttendance attenadancQr);
+        Task<StudentInfo> GetStudent(string studentNumber);
     }
 }

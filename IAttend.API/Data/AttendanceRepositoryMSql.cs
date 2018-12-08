@@ -1,4 +1,6 @@
 ﻿using IAttend.API.Models;
+using IAttend.API.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -11,9 +13,16 @@ namespace IAttend.API.Data
     public class AttendanceRepositoryMSql : IAttendanceRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IEmail _email;
 
-        public AttendanceRepositoryMSql(DataContext dataContext)
+        public AttendanceRepositoryMSql(
+            DataContext dataContext,
+            IHostingEnvironment hostingEnvironment,
+            IEmail email)
         {
+            _hostingEnvironment = hostingEnvironment;
+            _email = email;
             _dataContext = dataContext;
         }
 
@@ -109,7 +118,7 @@ namespace IAttend.API.Data
             return attendances;
         }
 
-        public async Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate)
+        public async Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate, bool isOpen = true)
         {
             var date = sessionDate ?? DateTime.Now;
             var attendance = await GetAttendance(scheduleId, date.Date);
@@ -123,7 +132,7 @@ namespace IAttend.API.Data
                     ScheduleID = scheduleId,
                     Date = date.Date,
                     TimeStarted = DateTime.Now,
-                    IsOpen = true
+                    IsOpen = isOpen
                 };
                 _dataContext.Attendances.Add(attendance);
             }
@@ -150,6 +159,15 @@ namespace IAttend.API.Data
             return await _dataContext.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> StopAllAttendanceSession(int scheduleId)
+        {
+            var attendances = _dataContext.Attendances.Where(x => x.ScheduleID == scheduleId);
+            await attendances.ForEachAsync(x => x.IsOpen = false);
+            return await _dataContext.SaveChangesAsync() > 0;
+
+        }
+
+
         public async Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date)
         {
             var dateToFind = date ?? DateTime.Now;
@@ -166,5 +184,70 @@ namespace IAttend.API.Data
 
             return JsonConvert.SerializeObject(students);
         }
+
+        public async Task<Attendance> GetActiveAttendanceSession(string instructorNumber)
+        {
+            return await _dataContext.Attendances.FromSql("SELECT ATT.* FROM Attendances ATT "+
+                        "LEFT JOIN Schedules SCHED ON SCHED.ID = ATT.ScheduleID" +
+                        "LEFT JOIN Instructors INS ON INS.InstructorNumber = SCHED.InstructorNumber" +
+                        "WHERE INS.InstructorNumber = '{0}' AND IsOpen = 1",instructorNumber).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> GenerateAttendancesReport(string subjectName, string time,int scheduleId,DateTime from,DateTime to)
+        {
+            using (var command = _dataContext.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = Helpers.ScriptHelper.StudentsAttendances(scheduleId,from,to);
+                await _dataContext.Database.OpenConnectionAsync();
+                var result =  await command.ExecuteReaderAsync();
+
+                string name = $"{subjectName}_{time}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}";
+                int rowInd = 0;
+
+                var excel = new ExcelReporter(_hostingEnvironment.WebRootPath, $"{name}.xlsx");
+                var sheet = excel.CreateSheet("Test");
+
+                var headerRow = sheet.CreateRow(rowInd);
+                for (int i = 0; i < result.FieldCount; i++)
+                {
+                    headerRow.CreateCell(i).SetCellValue(result.GetName(i));
+
+                }
+
+                rowInd++;
+
+                while (result.Read())
+                {
+                    var row = sheet.CreateRow(rowInd);
+                    row.CreateCell(0).SetCellValue(result.GetString(0));
+                    row.CreateCell(1).SetCellValue(result.GetString(1));
+
+                    if(result.FieldCount > 2)
+                    {
+                        for (int i = 2; i < result.FieldCount; i++)
+                        {
+                            row.CreateCell(i).SetCellValue(result.GetInt32(i));
+                        }
+                    }
+
+                    rowInd++;
+                }
+
+
+                excel.WriteFileStream();
+                await _email.SendEmail(excel.ExcelFilePath, "johnkennethfurog@gmail.com", subjectName, "Kindly See Attached File");
+
+                excel.Dispose();
+
+                _dataContext.Database.CloseConnection();
+                result.Close();
+
+
+
+            }
+
+            return true;
+        }
+
     }
 }

@@ -47,6 +47,9 @@ namespace IAttend.API.Helpers
             .ForMember(dest => dest.Time,opt => {
                 opt.ResolveUsing(d => d.Time.ToShortTimeString());
             })
+            .ForMember(dest => dest.IsOpen, opt => {
+                opt.ResolveUsing(d => d.IsOpen == 1);
+            })
             .ForMember(dest => dest.DayOfWeek,opt => {
                 opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
             })

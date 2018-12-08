@@ -68,6 +68,10 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
                     b.HasKey("InstructorNumber");
 
                     b.ToTable("Instructors");
@@ -172,6 +176,120 @@ namespace IAttend.API.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("IAttend.API.Pocos.Schedule", b =>
+                {
+                    b.Property<int>("ScheduleID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<int>("DayOfWeek");
+
+                    b.Property<string>("Instructor");
+
+                    b.Property<string>("Room");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("SubjectCode");
+
+                    b.Property<DateTime>("Time");
+
+                    b.HasKey("ScheduleID");
+
+                    b.ToTable("Room_schedule_view");
+                });
+
+            modelBuilder.Entity("IAttend.API.Pocos.Student", b =>
+                {
+                    b.Property<string>("StudentNumber")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<string>("ContactPersonMobileNumber");
+
+                    b.Property<string>("ContactPersonName");
+
+                    b.Property<string>("ContactPersonRelations");
+
+                    b.Property<string>("StudentName");
+
+                    b.HasKey("StudentNumber");
+
+                    b.ToTable("Student_view");
+                });
+
+            modelBuilder.Entity("IAttend.API.Pocos.StudentsSubjectAttendance", b =>
+                {
+                    b.Property<string>("StudentNumber")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<bool?>("IsScanned");
+
+                    b.Property<string>("StudentName");
+
+                    b.HasKey("StudentNumber");
+
+                    b.ToTable("StudentsSubjectAttendances");
+                });
+
+            modelBuilder.Entity("IAttend.API.Pocos.StudentSubject", b =>
+                {
+                    b.Property<int>("ScheduleID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<int>("DayOfWeek");
+
+                    b.Property<string>("Instructor");
+
+                    b.Property<string>("InstructorNumber");
+
+                    b.Property<string>("Room");
+
+                    b.Property<string>("StudentNumber");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("SubjectCode");
+
+                    b.Property<DateTime>("Time");
+
+                    b.HasKey("ScheduleID");
+
+                    b.ToTable("Students_subjects_view");
+                });
+
+            modelBuilder.Entity("IAttend.API.Pocos.TeacherSubject", b =>
+                {
+                    b.Property<string>("SubjectCode")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("DayOfWeek");
+
+                    b.Property<int>("ID");
+
+                    b.Property<int>("IsOpen");
+
+                    b.Property<string>("Room");
+
+                    b.Property<int>("StudCount");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<DateTime>("Time");
+
+                    b.HasKey("SubjectCode");
+
+                    b.ToTable("TeacherSubjects");
+                });
+
             modelBuilder.Entity("IAttend.API.Models.Attendance", b =>
                 {
                     b.HasOne("IAttend.API.Models.Schedule", "Schedule")
@@ -204,7 +322,7 @@ namespace IAttend.API.Migrations
                         .WithMany("StudentAttendances")
                         .HasForeignKey("AttendanceID");
 
-                    b.HasOne("IAttend.API.Models.Schedule")
+                    b.HasOne("IAttend.API.Models.Schedule", "Schedule")
                         .WithMany("StudentAttendances")
                         .HasForeignKey("ScheduleID");
                 });

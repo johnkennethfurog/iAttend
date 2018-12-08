@@ -16,7 +16,7 @@ namespace iAttend.Student.Services
         //interfaces to be ignore when generating exceptions
         private readonly List<string> _interfacesToIgnore = new List<string>
         {
-           " nameof(IRequestCancellation)"
+           "IRequestCancellation"
         };
 
 
@@ -280,6 +280,16 @@ namespace iAttend.Student.Services
         public void Dispose()
         {
             _cancellationTokenSource.Dispose();
+        }
+
+        public void AddToken(string token)
+        {
+            _apiAccess.SetValidationHeader(token);
+        }
+
+        public void ClearToken()
+        {
+            _apiAccess.ClearValidationHeader();
         }
     }
 }

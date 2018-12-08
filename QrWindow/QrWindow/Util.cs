@@ -8,6 +8,6 @@ namespace QrWindow
 {
     public class Util
     {
-        public const string BASE_URL = "http://192.168.0.24:10778";
+        public const string BASE_URL = "http://192.168.1.103:10778";
     }
 }

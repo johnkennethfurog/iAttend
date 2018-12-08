@@ -122,7 +122,7 @@ namespace QrWindow.ViewModels
 
                 hubConn.On("StopBroadcasting", async (string room) =>
                 {
-                    if (!IsIntendedReceiver(room))
+                    if (!IsIntendedReceiver(room) && SelectedSchedule != null)
                         return;
 
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {

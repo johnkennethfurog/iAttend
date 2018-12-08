@@ -18,7 +18,12 @@ namespace iAttend.Student.ViewModels
         private readonly IQrScanningService _qrScanningService;
         private readonly IMessageService _messageService;
 
-        internal string _studentNumber = "10-A00028";
+        private StudentInfo _student;
+        public StudentInfo Student
+        {
+            get { return _student; }
+            set { SetProperty(ref _student, value); }
+        }
 
         public ObservableCollection<StudentSubject> StudentSubjects { get; set; }
 
@@ -102,7 +107,7 @@ namespace iAttend.Student.ViewModels
             var payload = new PayloadStudentAttendance
             {
                 AttendanceSessionId = int.Parse(values[1]),
-                StudentNumber = _studentNumber
+                StudentNumber = _student.StudentNumber
             };
 
             return payload;
@@ -111,12 +116,13 @@ namespace iAttend.Student.ViewModels
        bool StudentIsInculdedInMasterList(string source)
         {
             var masterlist = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(source);
-            return masterlist.Contains(_studentNumber);
+            return masterlist.Contains(_student.StudentNumber);
         }
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
             base.OnNavigatingTo(parameters);
+            Student = Helpers.Student.CurrentStudent;
             await FetchStudentSubejcts();
         }
 
@@ -124,7 +130,7 @@ namespace iAttend.Student.ViewModels
         {
             try
             {
-                var subjects = await _studentService.GetSubjects(_studentNumber);
+                var subjects = await _studentService.GetSubjects(_student.StudentNumber);
                 subjects.ForEach(subj =>
                 {
                     StudentSubjects.Add(subj);

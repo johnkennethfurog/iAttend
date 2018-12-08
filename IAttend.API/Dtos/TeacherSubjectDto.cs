@@ -17,5 +17,7 @@ namespace IAttend.API.Dtos
         public string Name { get; set; }
 
         public int StudentCount { get; set; }
+
+        public bool IsOpen { get; set; }
     }
 }

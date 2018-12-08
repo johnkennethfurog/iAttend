@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using IAttend.API.Data;
 using IAttend.API.Dtos;
+using IAttend.API.Helpers;
 using IAttend.API.SignalR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace IAttend.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class TeacherController : Controller
     {
@@ -39,7 +46,7 @@ namespace IAttend.API.Controllers
             var attendance = await _attendanceRepository.GetAttendance(studentAttendance.ScheduleId,studentAttendance.Date);
             
             if(attendance == null)
-                attendance = await _attendanceRepository.StartAttendanceSession(studentAttendance.ScheduleId,studentAttendance.Date);
+                attendance = await _attendanceRepository.StartAttendanceSession(studentAttendance.ScheduleId, studentAttendance.Date,false);
 
             if (await _attendanceRepository.DoesStudentHasAttendance(studentAttendance.StudentNumber, attendance.ID))
                 return Ok(true);
@@ -66,10 +73,10 @@ namespace IAttend.API.Controllers
                     return NotFound("Unable to unmarked student attendance");
         }
 
-        [HttpGet("{instuctorNumber}/subjects")]
-        public async Task<IActionResult> GetSubjects(string instuctorNumber)
+        [HttpGet("subjects")]
+        public async Task<IActionResult> GetSubjects()
         {
-            var schedules =  await _instructorRepository.GetSchedules(instuctorNumber);
+            var schedules =  await _instructorRepository.GetSchedules((User.GetInstructorNumber()));
 
             var teachersLoad = _mapper.Map<List<TeacherSubjectDto>>(schedules);
 
@@ -109,6 +116,20 @@ namespace IAttend.API.Controllers
                 return NotFound(new ErrorDto("Unable to stop new attendance session"));
         }
 
+        [HttpPut("{room}/{subjectId}/stopAll")]
+        public async Task<IActionResult> StopAllAttendanceSession(int subjectId, string room)
+        {
+            var started = await _attendanceRepository.StopAllAttendanceSession(subjectId);
+
+            if (started)
+            {
+                await _hubContext.Clients.All.StopBroadcasting(room);
+                return Ok(true);
+            }
+            else
+                return NotFound(new ErrorDto("Unable to stop new attendance session"));
+        }
+
         [HttpGet("{scheduleId}/attendance/{date}")]
         public async Task<IActionResult> GetAttendance(int scheduleId,DateTime date)
         {
@@ -119,14 +140,6 @@ namespace IAttend.API.Controllers
             return Ok(studentDto);
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
-        {
-            //await _hubContext.Clients.All.BroadcastMessage("type","This is it");
-
-            return Ok();
-        }
-
         [HttpGet("{studentNumber}/attendances/{scheduleId}")]
         public async Task<IActionResult> GetStudentsAttendance(string studentNumber, int scheduleId)
         {
@@ -135,5 +148,23 @@ namespace IAttend.API.Controllers
             var studentAttendanceDto = _mapper.Map<List<StudentAttendanceDto>>(attendances);
             return Ok(studentAttendanceDto);
         }
+
+        [HttpPost("generateReport")]
+        public async Task<IActionResult> GenerateReport([FromBody] ReportFilterDto reportFilter)
+        {
+            //var reportGenerationTasks = new List<Task<bool>>();
+            //reportFilter.Subjects.ForEach(x =>
+            //{
+            //    reportGenerationTasks.Add(_attendanceRepository.GenerateAttendancesReport(x.Name, x.Time, x.SchedID, reportFilter.DateFrom, reportFilter.DateTo));
+            //});
+
+            //var res = await Task.WhenAll(reportGenerationTasks.ToArray());
+
+            foreach (var x in reportFilter.Subjects)
+                await _attendanceRepository.GenerateAttendancesReport(x.Name, x.Time, x.SchedID, reportFilter.DateFrom, reportFilter.DateTo);
+
+            return Ok(true);
+        }
+
     }
 }

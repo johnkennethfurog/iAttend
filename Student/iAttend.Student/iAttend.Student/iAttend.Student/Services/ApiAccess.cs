@@ -33,9 +33,9 @@ namespace iAttend.Student.Services
         public string Token => _client.DefaultRequestHeaders.GetValues("Authorization").First();
 
 
-        public void SetValidationHeader(string MeStudentToken)
+        public void SetValidationHeader(string token)
         {
-            _client.DefaultRequestHeaders.Add("Authorization", MeStudentToken);
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer "+token);
         }
 
         public void ClearValidationHeader()

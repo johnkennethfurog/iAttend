@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 
 namespace IAttend.API.Helpers
 {
@@ -24,6 +26,12 @@ namespace IAttend.API.Helpers
                 default:
                 return "Sunday";
             }
+        }
+
+
+        public static string GetInstructorNumber(this ClaimsPrincipal user)
+        {
+            return user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
     }
 }

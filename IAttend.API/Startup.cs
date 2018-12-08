@@ -15,6 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using IAttend.API.SignalR;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using IAttend.API.Services;
 
 namespace IAttend.API
 {
@@ -30,6 +34,8 @@ namespace IAttend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
+
             services.AddTransient<Seed>();
             // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
@@ -41,7 +47,20 @@ namespace IAttend.API
             services.AddScoped<IInstructorRepository,InstructorRepositoryMSql>();
             services.AddScoped<IScheduleRepository,ScheduleRepositoryMSql>();
             services.AddScoped<IAttendanceRepository,AttendanceRepositoryMSql>();
+            services.AddScoped<IAuthentication, AuthenticationMSql>();
+            services.AddScoped<IEmail, Email>();
             services.AddAutoMapper();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +86,7 @@ namespace IAttend.API
             {
                 routes.MapHub<NotifyHub>("/notifier");
             });
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

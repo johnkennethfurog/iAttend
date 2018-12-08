@@ -17,5 +17,12 @@ namespace iAttend.Student.Interfaces
 
         Task<ActiveAttendance> StartAttendanceSession(int ScheduleId,string room);
         Task<bool> StopAttendanceSession(int AttendanceSession,string room);
+        Task<bool> StopAllAttendanceSession(int ScheduleId, string room);
+
+        Task<bool> SignIn(string instructorNumber, string password);
+
+        Task<bool> GenerateReport(List<TeacherSubject> subjects, DateTime from,DateTime to);
+
+        bool SignOut();
     }
 }

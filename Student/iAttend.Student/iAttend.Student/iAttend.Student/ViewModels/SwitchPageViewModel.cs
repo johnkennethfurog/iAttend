@@ -20,7 +20,7 @@ namespace iAttend.Student.ViewModels
 
         async void ExecuteGotoStudentCommand()
         {
-            await NavigationService.NavigateAsync(nameof(Views.StudentLandingPage));
+            await NavigationService.NavigateAsync(nameof(Views.StudentConfirmationPage));
         }
 
         private DelegateCommand _gotoTeacherCommand;

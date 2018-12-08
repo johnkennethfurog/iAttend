@@ -13,7 +13,7 @@ namespace iAttend.Student.Interfaces
         string Token { get; }
         string BaseUri { get; set; }
 
-        void SetValidationHeader(string MeStudentToken);
+        void SetValidationHeader(string token);
         void ClearValidationHeader();
         #region GET
         Task<Response<T>> GetResopnseAsync<T>(string uriRequest, bool cachedResult = false, int days = 2, CancellationToken cancellationToken = default);

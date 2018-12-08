@@ -1,8 +1,10 @@
 ﻿using iAttend.Student.DependencyServices;
+using iAttend.Student.EventAggs;
 using iAttend.Student.Helpers;
 using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -20,6 +22,8 @@ namespace iAttend.Student.ViewModels
         internal bool _isInitializing = true;
         internal AttendanceState _attendanceState = AttendanceState.All;
         internal List<TeacherStudentAttendance> _studentAttendances;
+
+        internal List<TeacherSubject> _subjects;
 
         private int _presentCount;
         public int PresentCount
@@ -67,15 +71,18 @@ namespace iAttend.Student.ViewModels
         private readonly ITeacherService _teacherService;
         private readonly IMessageService _messageService;
         private readonly IPageDialogService _pageDialogService;
+        private readonly IEventAggregator _eventAggregator;
 
         public SubjectStudentsPageViewModel(INavigationService navigationService,
             ITeacherService teacherService,
             IMessageService messageService,
-            IPageDialogService pageDialogService) : base(navigationService)
+            IPageDialogService pageDialogService,
+            IEventAggregator eventAggregator) : base(navigationService)
         {
             _teacherService = teacherService;
             _messageService = messageService;
             _pageDialogService = pageDialogService;
+            _eventAggregator = eventAggregator;
             StudentAttendances = new ObservableCollection<TeacherStudentAttendance>();
 
             _allActionButton = ActionSheetButton.CreateButton("All", ExecuteAllAction);
@@ -91,8 +98,10 @@ namespace iAttend.Student.ViewModels
 
             SelectedDate = DateTime.Now;
 
-            TeacherSubject = parameters["subject"] as TeacherSubject;
+            _subjects = parameters["subjects"] as List<TeacherSubject>;
 
+            TeacherSubject = parameters["subject"] as TeacherSubject;
+            AttendanceSessionStarted = TeacherSubject.IsOpen;
             await FetchStudents();
         }
 
@@ -321,6 +330,14 @@ namespace iAttend.Student.ViewModels
                     var deactivateSession = await _teacherService.StopAttendanceSession(_activeSessionId.AttendanceSessionId,_teacherSubject.Room);
                     AttendanceSessionStarted = false;
                 }
+
+                _eventAggregator.GetEvent<AttendanceStartedEvent>().Publish(new AttendanceStartedEventArg
+                {
+                     IsActive= AttendanceSessionStarted,
+                     ScheduleId = TeacherSubject.SchedID
+                });
+                _messageService.ShowMessage("Attendance report sent !");
+                await NavigationService.GoBackAsync();
             }
             catch (TeacherServiceException teacherEx)
             {
@@ -330,6 +347,20 @@ namespace iAttend.Student.ViewModels
             {
                 _messageService.ShowMessage("Something went wrong");
             }
+        }
+
+        private DelegateCommand _reportFilterCommand;
+        public DelegateCommand ReportFilterCommand =>
+            _reportFilterCommand ?? (_reportFilterCommand = new DelegateCommand(ExecuteReportFilterCommand));
+
+        async void ExecuteReportFilterCommand()
+        {
+                var param = new NavigationParameters
+            {
+                {"subject",TeacherSubject },
+                {"subjects",_subjects }
+            };
+            await NavigationService.NavigateAsync(nameof(Views.ReportFilterPage),param);
         }
         
     }

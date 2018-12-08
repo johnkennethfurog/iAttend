@@ -10,7 +10,11 @@ namespace IAttend.API.Models
     
         public string EmailAddress { get; set; }
 
+        public byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
+
         [Key]
         public string InstructorNumber { get; set; }
     }
-}
+}   

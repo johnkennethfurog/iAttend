@@ -10,6 +10,8 @@ namespace iAttend.Student.Interfaces
     {
         //it would be better if the type of calling class will be determine without calling init
         void Init(object callingObject);
+        void AddToken(string token);
+        void ClearToken();
 
         //responsible for cancelling pending request
         void CancelRequest();

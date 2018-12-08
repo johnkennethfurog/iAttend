@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="NPOI" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
     <DoteNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />

@@ -25,8 +25,15 @@ namespace IAttend.API.Data
 
          Task<List<Pocos.StudentsSubjectAttendance>> GetStudentAttendances(int scheduleId, DateTime? date);
 
-         Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate);
-        
-         Task<bool> StopAttendanceSession(int attendacnceId);
+        [Obsolete]
+        Task<Attendance> GetActiveAttendanceSession(string instructorNumber);
+
+        Task<Attendance> StartAttendanceSession(int scheduleId, DateTime? sessionDate, bool isOpen = true);
+
+        Task<bool> StopAttendanceSession(int attendacnceId);
+        Task<bool> StopAllAttendanceSession(int scheduleId);
+
+        Task<bool> GenerateAttendancesReport(string subjectName,string time,int scheduleId, DateTime from, DateTime to);
+
     }
 }

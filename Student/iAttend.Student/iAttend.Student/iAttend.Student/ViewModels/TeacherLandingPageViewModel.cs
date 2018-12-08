@@ -1,9 +1,12 @@
 ﻿using iAttend.Student.DependencyServices;
+using iAttend.Student.EventAggs;
 using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,35 +19,105 @@ namespace iAttend.Student.ViewModels
 	{
         private readonly ITeacherService _teacherService;
         private readonly IMessageService _messageService;
+        private readonly IPageDialogService _pageDialogService;
+        private readonly IEventAggregator _eventAggregator;
 
         public TeacherLandingPageViewModel(
             INavigationService navigationService,
             ITeacherService teacherService,
-            IMessageService messageService) : base(navigationService)
+            IMessageService messageService,
+            IPageDialogService pageDialogService,
+            IEventAggregator eventAggregator) : base(navigationService)
         {
             _teacherService = teacherService;
             _messageService = messageService;
+            _pageDialogService = pageDialogService;
+            _eventAggregator = eventAggregator;
+
             Subjects = new ObservableCollection<TeacherSubject>();
+            _eventAggregator.GetEvent<AttendanceStartedEvent>().Subscribe(AttendanceStarted);
+
+        }
+
+        private void AttendanceStarted(AttendanceStartedEventArg attendance)
+        {
+            HasActiveSession = attendance.IsActive;
+            if (attendance.IsActive)
+                ActiveTeacherSubject = Subjects.FirstOrDefault(x => x.SchedID == attendance.ScheduleId);
         }
 
         public ObservableCollection<TeacherSubject> Subjects { get; set; }
 
-        public async override void OnNavigatingTo(INavigationParameters parameters)
+        private TeacherSubject _activeTeaacherSubject;
+        public TeacherSubject ActiveTeacherSubject
+        {
+            get { return _activeTeaacherSubject; }
+            set { SetProperty(ref _activeTeaacherSubject, value); }
+        }
+
+        private bool _hasActiveSession;
+        public bool HasActiveSession
+        {
+            get { return _hasActiveSession; }
+            set { SetProperty(ref _hasActiveSession, value); }
+        }
+
+        private DelegateCommand _logoutCommand;
+        public DelegateCommand LogoutCommand =>
+            _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommand));
+
+        async void ExecuteLogoutCommand()
+        {
+            var logout = await _pageDialogService.DisplayAlertAsync(null, "Are you sure you want to sign out?", "Yes", "No");
+
+            if (!logout)
+                return;
+
+            _teacherService.SignOut();
+            await NavigationService.NavigateAsync($"app:///{nameof(Views.LoginPage)}", animated: false);
+
+        }
+
+        private DelegateCommand _refreshCommand;
+        public DelegateCommand RefreshCommand =>
+            _refreshCommand ?? (_refreshCommand = new DelegateCommand(ExecuteRefreshCommand));
+
+        async void ExecuteRefreshCommand()
+        {
+            await FetchSubjects();
+        }
+
+        public override void OnNavigatingTo(INavigationParameters parameters)
         {
             base.OnNavigatingTo(parameters);
-            await FetchSubjects();
+            RefreshCommand.Execute();
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            _eventAggregator.GetEvent<AttendanceStartedEvent>().Unsubscribe(AttendanceStarted);
         }
 
         async Task FetchSubjects()
         {
 
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
             try
             {
+                Subjects.Clear();
+
                 var subjects = await _teacherService.GetSubjects();
                 subjects.ForEach(x =>
                 {
                     Subjects.Add(x);
                 });
+
+                SetActiveAttendanceSession();
             }
             catch(TeacherServiceException teacherEx)
             {
@@ -54,6 +127,18 @@ namespace iAttend.Student.ViewModels
             {
                 _messageService.ShowMessage("Unable to fetch instructors subject");
             }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        void SetActiveAttendanceSession()
+        {
+            ActiveTeacherSubject = Subjects.FirstOrDefault(x => x.IsOpen);
+
+            HasActiveSession = ActiveTeacherSubject != null;
+
         }
 
         private DelegateCommand<TeacherSubject> _viewStudentAttendanceCommand;
@@ -64,10 +149,32 @@ namespace iAttend.Student.ViewModels
         {
             var param = new NavigationParameters
             {
-                {"subject",subject }
+                {"subject",subject },
+                {"subjects",Subjects.ToList() }
             };
 
             await NavigationService.NavigateAsync(nameof(Views.SubjectStudentsPage), param);
+        }
+
+        private DelegateCommand _stopAttendanceSession;
+        public DelegateCommand StopAttendanceSession =>
+            _stopAttendanceSession ?? (_stopAttendanceSession = new DelegateCommand(ExecuteStopAttendanceSession));
+
+        async void ExecuteStopAttendanceSession()
+        {
+            try
+            {
+                var deactivateSession = await _teacherService.StopAllAttendanceSession(ActiveTeacherSubject.SchedID, ActiveTeacherSubject.Room);
+                HasActiveSession = false;
+            }
+            catch (TeacherServiceException teacherEx)
+            {
+                _messageService.ShowMessage(teacherEx.ExceptionMessage);
+            }
+            catch (Exception ex)
+            {
+                _messageService.ShowMessage("Something went wrong");
+            }
         }
     }
 }

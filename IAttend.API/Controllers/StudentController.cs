@@ -69,5 +69,19 @@ namespace IAttend.API.Controllers
             var studentAttendanceDto = _mapper.Map<List<StudentAttendanceDto>>(attendances);
             return Ok(studentAttendanceDto);
         }
+
+
+        [HttpGet("confirm/{studentNumber}")]
+        public async Task<IActionResult> GetStudentInfo(string studentNumber)
+        {
+            var student = await _studentRepository.GetStudent(studentNumber);
+
+            if (student == null)
+                return NotFound(new ErrorDto("Invalid student number"));
+
+            var studentDto = _mapper.Map<StudentConfirmationDto>(student);
+
+            return Ok(studentDto);
+        }
     }
 }
