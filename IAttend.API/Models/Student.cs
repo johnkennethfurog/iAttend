@@ -17,6 +17,8 @@ namespace IAttend.API.Models
 
         public ICollection<StudentSubject> StudentSubjects { get; set; }
 
+        public bool IsDropped { get; set; }
+
         public Student()
         {
             StudentSubjects = new Collection<StudentSubject>();

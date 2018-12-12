@@ -26,5 +26,8 @@ namespace iAttend.Student.Models
             set { SetProperty(ref _isPresent ,value); }
         }
 
+        [JsonProperty("isDropped")]
+        public bool IsDropped { get; set; }
+
     }
 }

@@ -114,8 +114,18 @@ namespace iAttend.Student.ViewModels
                 var isSuccess = await _teacherService.GenerateReport(SelectedSubjects.ToList(),
                     GenerateAll ? new DateTime(DateTime.Now.Year - 1, 1, 1) : DateFrom.Date,
                     GenerateAll ? new DateTime(DateTime.Now.Year + 1, 1, 1) : DateTo.Date);
+
+                if(isSuccess)
+                {
+                    _messageService.ShowMessage("Attendance report sent !");
+                    await NavigationService.GoBackAsync();
+                }
+                else
+                    _messageService.ShowMessage("Something went wrong");
+
+
             }
-            catch(TeacherServiceException ex)
+            catch (TeacherServiceException ex)
             {
                 _messageService.ShowMessage(ex.ExceptionMessage);
             }

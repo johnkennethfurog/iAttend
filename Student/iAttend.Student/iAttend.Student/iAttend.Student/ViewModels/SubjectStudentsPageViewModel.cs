@@ -39,6 +39,13 @@ namespace iAttend.Student.ViewModels
             set { SetProperty(ref _absentCount, value); }
         }
 
+        private int _droppedCount;
+        public int DroppedCount
+        {
+            get { return _droppedCount; }
+            set { SetProperty(ref _droppedCount, value); }
+        }
+
         public ObservableCollection<TeacherStudentAttendance> StudentAttendances { get; set; }
 
         private bool _attendanceSessionStarted = false;
@@ -108,7 +115,8 @@ namespace iAttend.Student.ViewModels
         void SetAttendanceStat()
         {
             PresentCount = _studentAttendances.Count(x => x.IsPresent);
-            AbsentCount = _studentAttendances.Count - PresentCount;
+            DroppedCount = _studentAttendances.Count(x => x.IsDropped);
+            AbsentCount = _studentAttendances.Count - PresentCount - DroppedCount;
         }
 
         private DelegateCommand<TeacherStudentAttendance> _viewStudentsAttendanceCommand;
@@ -265,6 +273,12 @@ namespace iAttend.Student.ViewModels
         {
             try
             {
+                if(student.IsDropped)
+                {
+                    _messageService.ShowMessage("Student is alredy dropped");
+                    return; 
+                }
+
                 if (!await AllowToExecuteMarkingOfAttendance())
                     return;
 
@@ -336,8 +350,6 @@ namespace iAttend.Student.ViewModels
                      IsActive= AttendanceSessionStarted,
                      ScheduleId = TeacherSubject.SchedID
                 });
-                _messageService.ShowMessage("Attendance report sent !");
-                await NavigationService.GoBackAsync();
             }
             catch (TeacherServiceException teacherEx)
             {

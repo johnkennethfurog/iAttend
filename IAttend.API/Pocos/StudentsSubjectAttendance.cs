@@ -11,5 +11,6 @@ namespace IAttend.API.Pocos
         public string StudentName { get; set; }
         public string Avatar { get; set; }
         public bool? IsScanned { get; set; }
+        public bool IsDropped { get; set; }
     }
 }

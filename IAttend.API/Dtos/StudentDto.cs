@@ -11,5 +11,7 @@ namespace IAttend.API.Dtos
         public bool? IsScanned { get; set; }
 
         public bool IsPresent { get; set; }
+
+        public bool IsDropped { get; set; }
     }
 }

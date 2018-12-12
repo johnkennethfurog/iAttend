@@ -113,6 +113,8 @@ namespace IAttend.API.Migrations
 
                     b.Property<int?>("ContactPersonID");
 
+                    b.Property<bool>("IsDropped");
+
                     b.Property<string>("StudentName");
 
                     b.HasKey("StudentNumber");
@@ -196,7 +198,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("SubjectCode");
 
-                    b.Property<DateTime>("Time");
+                    b.Property<DateTime>("TimeFrom");
+
+                    b.Property<DateTime>("TimeTo");
 
                     b.HasKey("ScheduleID");
 
@@ -291,7 +295,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("SubjectCode");
 
-                    b.Property<DateTime>("Time");
+                    b.Property<DateTime>("TimeFrom");
+
+                    b.Property<DateTime>("TimeTo");
 
                     b.HasKey("ScheduleID");
 
@@ -315,7 +321,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("Subject");
 
-                    b.Property<DateTime>("Time");
+                    b.Property<DateTime>("TimeFrom");
+
+                    b.Property<DateTime>("TimeTo");
 
                     b.HasKey("SubjectCode");
 
