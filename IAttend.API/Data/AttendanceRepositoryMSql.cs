@@ -1,4 +1,5 @@
 ﻿using IAttend.API.Models;
+using IAttend.API.Pocos;
 using IAttend.API.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -193,7 +194,7 @@ namespace IAttend.API.Data
                         "WHERE INS.InstructorNumber = '{0}' AND IsOpen = 1",instructorNumber).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> GenerateAttendancesReport(string subjectName, string time,int scheduleId,DateTime from,DateTime to)
+        public async Task<bool> GenerateAttendancesReport(string emailAddress,string subjectName, string time,int scheduleId,DateTime from,DateTime to)
         {
             using (var command = _dataContext.Database.GetDbConnection().CreateCommand())
             {
@@ -202,6 +203,8 @@ namespace IAttend.API.Data
                 var result =  await command.ExecuteReaderAsync();
 
                 string name = $"{subjectName}_{time}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}";
+                name = name.Replace(":", "");
+                name = name.Replace(" ","");
                 int rowInd = 0;
 
                 var excel = new ExcelReporter(_hostingEnvironment.WebRootPath, $"{name}.xlsx");
@@ -235,7 +238,7 @@ namespace IAttend.API.Data
 
 
                 excel.WriteFileStream();
-                await _email.SendEmail(excel.ExcelFilePath, "johnkennethfurog@gmail.com", subjectName, "Kindly See Attached File");
+                await _email.SendEmail(excel.ExcelFilePath, emailAddress, subjectName, "Kindly See Attached File");
 
                 excel.Dispose();
 
@@ -249,5 +252,9 @@ namespace IAttend.API.Data
             return true;
         }
 
+        public async Task<List<StudentsAbsentStat>> GetStudentsAbsent(string instructorNumber, int absentCount)
+        {
+            return await _dataContext.StudentsAttendanceStats.FromSql("select * from tvf_StudentAttendancesStat({0},{1})", absentCount, instructorNumber).ToListAsync();
+        }
     }
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using IAttend.API.Dtos;
 using IAttend.API.Models;
+using System.Collections.Generic;
 
 namespace IAttend.API.Helpers
 {
@@ -10,7 +11,7 @@ namespace IAttend.API.Helpers
         {
             CreateMap<Pocos.StudentSubject,StudentSubjectDto>()
             .ForMember(dest => dest.Time,opt => {
-                opt.ResolveUsing(d => d.Time.ToShortTimeString());
+                opt.ResolveUsing(d => d.TimeFrom.ToString("HH:mm tt") + " - " + d.TimeTo.ToString("HH:mm tt"));
             })
             .ForMember(dest => dest.DayOfWeek,opt => {
                 opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
@@ -19,8 +20,19 @@ namespace IAttend.API.Helpers
             CreateMap<Pocos.Schedule, ScheduleDto>()
            .ForMember(dest => dest.Time, opt =>
            {
-               opt.ResolveUsing(d => d.Time.ToShortTimeString());
+               opt.ResolveUsing(d => d.TimeFrom.ToString("HH:mm tt") + " - " + d.TimeTo.ToString("HH:mm tt"));
            });
+
+            CreateMap<List<Pocos.StudentsAbsentStat>, StudentAbsentDto>()
+            .ForMember(dest => dest.Count, opt =>
+            {
+                opt.ResolveUsing(d => d.Count);
+            })
+            .ForMember(dest => dest.Absents, opt =>
+            {
+                opt.MapFrom(d => d);
+            });
+            
 
             // CreateMap<Instructor,TeacherDto>();
             // CreateMap<Schedule,SubjectDto>()
@@ -45,7 +57,7 @@ namespace IAttend.API.Helpers
                 opt.MapFrom(src => src.ID);
             })
             .ForMember(dest => dest.Time,opt => {
-                opt.ResolveUsing(d => d.Time.ToShortTimeString());
+                opt.ResolveUsing(d => d.TimeFrom.ToString("HH:mm tt") + " - " + d.TimeTo.ToString("HH:mm tt"));
             })
             .ForMember(dest => dest.IsOpen, opt => {
                 opt.ResolveUsing(d => d.IsOpen == 1);

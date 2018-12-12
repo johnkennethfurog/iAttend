@@ -13,7 +13,9 @@ namespace IAttend.API.Models
 
         public string Room { get; set; }
 
-        public DateTime Time { get; set; }
+        public DateTime TimeFrom { get; set; }
+
+        public DateTime TimeTo { get; set; }
 
         public int DayOfWeek { get; set; }
 

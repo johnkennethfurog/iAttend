@@ -155,6 +155,7 @@
             Grid.Row="7"
             Grid.ColumnSpan="3"
             HorizontalOptions="Center"
+            IsRunning="True"
             IsVisible="{Binding IsBusy}" />
     </Grid>
 </ContentPage>

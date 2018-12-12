@@ -25,6 +25,7 @@ namespace IAttend.API.Data
 
         public DbSet<Pocos.StudentsSubjectAttendance> StudentsSubjectAttendances { get; set; }
         public DbSet<Pocos.TeacherSubject> TeacherSubjects { get; set; }
+        public DbSet<Pocos.StudentsAbsentStat> StudentsAttendanceStats { get; set; }
 
         #endregion
 
@@ -42,6 +43,7 @@ namespace IAttend.API.Data
 
             modelBuilder.ApplyConfiguration(new StudentsSubjectAttendanceConfiguration());
             modelBuilder.ApplyConfiguration(new TeacherSubjectConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentsAttendanceStatConfiguration());
 
         }
 
@@ -83,6 +85,14 @@ namespace IAttend.API.Data
     public class StudentsSubjectAttendanceConfiguration : IEntityTypeConfiguration<Pocos.StudentsSubjectAttendance>
     {
         public void Configure(EntityTypeBuilder<Pocos.StudentsSubjectAttendance> builder)
+        {
+            builder.HasKey(x => x.StudentNumber);
+        }
+    }
+
+    public class StudentsAttendanceStatConfiguration : IEntityTypeConfiguration<Pocos.StudentsAbsentStat>
+    {
+        public void Configure(EntityTypeBuilder<Pocos.StudentsAbsentStat> builder)
         {
             builder.HasKey(x => x.StudentNumber);
         }

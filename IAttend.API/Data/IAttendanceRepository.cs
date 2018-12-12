@@ -33,7 +33,8 @@ namespace IAttend.API.Data
         Task<bool> StopAttendanceSession(int attendacnceId);
         Task<bool> StopAllAttendanceSession(int scheduleId);
 
-        Task<bool> GenerateAttendancesReport(string subjectName,string time,int scheduleId, DateTime from, DateTime to);
+        Task<bool> GenerateAttendancesReport(string emailAddress,string subjectName,string time,int scheduleId, DateTime from, DateTime to);
+        Task<List<Pocos.StudentsAbsentStat>> GetStudentsAbsent(string instructorNumber, int absentCount);
 
     }
 }

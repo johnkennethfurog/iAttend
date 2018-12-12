@@ -70,7 +70,8 @@ namespace IAttend.API.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier,instructor.InstructorNumber),
-                    new Claim(ClaimTypes.Name,instructor.Name)
+                    new Claim(ClaimTypes.Name,instructor.Name),
+                    new Claim(ClaimTypes.Email, instructor.EmailAddress)
                 }),
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)

@@ -161,10 +161,21 @@ namespace IAttend.API.Controllers
             //var res = await Task.WhenAll(reportGenerationTasks.ToArray());
 
             foreach (var x in reportFilter.Subjects)
-                await _attendanceRepository.GenerateAttendancesReport(x.Name, x.Time, x.SchedID, reportFilter.DateFrom, reportFilter.DateTo);
+                await _attendanceRepository.GenerateAttendancesReport(User.GetEmail(),x.Name, x.Time, x.SchedID, reportFilter.DateFrom, reportFilter.DateTo);
 
             return Ok(true);
         }
 
+        [HttpGet("studentAbsent")]
+        public async Task<IActionResult> GetAbents()
+        {
+
+            var studentAbsents =await  _attendanceRepository.GetStudentsAbsent(User.GetInstructorNumber(), 6);
+
+            var studentAbsentsDto = _mapper.Map<StudentAbsentDto>(studentAbsents);
+
+            return Ok(studentAbsentsDto);
+
+        }
     }
 }

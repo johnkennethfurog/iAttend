@@ -20,5 +20,6 @@ namespace iAttend.Student.Helpers
         public const string TEACHER_ATTENDANCES_STOP_ALL = "api/teacher/{0}/{1}/stopAll";
         public const string TEACHER_REPORT = "api/teacher/generateReport";
         public const string TEACHER_LOGIN = "api/auth/login";
+        public const string TEACHER_STUDENT_ABSENT = "api/teacher/studentAbsent";
     }
 }

@@ -15,49 +15,92 @@
             Text="Sign out" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <Grid
-            Padding="15"
+        <Frame
+            Margin="5"
             BackgroundColor="#FFFF7C"
-            IsVisible="{Binding HasActiveSession}"
-            RowSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Style="{x:StaticResource HeaderText}" Text="Active Attendance : " />
-            <Label
-                Grid.Row="1"
-                Style="{x:StaticResource Bigtext}"
-                Text="{Binding ActiveTeacherSubject.Code}" />
+            IsVisible="{Binding HasActiveSession}">
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{x:StaticResource HeaderText}" Text="Active Attendance : " />
+                <Label
+                    Grid.Row="1"
+                    Style="{x:StaticResource Bigtext}"
+                    Text="{Binding ActiveTeacherSubject.Code}" />
 
-            <Label Grid.Row="2" Style="{x:StaticResource subTextMed}">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="{Binding ActiveTeacherSubject.Room}" />
-                        <Span Text=" | " />
-                        <Span Text="{Binding ActiveTeacherSubject.Time}" />
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+                <Label Grid.Row="2" Style="{x:StaticResource subTextMed}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding ActiveTeacherSubject.Room}" />
+                            <Span Text=" | " />
+                            <Span Text="{Binding ActiveTeacherSubject.Time}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-            <Button
-                Grid.Row="0"
-                Grid.RowSpan="3"
-                Grid.Column="1"
-                Margin="0,10"
-                BackgroundColor="Red"
-                Command="{Binding StopAttendanceSession}"
-                HeightRequest="40"
-                Text="STOP"
-                TextColor="White"
-                VerticalOptions="Center" />
+                <Button
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    Grid.Column="1"
+                    Margin="0,10"
+                    BackgroundColor="Red"
+                    Command="{Binding StopAttendanceSession}"
+                    HeightRequest="40"
+                    Text="STOP"
+                    TextColor="White"
+                    VerticalOptions="Center" />
 
-        </Grid>
+            </Grid>
+
+        </Frame>
+        <Frame
+            Margin="5"
+            BackgroundColor="#FFFF7C"
+            IsVisible="{Binding HasAbsentNotif}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GotoAbsentListCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    FontSize="Large"
+                    HorizontalOptions="StartAndExpand"
+                    Style="{x:StaticResource fa-solid}"
+                    Text="{x:Static fa:FontAwesomeHelper.Exclamationcircle}"
+                    TextColor="{x:StaticResource danger}"
+                    VerticalOptions="CenterAndExpand" />
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    HorizontalOptions="Fill"
+                    Style="{x:StaticResource TitleText}"
+                    Text="{Binding AbsentCount, StringFormat='{0} of your student(s) meets or exceed the maximum number of absent allowed'}"
+                    TextColor="Red" />
+                <Label
+                    Grid.Column="2"
+                    FontSize="Large"
+                    Style="{x:StaticResource fa-solid}"
+                    Text="{x:Static fa:FontAwesomeHelper.Angleright}"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+            </Grid>
+
+        </Frame>
         <ListView
             x:Name="list"
             HasUnevenRows="True"

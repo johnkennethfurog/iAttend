@@ -33,5 +33,10 @@ namespace IAttend.API.Helpers
         {
             return user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
+
+        public static string GetEmail(this ClaimsPrincipal user)
+        {
+            return user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
+        }
     }
 }

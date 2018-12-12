@@ -91,7 +91,9 @@ namespace IAttend.API.Migrations
 
                     b.Property<string>("SubjectCode");
 
-                    b.Property<DateTime>("Time");
+                    b.Property<DateTime>("TimeFrom");
+
+                    b.Property<DateTime>("TimeTo");
 
                     b.HasKey("ID");
 
@@ -219,6 +221,36 @@ namespace IAttend.API.Migrations
                     b.HasKey("StudentNumber");
 
                     b.ToTable("Student_view");
+                });
+
+            modelBuilder.Entity("IAttend.API.Pocos.StudentsAbsentStat", b =>
+                {
+                    b.Property<string>("StudentNumber")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Absent");
+
+                    b.Property<string>("Avatar");
+
+                    b.Property<string>("InstructorNumber");
+
+                    b.Property<int>("Present");
+
+                    b.Property<string>("Room");
+
+                    b.Property<string>("StudentName");
+
+                    b.Property<string>("Subject");
+
+                    b.Property<string>("SubjectCode");
+
+                    b.Property<string>("Time");
+
+                    b.Property<int>("TotalAttendance");
+
+                    b.HasKey("StudentNumber");
+
+                    b.ToTable("StudentsAttendanceStats");
                 });
 
             modelBuilder.Entity("IAttend.API.Pocos.StudentsSubjectAttendance", b =>

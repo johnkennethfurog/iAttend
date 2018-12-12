@@ -57,7 +57,7 @@ namespace iAttend.Student.ViewModels
             base.OnNavigatingTo(parameters);
 
             var subjects = parameters["subjects"] as List<TeacherSubject>;
-            var selectedSubject = parameters["selectedSubject"] as TeacherSubject;
+            var selectedSubject = parameters["subject"] as TeacherSubject;
 
             if (selectedSubject != null)
                 SelectedSubjects.Add(selectedSubject);

@@ -62,6 +62,20 @@ namespace iAttend.Student.ViewModels
             set { SetProperty(ref _hasActiveSession, value); }
         }
 
+        private int _absentCount;
+        public int AbsentCount
+        {
+            get { return _absentCount; }
+            set { SetProperty(ref _absentCount, value); }
+        }
+
+        private bool _hasAbsentNotif;
+        public bool HasAbsentNotif
+        {
+            get { return _hasAbsentNotif; }
+            set { SetProperty(ref _hasAbsentNotif, value); }
+        }
+
         private DelegateCommand _logoutCommand;
         public DelegateCommand LogoutCommand =>
             _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommand));
@@ -85,6 +99,7 @@ namespace iAttend.Student.ViewModels
         async void ExecuteRefreshCommand()
         {
             await FetchSubjects();
+            await FetchAbsentStat();
         }
 
         public override void OnNavigatingTo(INavigationParameters parameters)
@@ -157,6 +172,8 @@ namespace iAttend.Student.ViewModels
         }
 
         private DelegateCommand _stopAttendanceSession;
+        private AbsentStat _absentStat;
+
         public DelegateCommand StopAttendanceSession =>
             _stopAttendanceSession ?? (_stopAttendanceSession = new DelegateCommand(ExecuteStopAttendanceSession));
 
@@ -175,6 +192,46 @@ namespace iAttend.Student.ViewModels
             {
                 _messageService.ShowMessage("Something went wrong");
             }
+        }
+
+
+        async Task FetchAbsentStat()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                _absentStat = await _teacherService.GetAbsentStat();
+                AbsentCount = _absentStat.Count;
+                HasAbsentNotif = AbsentCount > 0;
+            }
+            catch (TeacherServiceException teacherEx)
+            {
+                _messageService.ShowMessage(teacherEx.ExceptionMessage);
+            }
+            catch(Exception ex)
+            {
+                _messageService.ShowMessage("Something went wrong");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private DelegateCommand _gotoAbsentListCommand;
+        public DelegateCommand GotoAbsentListCommand =>
+            _gotoAbsentListCommand ?? (_gotoAbsentListCommand = new DelegateCommand(ExecuteGotoAbsentListCommand));
+
+        async void ExecuteGotoAbsentListCommand()
+        {
+            var param = new NavigationParameters
+            {
+                {"absents",_absentStat.Absents }
+            };
+            await NavigationService.NavigateAsync(nameof(Views.AbsentStatPage),param);
         }
     }
 }

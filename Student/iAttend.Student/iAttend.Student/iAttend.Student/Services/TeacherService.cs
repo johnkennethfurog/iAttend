@@ -30,6 +30,11 @@ namespace iAttend.Student.Services
             return await _requestHandler.PostAsync<bool, PayloadReportFilter>(Endpoint.TEACHER_REPORT, payload);
         }
 
+        public async Task<AbsentStat> GetAbsentStat()
+        {
+            return await _requestHandler.GetAsync<AbsentStat>(Endpoint.TEACHER_STUDENT_ABSENT);
+        }
+
         public async Task<List<TeacherStudentAttendance>> GetStudents(int scheduleId, DateTime date)
         {
             var uri = string.Format(Endpoint.TEACHER_STUDENT, scheduleId,date.ToString("MM-dd-yyyy"));

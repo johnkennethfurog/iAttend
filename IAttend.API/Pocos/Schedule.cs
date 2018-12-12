@@ -11,7 +11,9 @@ namespace IAttend.API.Pocos
 
         public string Avatar { get; set; }
 
-        public DateTime Time { get; set; }
+        public DateTime TimeFrom { get; set; }
+
+        public DateTime TimeTo { get; set; }
 
         public string SubjectCode { get; set; }
 

@@ -23,6 +23,8 @@ namespace iAttend.Student.Interfaces
 
         Task<bool> GenerateReport(List<TeacherSubject> subjects, DateTime from,DateTime to);
 
+        Task<AbsentStat> GetAbsentStat();
+
         bool SignOut();
     }
 }

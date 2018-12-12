@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="iAttend.Student.Views.AbsentStatPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffImage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="Alarming Students"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ListView
+        HasUnevenRows="True"
+        ItemsSource="{Binding AbsentStats}"
+        SeparatorVisibility="Default">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Margin="10" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ffImage:CachedImage
+                            Grid.RowSpan="3"
+                            Aspect="AspectFill"
+                            BackgroundColor="Red"
+                            HeightRequest="100"
+                            Source="{Binding Avatar}"
+                            WidthRequest="100" />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="{Binding StudentName}" />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Style="{x:StaticResource subTextMed}"
+                            Text="{Binding StudentNumber}" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{x:StaticResource subText}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding SubjectCode}" />
+                                    <Span Text=" | " />
+                                    <Span Text="{Binding Subject}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Style="{x:StaticResource subTextMed}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Time}" />
+                                    <Span Text=" | " />
+                                    <Span Text="{Binding Room}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                        <Label
+                            Grid.Row="2"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            FontSize="30"
+                            HorizontalOptions="Center"
+                            Text="{Binding AbsentCount}"
+                            TextColor="{x:StaticResource danger}"
+                            VerticalTextAlignment="End" />
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            Text="Total Absents"
+                            TextColor="{x:StaticResource danger}" />
+
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            HorizontalOptions="Center"
+                            Text="Total Presents"
+                            TextColor="{x:StaticResource success}" />
+
+                        <Label
+                            Grid.Row="2"
+                            Grid.RowSpan="2"
+                            Grid.Column="2"
+                            FontSize="30"
+                            HorizontalOptions="Center"
+                            Text="{Binding PresentCount}"
+                            TextColor="{x:StaticResource success}"
+                            VerticalTextAlignment="End" />
+
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>
