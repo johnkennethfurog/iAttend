@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using QrWindow.Models;
 using QrWindow.Services;
 using System;
@@ -97,11 +98,15 @@ namespace QrWindow.ViewModels
                     await hubConn.StartAsync();
                 };
 
-                hubConn.On("BroadcastMessage", async (string room, string students, int attendanceSessionId,int scheduleId) =>
+                hubConn.On("BroadcastMessage", async (string room, string students, int attendanceSessionId,int scheduleId, string guid) =>
                 {
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
 
-                        if (!IsIntendedReceiver(room))
+
+                        SelectedSchedule = Schedules.FirstOrDefault(x => x.ScheduleID == scheduleId);
+
+
+                        if (SelectedSchedule == null || !IsIntendedReceiver(room))
                             return;
 
                         var write = new BarcodeWriter
@@ -113,16 +118,18 @@ namespace QrWindow.ViewModels
                                 Height = 400
                             }
                         };
-                        var wb = write.Write($"{students}|{attendanceSessionId}");
+                        var subjJson = JsonConvert.SerializeObject(new SchedulePayload(SelectedSchedule.Time,SelectedSchedule.Subject));
+
+                        var wb = write.Write($"{students}|{attendanceSessionId}|{guid}|{subjJson}");
                         Source = wb;
-                        SetSelectedSchedule(scheduleId);
+                        SetSelectedSchedule();
                         IsVisible = Windows.UI.Xaml.Visibility.Visible;
                     });
                 });
 
                 hubConn.On("StopBroadcasting", async (string room) =>
                 {
-                    if (!IsIntendedReceiver(room) && SelectedSchedule != null)
+                    if (!IsIntendedReceiver(room) || SelectedSchedule == null)
                         return;
 
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
@@ -133,6 +140,7 @@ namespace QrWindow.ViewModels
                     });
                 });
 
+
                 await hubConn.StartAsync();
 
             }
@@ -142,12 +150,9 @@ namespace QrWindow.ViewModels
             }
         }
 
-        void SetSelectedSchedule(int? schedId)
+        void SetSelectedSchedule()
         {
-            SelectedSchedule = Schedules.FirstOrDefault(x => x.ScheduleID == schedId);
-
-            if(SelectedSchedule != null)
-                SelectedSchedule.BackColor = new SolidColorBrush(Color.FromArgb(255, 255, 255, 124));
+            SelectedSchedule.BackColor = new SolidColorBrush(Color.FromArgb(255, 255, 255, 124));
         }
 
         bool IsIntendedReceiver(string room)

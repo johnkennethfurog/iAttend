@@ -14,6 +14,21 @@ namespace IAttend.API.Data
         {
             _dataContext = dataContext;
         }
+
+        public async Task<IAttend.API.Models.ContactPerson> GetContactPerson(string studentNumber)
+        {
+            var students = _dataContext.Students.Where(x => x.StudentNumber == studentNumber)
+                .AsQueryable()
+                .Include(x => x.ContactPerson);
+
+            var student = await students.FirstOrDefaultAsync();
+
+            if (student != null) 
+                return student.ContactPerson;
+            else
+                return null;
+        }
+
         public async Task<Student> GetStudent(string StudentNumber)
         {
             return await _dataContext.StudentsView.FirstOrDefaultAsync(student => student.StudentNumber == StudentNumber);

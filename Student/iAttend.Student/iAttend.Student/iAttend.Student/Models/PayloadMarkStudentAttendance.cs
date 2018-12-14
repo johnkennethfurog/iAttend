@@ -5,7 +5,7 @@ using System.Text;
 
 namespace iAttend.Student.Models
 {
-    class PayloadMarkStudentAttendance
+    class PayloadUnMarkStudentAttendance
     {
         [JsonProperty("date")]
         public DateTime Date { get; set; }
@@ -15,5 +15,18 @@ namespace iAttend.Student.Models
 
         [JsonProperty("scheduleId")]
         public int ScheduleId { get; set; }
+
+    }
+    class PayloadMarkStudentAttendance : PayloadUnMarkStudentAttendance
+    {
+
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+        [JsonProperty("studentName")]
+        public string StudentName { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace IAttend.API
             // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SQLServerConnection")));
             services.AddSignalR(option => option.EnableDetailedErrors = true);
+            services.AddHttpClient();
             //services.AddSingleton<IUserIdProvider, UserIdProvider>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
@@ -48,7 +49,7 @@ namespace IAttend.API
             services.AddScoped<IScheduleRepository,ScheduleRepositoryMSql>();
             services.AddScoped<IAttendanceRepository,AttendanceRepositoryMSql>();
             services.AddScoped<IAuthentication, AuthenticationMSql>();
-            services.AddScoped<IEmail, Email>();
+            services.AddScoped<ICommunication, Communication>();
             services.AddAutoMapper();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

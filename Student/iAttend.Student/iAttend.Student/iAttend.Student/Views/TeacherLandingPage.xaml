@@ -35,15 +35,10 @@
                     Style="{x:StaticResource Bigtext}"
                     Text="{Binding ActiveTeacherSubject.Code}" />
 
-                <Label Grid.Row="2" Style="{x:StaticResource subTextMed}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{Binding ActiveTeacherSubject.Room}" />
-                            <Span Text=" | " />
-                            <Span Text="{Binding ActiveTeacherSubject.Time}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                <Label
+                    Grid.Row="2"
+                    Style="{x:StaticResource subTextMed}"
+                    Text="{Binding RoomAndTime}" />
 
                 <Button
                     Grid.Row="0"

@@ -27,11 +27,11 @@ namespace QrWindow.Models
         [JsonProperty("avatar")]
         public Uri Avatar { get; set; }
 
-        [JsonProperty("time")]
-        public string Time { get; set; }
-
         [JsonProperty("subjectCode")]
         public string SubjectCode { get; set; }
+
+        [JsonProperty("time")]
+        public string Time { get; set; }
 
         [JsonProperty("subject")]
         public string Subject { get; set; }
@@ -39,4 +39,21 @@ namespace QrWindow.Models
         [JsonProperty("scheduleID")]
         public int ScheduleID { get; set; }
     }
+
+    public class SchedulePayload
+    {
+        public SchedulePayload(string time,string subject)
+        {
+            Subject = subject;
+            Time = time;
+        }
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+    }
+
+
 }

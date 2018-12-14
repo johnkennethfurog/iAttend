@@ -12,5 +12,27 @@ namespace iAttend.Student.Models
 
         [JsonProperty("studentNumber")]
         public string StudentNumber { get; set; }
+
+        [JsonProperty("guid")]
+        public string Guid { get; set; }
+
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+        [JsonProperty("studentName")]
+        public string StudentName { get; set; }
+    }
+
+    public class SchedulePayload
+    {
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
     }
 }

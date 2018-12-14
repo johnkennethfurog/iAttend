@@ -76,6 +76,13 @@ namespace iAttend.Student.ViewModels
             set { SetProperty(ref _hasAbsentNotif, value); }
         }
 
+        private string _roomAndTime;
+        public string RoomAndTime
+        {
+            get { return _roomAndTime; }
+            set { SetProperty(ref _roomAndTime, value); }
+        }
+
         private DelegateCommand _logoutCommand;
         public DelegateCommand LogoutCommand =>
             _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommand));
@@ -104,6 +111,9 @@ namespace iAttend.Student.ViewModels
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (IsOnNavigatingToTriggered)
+                return;
+
             base.OnNavigatingTo(parameters);
             RefreshCommand.Execute();
         }
@@ -153,6 +163,7 @@ namespace iAttend.Student.ViewModels
             ActiveTeacherSubject = Subjects.FirstOrDefault(x => x.IsOpen);
 
             HasActiveSession = ActiveTeacherSubject != null;
+            RoomAndTime = $"{ActiveTeacherSubject.Room}|{ActiveTeacherSubject.Time}";
 
         }
 

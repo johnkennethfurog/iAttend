@@ -30,6 +30,8 @@ namespace iAttend.Student.ViewModels
             NavigationService = navigationService;
         }
 
+        public bool IsOnNavigatingToTriggered = false;
+
 
         public virtual void Destroy()
         {
@@ -46,6 +48,8 @@ namespace iAttend.Student.ViewModels
 
         public virtual void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (!IsOnNavigatingToTriggered)
+                IsOnNavigatingToTriggered = true;
         }
     }
 }

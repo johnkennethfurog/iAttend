@@ -9,5 +9,11 @@ namespace IAttend.API.Dtos
         public string StudentNumber { get; set; }
     
         public int ScheduleId { get; set; }
+
+        public string Time { get; set; }
+
+        public string Subject { get; set; }
+
+        public string StudentName { get; set; }
     }
 }

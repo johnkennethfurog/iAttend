@@ -12,7 +12,7 @@ namespace iAttend.Student.Interfaces
         Task<List<TeacherSubject>> GetSubjects();
 
         Task<List<TeacherStudentAttendance>> GetStudents(int scheduleId,DateTime date);
-        Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId,DateTime date);
+        Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId,DateTime date,string subject , string studentName,string time);
         Task<bool> UnmarkStudentAttendance(string studentNumber, int scheduleId);
 
         Task<ActiveAttendance> StartAttendanceSession(int ScheduleId,string room);

@@ -9,5 +9,6 @@ namespace IAttend.API.Data
     {
         Task<Student> GetStudent(string StudentNumber);
         Task<List<StudentSubject>> GetStudentSubjects(string StudentNumber);
+        Task<IAttend.API.Models.ContactPerson> GetContactPerson(string studentNumber);
     }
 }

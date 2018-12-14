@@ -52,13 +52,16 @@ namespace iAttend.Student.Services
             return await _requestHandler.GetAsync<List<TeacherSubject>>(Endpoint.TEACHER_SUBJECT);
         }
 
-        public async Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId,DateTime date)
+        public async Task<bool> MarkStudentAttendance(string studentNumber, int scheduleId,DateTime date, string subject, string studentName, string time)
         {
             return await _requestHandler.PostAsync<bool, PayloadMarkStudentAttendance>(Endpoint.TEACHER_MARK_STUDENT_ATTENDANCE, new PayloadMarkStudentAttendance
             {
                 StudentNumber = studentNumber,
                 ScheduleId = scheduleId,
-                Date = date
+                Date = date,
+                Subject = subject,
+                Time = time,
+                StudentName = studentName
             });
         }
 
@@ -105,7 +108,7 @@ namespace iAttend.Student.Services
 
         public async Task<bool> UnmarkStudentAttendance(string studentNumber, int scheduleId)
         {
-            return await _requestHandler.PutAsync<bool, PayloadMarkStudentAttendance>(Endpoint.TEACHER_MARK_STUDENT_ATTENDANCE, new PayloadMarkStudentAttendance
+            return await _requestHandler.PutAsync<bool, PayloadUnMarkStudentAttendance>(Endpoint.TEACHER_MARK_STUDENT_ATTENDANCE, new PayloadMarkStudentAttendance
             {
                 StudentNumber = studentNumber,
                 ScheduleId = scheduleId,

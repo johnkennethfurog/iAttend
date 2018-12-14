@@ -2,6 +2,7 @@
 using iAttend.Student.Interfaces;
 using iAttend.Student.Models;
 using iAttend.Student.Views;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -88,7 +89,7 @@ namespace iAttend.Student.ViewModels
 
             var values = result.Split('|');
 
-            if (values.Count() != 2)
+            if (values.Count() != 4)
             {
                 _messageService.ShowMessage("Invalid QR code format");
                 return null;
@@ -104,10 +105,16 @@ namespace iAttend.Student.ViewModels
 
             var x = values[0];
 
+            var subject = JsonConvert.DeserializeObject<SchedulePayload>(values[3]);
+
             var payload = new PayloadStudentAttendance
             {
                 AttendanceSessionId = int.Parse(values[1]),
-                StudentNumber = _student.StudentNumber
+                StudentNumber = _student.StudentNumber,
+                Guid = values[2],
+                StudentName = Student.StudentName,
+                Subject = subject.Subject,
+                Time = subject.Time
             };
 
             return payload;
@@ -121,6 +128,9 @@ namespace iAttend.Student.ViewModels
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (IsOnNavigatingToTriggered)
+                return;
+
             base.OnNavigatingTo(parameters);
             Student = Helpers.Student.CurrentStudent;
             await FetchStudentSubejcts();

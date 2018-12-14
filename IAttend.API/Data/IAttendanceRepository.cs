@@ -13,7 +13,7 @@ namespace IAttend.API.Data
 
         Task<bool> DoesStudentHasAttendance(string studentNumber, int attendanceId);
 
-         Task<bool> MarkAtendance(int attendanceId,string studentNumber,bool isScanned);
+         Task<bool> MarkAtendance(int attendanceId,string studentNumber,bool isScanned, string guid);
 
         Task<bool> UnMarkAtendance(string studentNumber,int scheduleId, DateTime date);
 

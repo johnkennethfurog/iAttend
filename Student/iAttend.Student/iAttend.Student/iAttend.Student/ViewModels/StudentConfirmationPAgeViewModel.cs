@@ -66,6 +66,9 @@ namespace iAttend.Student.ViewModels
 
         public override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (IsOnNavigatingToTriggered)
+                return;
+
             base.OnNavigatingTo(parameters);
         }
 

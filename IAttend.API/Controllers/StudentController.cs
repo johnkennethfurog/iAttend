@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using IAttend.API.Data;
 using IAttend.API.Dtos;
+using IAttend.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IAttend.API.Controllers
@@ -15,6 +16,7 @@ namespace IAttend.API.Controllers
         private readonly IInstructorRepository _instructorRepository;
         private readonly IScheduleRepository _subjectRepository;
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly ICommunication _communication;
         private readonly IMapper _mapper;
 
         public StudentController(
@@ -22,12 +24,14 @@ namespace IAttend.API.Controllers
             IInstructorRepository instructorRepository,
             IScheduleRepository subjectRepository,
             IAttendanceRepository attendanceRepository,
+            ICommunication communication,
             IMapper mapper)
         {
             _studentRepository = studentRepository;
             _instructorRepository = instructorRepository;
             _subjectRepository = subjectRepository;
             _attendanceRepository = attendanceRepository;
+            _communication = communication;
             _mapper = mapper;
         }
 
@@ -53,10 +57,21 @@ namespace IAttend.API.Controllers
             var attendanceCreated = await _attendanceRepository.MarkAtendance(
                 studentAttendanceDto.AttendanceSessionId,
                 studentAttendanceDto.StudentNumber,
-                true);
+                true,
+                studentAttendanceDto.Guid);
 
             if (attendanceCreated)
+            {
+                var contactPerson = await _studentRepository.GetContactPerson(studentAttendanceDto.StudentNumber);
+
+                if (contactPerson != null)
+                    Task.Run(() =>
+                    {
+                        _communication.SendSms(_communication.GenerateSmsMessageForGuardian(studentAttendanceDto.StudentName, studentAttendanceDto.Subject, studentAttendanceDto.Time), contactPerson.MobileNumber);
+                    });
+
                 return Ok(true);
+            }
             else
                 return BadRequest(new ErrorDto("Unable to mark students attendance"));
         }

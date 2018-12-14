@@ -18,5 +18,7 @@ namespace IAttend.API.Models
         public bool IsOpen { get; set; }
 
         public ICollection<StudentAttendance> StudentAttendances { get; set; }
+
+        public string Guid { get; set; }
     }
 }

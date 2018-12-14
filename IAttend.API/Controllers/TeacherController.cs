@@ -6,6 +6,7 @@ using AutoMapper;
 using IAttend.API.Data;
 using IAttend.API.Dtos;
 using IAttend.API.Helpers;
+using IAttend.API.Services;
 using IAttend.API.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,7 @@ namespace IAttend.API.Controllers
         private readonly IAttendanceRepository _attendanceRepository;
         private readonly IInstructorRepository _instructorRepository;
         private readonly IHubContext<NotifyHub, ITypeHubClient> _hubContext;
+        private readonly ICommunication _communication;
         private readonly IMapper _mapper;
 
         public TeacherController(
@@ -31,12 +33,14 @@ namespace IAttend.API.Controllers
             IAttendanceRepository attendanceRepository,
             IInstructorRepository instructorRepository,
             IHubContext<NotifyHub, ITypeHubClient> hubContext,
+            ICommunication communication,
             IMapper mapper)
         {
             _studentRepository = studentRepository;
             _attendanceRepository = attendanceRepository;
             _instructorRepository = instructorRepository;
             _hubContext = hubContext;
+            _communication = communication;
             _mapper = mapper;
         }
 
@@ -51,10 +55,20 @@ namespace IAttend.API.Controllers
             if (await _attendanceRepository.DoesStudentHasAttendance(studentAttendance.StudentNumber, attendance.ID))
                 return Ok(true);
 
-            var success =  await _attendanceRepository.MarkAtendance(attendance.ID,studentAttendance.StudentNumber,false);
+            var success =  await _attendanceRepository.MarkAtendance(attendance.ID,studentAttendance.StudentNumber,false,string.Empty);
 
             if(success)
+            {
+                var contactPerson = await _studentRepository.GetContactPerson(studentAttendance.StudentNumber);
+
+                if (contactPerson != null)
+                    Task.Run( () =>
+                    {
+                        _communication.SendSms(_communication.GenerateSmsMessageForGuardian(studentAttendance.StudentName, studentAttendance.Subject, studentAttendance.Time), contactPerson.MobileNumber);
+                    });
+
                 return Ok(success);
+            }
             else
                 return NotFound("Unable to mark attendance");
         }
@@ -93,8 +107,8 @@ namespace IAttend.API.Controllers
                 var attendanceDto = _mapper.Map<ActiveAttendanceSessionDto>(attendance);
 
                 var students = await _attendanceRepository.GetSchedulesMasterList(scheduleId);
-
-                await _hubContext.Clients.All.BroadcastMessage(room, students,attendance.ID,scheduleId);
+                
+                await _hubContext.Clients.All.BroadcastMessage(room, students,attendance.ID,scheduleId,attendance.Guid);
 
                 return Ok(attendanceDto);
             }

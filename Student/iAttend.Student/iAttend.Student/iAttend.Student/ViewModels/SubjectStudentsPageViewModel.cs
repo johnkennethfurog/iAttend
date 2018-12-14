@@ -101,6 +101,9 @@ namespace iAttend.Student.ViewModels
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (IsOnNavigatingToTriggered)
+                return;
+
             base.OnNavigatingTo(parameters);
 
             SelectedDate = DateTime.Now;
@@ -291,7 +294,7 @@ namespace iAttend.Student.ViewModels
                 }
                 else
                 {
-                    await _teacherService.MarkStudentAttendance(student.StudentNumber, TeacherSubject.SchedID, _selectedDate.Date);
+                    await _teacherService.MarkStudentAttendance(student.StudentNumber, TeacherSubject.SchedID, _selectedDate.Date,TeacherSubject.Name,student.StudentName, TeacherSubject.Time);
                     student.IsPresent = true;
                     AbsentCount--;
                     PresentCount++;

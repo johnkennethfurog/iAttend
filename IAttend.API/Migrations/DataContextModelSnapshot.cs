@@ -27,6 +27,8 @@ namespace IAttend.API.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<string>("Guid");
+
                     b.Property<bool>("IsOpen");
 
                     b.Property<int>("ScheduleID");
@@ -263,6 +265,8 @@ namespace IAttend.API.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Avatar");
+
+                    b.Property<bool>("IsDropped");
 
                     b.Property<bool?>("IsScanned");
 

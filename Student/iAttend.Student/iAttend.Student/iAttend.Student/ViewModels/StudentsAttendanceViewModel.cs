@@ -67,6 +67,9 @@ namespace iAttend.Student.ViewModels
 
         public async override void OnNavigatingTo(INavigationParameters parameters)
         {
+            if (IsOnNavigatingToTriggered)
+                return;
+
             base.OnNavigatingTo(parameters);
 
             StudentNumber = parameters["studentNumber"] as string;

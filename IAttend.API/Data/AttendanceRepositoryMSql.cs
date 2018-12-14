@@ -15,12 +15,12 @@ namespace IAttend.API.Data
     {
         private readonly DataContext _dataContext;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IEmail _email;
+        private readonly ICommunication _email;
 
         public AttendanceRepositoryMSql(
             DataContext dataContext,
             IHostingEnvironment hostingEnvironment,
-            IEmail email)
+            ICommunication email)
         {
             _hostingEnvironment = hostingEnvironment;
             _email = email;
@@ -28,11 +28,11 @@ namespace IAttend.API.Data
         }
 
         //mark students attendance
-        public async Task<bool> MarkAtendance(int attendanceId, string studentNumber, bool isScanned)
+        public async Task<bool> MarkAtendance(int attendanceId, string studentNumber, bool isScanned,string guid)
         {
             var attendance =  await _dataContext.Attendances.Where(x => x.ID == attendanceId).Include(x => x.Schedule).FirstOrDefaultAsync();
 
-            if (attendance == null)
+            if (attendance == null || (guid != "" && guid != attendance.Guid))
                 return false;
 
             var studentAttendance = new StudentAttendance()
@@ -125,7 +125,11 @@ namespace IAttend.API.Data
             var attendance = await GetAttendance(scheduleId, date.Date);
 
             if (attendance != null && !attendance.IsOpen)
+            {
                 attendance.IsOpen = true;
+                attendance.Guid = Guid.NewGuid().ToString();
+
+            }
             else if (attendance == null)
             {
                 attendance = new Attendance()
@@ -133,8 +137,9 @@ namespace IAttend.API.Data
                     ScheduleID = scheduleId,
                     Date = date.Date,
                     TimeStarted = DateTime.Now,
-                    IsOpen = isOpen
-                };
+                    IsOpen = isOpen,
+                    Guid = Guid.NewGuid().ToString()
+            };
                 _dataContext.Attendances.Add(attendance);
             }
             else

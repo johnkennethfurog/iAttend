@@ -62,8 +62,8 @@ namespace iAttend.Student
 
             var apiAccess = new ApiAccess()
             {
-                BaseUri = "http://192.168.137.1:10778"
-                //BaseUri = "http://192.168.100.4:10778"
+                //BaseUri = "http://192.168.137.1:10778"
+                BaseUri = "http://192.168.1.50:10778"
             };
 
             containerRegistry.RegisterPopupNavigationService();
