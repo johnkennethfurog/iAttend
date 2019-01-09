@@ -1,4 +1,5 @@
 ﻿using IAttend.API.Models;
+using IAttend.API.Pocos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,19 @@ namespace IAttend.API.Data
             return await _dataContext.Instructors.FirstOrDefaultAsync(x => x.InstructorNumber == InstructorNumber);
         }
 
-        public async Task<List<Pocos.TeacherSubject>> GetSchedules(string InstructorNumber)
+        public async Task<TeacherSubject> GetSchedule(string InstructorNumber, string subjectCode)
+        {
+            var subjects = _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},0,{1})", InstructorNumber,subjectCode);
+            if (subjects.Count() == 0)
+                return null;
+
+            return await subjects.FirstOrDefaultAsync();
+        }
+
+        public async Task<List<TeacherSubject>> GetSchedules(string InstructorNumber)
         {
 
-            var uri = $"select * from tvfTeachersLoad('{InstructorNumber}')";
-            var subjects =  _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0})",InstructorNumber);
+            var subjects =  _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},1,'')", InstructorNumber);
             if (subjects.Count() == 0)
                 return null;
 

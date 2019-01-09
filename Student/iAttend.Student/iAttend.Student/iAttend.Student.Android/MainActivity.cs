@@ -29,7 +29,6 @@ namespace iAttend.Student.Droid
                 VerboseMemoryCacheLogging = false,
                 VerboseLoadingCancelledLogging = false
             };
-
             global::FFImageLoading.ImageService.Instance.Initialize(config);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
@@ -58,6 +57,7 @@ namespace iAttend.Student.Droid
 
             container.Register<Student.DependencyServices.IQrScanningService, DependencyServices.QrScanningService>();
             container.Register<Student.DependencyServices.IMessageService, DependencyServices.MessageService>();
+            container.Register<Student.DependencyServices.IWifiConnector, DependencyServices.WifiConnector>();
         }
     }
 }

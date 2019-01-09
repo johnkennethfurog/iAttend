@@ -18,7 +18,8 @@ namespace iAttend.Student.ViewModels
         private readonly IStudentService _studentService;
         private readonly IQrScanningService _qrScanningService;
         private readonly IMessageService _messageService;
-
+        private readonly IConnectivity _connectivity;
+        private readonly IWifiConnector _wifiConnector;
         private StudentInfo _student;
         public StudentInfo Student
         {
@@ -32,11 +33,15 @@ namespace iAttend.Student.ViewModels
             INavigationService navigationService,
             IStudentService studentService,
             IQrScanningService qrScanningService,
-            IMessageService messageService) : base(navigationService)
+            IMessageService messageService,
+            IConnectivity connectivity,
+            IWifiConnector wifiConnector) : base(navigationService)
         {
             _studentService = studentService;
             _qrScanningService = qrScanningService;
             _messageService = messageService;
+            _connectivity = connectivity;
+            _wifiConnector = wifiConnector;
             StudentSubjects = new ObservableCollection<StudentSubject>();
 
         }
@@ -69,14 +74,37 @@ namespace iAttend.Student.ViewModels
             if(payload == null)
                 return;
 
+            var connect =await _wifiConnector.ConnectToWifi("DESKTOP-T51EO2S 0988", "88888888");
+
+            if(!connect)
+            {
+                _messageService.ShowMessage("Unable to connect");
+                return;
+            }
+
+            await SendRequest(payload);
+           
+        }
+
+        async Task SendRequest(PayloadStudentAttendance payload ,int trialCount = 0)
+        {
             try
             {
+                
                 var success = await _studentService.ScanDocument(payload);
                 _messageService.ShowMessage("Subject attendance marked!");
+                _wifiConnector.Disconnect();
             }
-            catch(StudentServiceException studEx)
+            catch (StudentServiceException studEx)
             {
-                _messageService.ShowMessage(studEx.ExceptionMessage);
+
+                if (trialCount < 3 && studEx.StatusCode == -1)
+                    await SendRequest(payload, trialCount++);
+                else
+                {
+                    _wifiConnector.Disconnect();
+                    _messageService.ShowMessage(studEx.ExceptionMessage);
+                }
             }
             catch (Exception ex)
             {
@@ -138,6 +166,9 @@ namespace iAttend.Student.ViewModels
 
         async Task FetchStudentSubejcts()
         {
+            if (!_connectivity.IsConnected)
+                return;
+
             try
             {
                 var subjects = await _studentService.GetSubjects(_student.StudentNumber);

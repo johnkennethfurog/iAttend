@@ -25,6 +25,7 @@ namespace iAttend.Student.Interfaces
 
         Task<AbsentStat> GetAbsentStat();
 
+
         bool SignOut();
     }
 }

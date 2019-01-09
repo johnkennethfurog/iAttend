@@ -6,6 +6,7 @@ using AutoMapper;
 using IAttend.API.Data;
 using IAttend.API.Dtos;
 using IAttend.API.Helpers;
+using IAttend.API.Models;
 using IAttend.API.Services;
 using IAttend.API.SignalR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,7 @@ namespace IAttend.API.Controllers
         private readonly IInstructorRepository _instructorRepository;
         private readonly IHubContext<NotifyHub, ITypeHubClient> _hubContext;
         private readonly ICommunication _communication;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
 
         public TeacherController(
@@ -34,6 +36,7 @@ namespace IAttend.API.Controllers
             IInstructorRepository instructorRepository,
             IHubContext<NotifyHub, ITypeHubClient> hubContext,
             ICommunication communication,
+            IScheduleRepository scheduleRepository,
             IMapper mapper)
         {
             _studentRepository = studentRepository;
@@ -41,6 +44,7 @@ namespace IAttend.API.Controllers
             _instructorRepository = instructorRepository;
             _hubContext = hubContext;
             _communication = communication;
+            _scheduleRepository = scheduleRepository;
             _mapper = mapper;
         }
 
@@ -190,6 +194,26 @@ namespace IAttend.API.Controllers
 
             return Ok(studentAbsentsDto);
 
+        }
+
+        [HttpPost("addSchedule")]
+        public async Task<IActionResult> AddScehedule([FromBody]AddScheduleDto sched)
+        {
+
+            var schedToAdd = new Schedule();
+
+            var instuctor = await _instructorRepository.GetInstructor(User.GetInstructorNumber());
+            var subj = await _scheduleRepository.GetSubject(sched.SubjectCode);
+
+            schedToAdd.Subject = subj;
+            schedToAdd.Instructor = instuctor;
+            schedToAdd.Room = sched.Room;
+            schedToAdd.TimeFrom = sched.TimeFrom;
+            schedToAdd.TimeFrom = sched.TimeTo;
+
+            var addedSched = await _scheduleRepository.AddSchedule(schedToAdd);
+
+            return Ok(addedSched);
         }
     }
 }

@@ -38,9 +38,9 @@ namespace iAttend.Student
             FlowListView.Init();
 
 
-            //await GotoStudentApp();
+            await GotoStudentApp();
 
-            await NavigationService.NavigateAsync("LoginPage");
+            //await NavigationService.NavigateAsync("LoginPage");
         }
 
         async Task GotoStudentApp()
@@ -62,8 +62,8 @@ namespace iAttend.Student
 
             var apiAccess = new ApiAccess()
             {
-                //BaseUri = "http://192.168.137.1:10778"
-                BaseUri = "http://192.168.1.50:10778"
+                BaseUri = "http://192.168.137.1:10778"
+                //BaseUri = "http://192.168.1.50:10778"
             };
 
             containerRegistry.RegisterPopupNavigationService();
@@ -73,6 +73,7 @@ namespace iAttend.Student
             containerRegistry.Register<IStudentService, StudentService>();
             containerRegistry.Register<ITeacherService, TeacherService>();
             containerRegistry.Register<IPreferences, Preference>();
+            containerRegistry.Register<IConnectivity, Connectivity>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StudentLandingPage>();
@@ -88,6 +89,7 @@ namespace iAttend.Student
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<ReportFilterPage, ReportFilterPageViewModel>();
             containerRegistry.RegisterForNavigation<AbsentStatPage, AbsentStatPageViewModel>();
+            containerRegistry.RegisterForNavigation<AddSchedulePage, AddSchedulePageViewModel>();
         }
 
         protected override void OnStart()

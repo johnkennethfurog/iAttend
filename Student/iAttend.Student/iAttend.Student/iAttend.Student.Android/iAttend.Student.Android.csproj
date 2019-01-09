@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="DependencyServices\MessageService.cs" />
     <Compile Include="DependencyServices\QrScanningService.cs" />
+    <Compile Include="DependencyServices\WifiConnector.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\DatePickerWithBorder.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
