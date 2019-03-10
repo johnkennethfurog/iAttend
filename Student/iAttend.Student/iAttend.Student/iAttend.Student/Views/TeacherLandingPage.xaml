@@ -13,6 +13,7 @@
             Command="{Binding LogoutCommand}"
             Order="Secondary"
             Text="Sign out" />
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
     <StackLayout>
         <Frame

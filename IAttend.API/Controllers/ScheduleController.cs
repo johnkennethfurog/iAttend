@@ -31,5 +31,13 @@ namespace IAttend.API.Controllers
 
             return Ok(scheduleDto);
         }
+
+        [HttpGet("subjects")]
+        public async Task<IActionResult> GetSubjects()
+        {
+            var subjects = await _scheduleRepository.GetSubjects();
+            return Ok(subjects);
+        }
+        
     }
 }

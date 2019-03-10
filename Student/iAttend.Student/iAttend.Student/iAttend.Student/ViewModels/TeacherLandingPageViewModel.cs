@@ -36,7 +36,13 @@ namespace iAttend.Student.ViewModels
 
             Subjects = new ObservableCollection<TeacherSubject>();
             _eventAggregator.GetEvent<AttendanceStartedEvent>().Subscribe(AttendanceStarted);
+            _eventAggregator.GetEvent<ScheduleAddedEvent>().Subscribe(ScheduleAdded);
 
+        }
+
+        private void ScheduleAdded(TeacherSubject sched)
+        {
+            Subjects.Add(sched);
         }
 
         private void AttendanceStarted(AttendanceStartedEventArg attendance)
@@ -243,6 +249,15 @@ namespace iAttend.Student.ViewModels
                 {"absents",_absentStat.Absents }
             };
             await NavigationService.NavigateAsync(nameof(Views.AbsentStatPage),param);
+        }
+
+        private DelegateCommand _addCommand;
+        public DelegateCommand AddCommand =>
+            _addCommand ?? (_addCommand = new DelegateCommand(ExecuteAddCommand));
+
+        async void ExecuteAddCommand()
+        {
+            await NavigationService.NavigateAsync(nameof(Views.AddSchedulePage));
         }
     }
 }

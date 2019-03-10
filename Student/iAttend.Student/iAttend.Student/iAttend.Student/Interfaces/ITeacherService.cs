@@ -25,6 +25,9 @@ namespace iAttend.Student.Interfaces
 
         Task<AbsentStat> GetAbsentStat();
 
+        Task<List<Subj>> GetAllSubject();
+
+        Task<TeacherSubject> AddSubject(PayloadAddSchedule schedule);
 
         bool SignOut();
     }

@@ -32,7 +32,7 @@ namespace IAttend.API.Helpers
             {
                 opt.MapFrom(d => d);
             });
-            
+
 
             // CreateMap<Instructor,TeacherDto>();
             // CreateMap<Schedule,SubjectDto>()
@@ -45,6 +45,16 @@ namespace IAttend.API.Helpers
             // .ForMember(dest => dest.DayOfWeek,opt => {
             //     opt.ResolveUsing(d => d.DayOfWeek.ToDayInWord());
             // });
+
+            CreateMap<Models.Schedule, AddScheduleDto>()
+                .ForMember(dest => dest.Id, opt =>
+                {
+                    opt.MapFrom(src => src.ID);
+                })
+                .ForMember(dest => dest.SubjectCode, opt =>
+                {
+                    opt.MapFrom(src => src.Subject.Code);
+                });
 
             CreateMap<Pocos.TeacherSubject, TeacherSubjectDto>()
             .ForMember(dest => dest.Name, opt => {

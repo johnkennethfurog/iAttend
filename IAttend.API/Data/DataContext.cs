@@ -37,6 +37,17 @@ namespace IAttend.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Schedule>()
+                .HasMany(x => x.StudentAttendances)
+                .WithOne(y => y.Schedule)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Schedule>()
+                .HasMany(x => x.StudentSubjects)
+                .WithOne(y => y.Schedule)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.ApplyConfiguration(new StudentViewConfiguration());
             modelBuilder.ApplyConfiguration(new StudentsSubjectsViewConfiguration());
             modelBuilder.ApplyConfiguration(new RoomScheduleViewConfiguration());

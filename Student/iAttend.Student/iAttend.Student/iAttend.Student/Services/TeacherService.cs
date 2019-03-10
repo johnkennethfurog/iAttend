@@ -18,6 +18,11 @@ namespace iAttend.Student.Services
             _requestHandler.Init(this);
         }
 
+        public async Task<TeacherSubject> AddSubject(PayloadAddSchedule schedule)
+        {
+            return await _requestHandler.PostAsync<TeacherSubject, PayloadAddSchedule>(Endpoint.TEACHER_ADD_SUBJECT, schedule);
+        }
+
         public async Task<bool> GenerateReport(List<TeacherSubject> subjects, DateTime from, DateTime to)
         {
             var payload = new PayloadReportFilter()
@@ -33,6 +38,11 @@ namespace iAttend.Student.Services
         public async Task<AbsentStat> GetAbsentStat()
         {
             return await _requestHandler.GetAsync<AbsentStat>(Endpoint.TEACHER_STUDENT_ABSENT);
+        }
+
+        public async Task<List<Subj>> GetAllSubject()
+        {
+            return await _requestHandler.GetAsync<List<Subj>>(Endpoint.SCHED_SUBJECTS);
         }
 
         public async Task<List<TeacherStudentAttendance>> GetStudents(int scheduleId, DateTime date)

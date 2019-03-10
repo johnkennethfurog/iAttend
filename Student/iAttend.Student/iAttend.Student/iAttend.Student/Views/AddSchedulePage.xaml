@@ -4,4 +4,72 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    prism:ViewModelLocator.AutowireViewModel="True" />
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style BasedOn="{x:StaticResource RegularText}" TargetType="Label" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddScheduleCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Text="Subject" />
+        <Picker
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            ItemsSource="{Binding Subjects}"
+            SelectedItem="{Binding SelectedSubject}" />
+
+        <Label Grid.Row="2" Text="Room" />
+        <Entry
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+            Text="{Binding Room}" />
+
+        <Label Grid.Row="4" Text="Day" />
+        <Picker
+            Grid.Row="5"
+            Grid.ColumnSpan="3"
+            SelectedItem="{Binding Day}">
+            <Picker.Items>
+                <x:String>Monday</x:String>
+                <x:String>Tuesday</x:String>
+                <x:String>Wendesday</x:String>
+                <x:String>Thursday</x:String>
+                <x:String>Friday</x:String>
+                <x:String>Saturday</x:String>
+                <x:String>Sunday</x:String>
+            </Picker.Items>
+
+        </Picker>
+
+        <Label Grid.Row="6" Text="Day" />
+        <TimePicker Grid.Row="7" Time="{Binding From}" />
+
+        <Label
+            Grid.Row="7"
+            Grid.Column="1"
+            Text="to" />
+        <TimePicker
+            Grid.Row="7"
+            Grid.Column="2"
+            Time="{Binding To}" />
+
+    </Grid>
+</ContentPage>

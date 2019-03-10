@@ -38,9 +38,9 @@ namespace iAttend.Student
             FlowListView.Init();
 
 
-            await GotoStudentApp();
+            //await GotoStudentApp();
 
-            //await NavigationService.NavigateAsync("LoginPage");
+            await NavigationService.NavigateAsync("LoginPage");
         }
 
         async Task GotoStudentApp()
@@ -90,6 +90,7 @@ namespace iAttend.Student
             containerRegistry.RegisterForNavigation<ReportFilterPage, ReportFilterPageViewModel>();
             containerRegistry.RegisterForNavigation<AbsentStatPage, AbsentStatPageViewModel>();
             containerRegistry.RegisterForNavigation<AddSchedulePage, AddSchedulePageViewModel>();
+
         }
 
         protected override void OnStart()

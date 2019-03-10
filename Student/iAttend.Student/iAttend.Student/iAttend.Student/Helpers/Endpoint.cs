@@ -21,5 +21,8 @@ namespace iAttend.Student.Helpers
         public const string TEACHER_REPORT = "api/teacher/generateReport";
         public const string TEACHER_LOGIN = "api/auth/login";
         public const string TEACHER_STUDENT_ABSENT = "api/teacher/studentAbsent";
+        public const string TEACHER_ADD_SUBJECT = "api/teacher/addSchedule";
+
+        public const string SCHED_SUBJECTS = "api/schedule/subjects";
     }
 }

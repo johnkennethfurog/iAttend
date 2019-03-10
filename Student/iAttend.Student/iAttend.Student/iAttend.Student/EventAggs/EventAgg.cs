@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using iAttend.Student.Models;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,4 +12,6 @@ namespace iAttend.Student.EventAggs
         public int ScheduleId { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class ScheduleAddedEvent : PubSubEvent<TeacherSubject> { }
 }

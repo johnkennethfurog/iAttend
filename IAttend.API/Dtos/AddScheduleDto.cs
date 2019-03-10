@@ -7,6 +7,8 @@ namespace IAttend.API.Dtos
 {
     public class AddScheduleDto
     {
+        public int Id { get; set; }
+
         public string SubjectCode { get; set; }
 
         public string Room { get; set; }

@@ -21,9 +21,9 @@ namespace IAttend.API.Data
             return await _dataContext.Instructors.FirstOrDefaultAsync(x => x.InstructorNumber == InstructorNumber);
         }
 
-        public async Task<TeacherSubject> GetSchedule(string InstructorNumber, string subjectCode)
+        public async Task<TeacherSubject> GetSchedule(string InstructorNumber, int schedId)
         {
-            var subjects = _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},0,{1})", InstructorNumber,subjectCode);
+            var subjects = _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},0,{1})", InstructorNumber,schedId);
             if (subjects.Count() == 0)
                 return null;
 
@@ -33,7 +33,7 @@ namespace IAttend.API.Data
         public async Task<List<TeacherSubject>> GetSchedules(string InstructorNumber)
         {
 
-            var subjects =  _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},1,'')", InstructorNumber);
+            var subjects =  _dataContext.TeacherSubjects.FromSql("select * from tvfTeachersLoad({0},1,0)", InstructorNumber);
             if (subjects.Count() == 0)
                 return null;
 
