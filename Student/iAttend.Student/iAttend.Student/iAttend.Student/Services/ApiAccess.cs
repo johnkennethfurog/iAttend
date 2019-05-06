@@ -75,9 +75,9 @@ namespace iAttend.Student.Services
                 response = await ExtractResonse<T>(httpResponse, cancellationToken);
 
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException opEx)
             {
-                throw ex;
+                throw opEx;
             }
             catch (Exception ex)
             {

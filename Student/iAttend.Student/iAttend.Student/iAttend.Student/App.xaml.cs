@@ -38,9 +38,9 @@ namespace iAttend.Student
             FlowListView.Init();
 
 
-            //await GotoStudentApp();
+            await GotoStudentApp();
 
-            await NavigationService.NavigateAsync("LoginPage");
+            //await NavigationService.NavigateAsync("LoginPage");
         }
 
         async Task GotoStudentApp()
@@ -62,7 +62,7 @@ namespace iAttend.Student
 
             var apiAccess = new ApiAccess()
             {
-                BaseUri = "http://192.168.137.1:10778"
+                BaseUri = "http://192.168.100.137:5001"
                 //BaseUri = "http://192.168.1.50:10778"
             };
 

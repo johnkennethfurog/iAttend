@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IAttend.API.Helpers;
 using IAttend.API.Pocos;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,22 @@ namespace IAttend.API.Data
         public StudentRepositoryMSQl(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public Task<Student> AddStudent(Student Student)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> DeleteStudent(string StudentNumber)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<Student> EditStudent(Student Student)
+        {
+            throw new System.NotImplementedException();
+
         }
 
         public async Task<IAttend.API.Models.ContactPerson> GetContactPerson(string studentNumber)
@@ -32,6 +49,11 @@ namespace IAttend.API.Data
         public async Task<Student> GetStudent(string StudentNumber)
         {
             return await _dataContext.StudentsView.FirstOrDefaultAsync(student => student.StudentNumber == StudentNumber);
+        }
+
+        public async Task<PagedList<Student>> GetStudents(PaginatedParams StudentParams)
+        {
+            return await PagedList<Student>.CreatePagedList(_dataContext.StudentsView,StudentParams.PageNumber,StudentParams.PageSize);
         }
 
         public async Task<List<StudentSubject>> GetStudentSubjects(string StudentNumber)

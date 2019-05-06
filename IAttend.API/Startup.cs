@@ -49,6 +49,7 @@ namespace IAttend.API
             services.AddScoped<IScheduleRepository,ScheduleRepositoryMSql>();
             services.AddScoped<IAttendanceRepository,AttendanceRepositoryMSql>();
             services.AddScoped<IAuthentication, AuthenticationMSql>();
+            services.AddScoped<ISubjectRepository,SubjectRepository>();
             services.AddScoped<ICommunication, Communication>();
             services.AddAutoMapper();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
