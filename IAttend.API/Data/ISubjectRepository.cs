@@ -11,6 +11,6 @@ namespace IAttend.API.Data
         Task<Subject> EditSubject(Subject subject);
         Task<bool> DeleteSubject(string subjectCode);
         Task<Subject> GetSubject(string subjectCode);   
-        Task<PagedList<Subject>> GetSubjects(SubjectParams subjectParams);
+        Task<PagedList<Subject>> GetSubjects(PaginatedParams subjectParams);
     }
 }

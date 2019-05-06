@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using IAttend.API.Helpers;
 using IAttend.API.Models;
 using Microsoft.EntityFrameworkCore;
-using model = IAttend.API.Models;
 
 namespace IAttend.API.Data
 {

@@ -19,7 +19,7 @@ namespace IAttend.API.Controllers
         }
 
         [HttpGet("subjects")]
-        public async Task<IActionResult> GetSubjects(SubjectParams subjectParams)
+        public async Task<IActionResult> GetSubjects(PaginatedParams subjectParams)
         {
             var subjects = await subjectRepository.GetSubjects(subjectParams);
 
